@@ -71,7 +71,7 @@ export default function ProjectAlbum({
     <section className={styles.albumSection}>
       <div className={styles.albumHeader}>
         <p className={styles.eyebrow}>Full album</p>
-        <h2>Album ảnh dự án</h2>
+        <h2>Project Photo Album</h2>
       </div>
 
       <div className={styles.albumGrid}>
@@ -95,21 +95,21 @@ export default function ProjectAlbum({
 
       {activeImage ? (
         <div
-          aria-label={`Xem ảnh ${(activeIndex ?? 0) + 1} của ${title}`}
+          aria-label={`View image ${(activeIndex ?? 0) + 1} of ${title}`}
           aria-modal="true"
           className={styles.lightbox}
           role="dialog"
         >
           <button
-            aria-label="Đóng album"
+            aria-label="Close album"
             className={styles.closeButton}
             onClick={() => setActiveIndex(null)}
             type="button"
           >
-            Đóng
+            Close
           </button>
           <button
-            aria-label="Ảnh trước"
+            aria-label="Previous image"
             className={`${styles.albumNavButton} ${styles.previousButton}`}
             onClick={() => setActiveIndex(previousIndex)}
             type="button"
@@ -126,7 +126,7 @@ export default function ProjectAlbum({
             />
           </div>
           <button
-            aria-label="Ảnh tiếp theo"
+            aria-label="Next image"
             className={`${styles.albumNavButton} ${styles.nextButton}`}
             onClick={() => setActiveIndex(nextIndex)}
             type="button"

@@ -13,9 +13,9 @@ const ebGaramond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "ARCHITECTS | Kiến Trúc & Nội Thất Cao Cấp",
+  title: "Maxxim Ltd. | Premium Architecture & Construction",
   description:
-    "Đơn vị thiết kế kiến trúc và nội thất cao cấp, kiến tạo không gian sống riêng biệt.",
+    "Maxxim Ltd. delivers premium architecture, interiors, and construction solutions. Building Today - Creating Tomorrow.",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${inter.variable} ${ebGaramond.variable}`}>
+    <html lang="en" className={`${inter.variable} ${ebGaramond.variable}`}>
       <body>{children}</body>
     </html>
   );

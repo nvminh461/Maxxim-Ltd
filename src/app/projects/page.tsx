@@ -47,14 +47,14 @@ export default function ProjectsPage() {
       <main>
         <section className={styles.hero}>
           <p className={styles.eyebrow}>Portfolio</p>
-          <h1>Tất Cả Dự Án</h1>
+          <h1>All Projects</h1>
           <p>
-            Danh mục công trình được nạp dần khi cuộn trang, giữ tốc độ tải ban đầu nhẹ
-            hơn trong khi vẫn cho phép khám phá toàn bộ dự án.
+            Projects load progressively as you scroll, keeping the first visit fast
+            while still giving you access to the full portfolio.
           </p>
         </section>
 
-        <section className={styles.gridSection} aria-label="Danh sách dự án">
+        <section className={styles.gridSection} aria-label="Project list">
           <div className={styles.projectGrid}>
             {visibleProjects.map((project, index) => (
               <Link
@@ -82,7 +82,7 @@ export default function ProjectsPage() {
           </div>
 
           <div className={styles.loadState} ref={sentinelRef}>
-            {hasMore ? "Đang tải thêm dự án..." : "Đã hiển thị toàn bộ dự án."}
+            {hasMore ? "Loading more projects..." : "All projects are visible."}
           </div>
         </section>
       </main>
@@ -93,8 +93,16 @@ export default function ProjectsPage() {
 function SiteHeader() {
   return (
     <header className={styles.header}>
-      <Link className={styles.logo} href="/">
-        ARCHITECTS
+      <Link className={styles.logo} href="/" aria-label="Maxxim Ltd. home">
+        <Image
+          alt=""
+          className={styles.logoMark}
+          height={40}
+          priority
+          src="/logo.png"
+          width={40}
+        />
+        <span>Maxxim Ltd.</span>
       </Link>
       <nav className={styles.nav} aria-label="Primary navigation">
         <Link href="/">Home</Link>
@@ -105,7 +113,7 @@ function SiteHeader() {
         <Link href="/#contact">Contact</Link>
       </nav>
       <Link className={styles.headerCta} href="/#contact">
-        Yêu cầu tư vấn
+        Request consultation
       </Link>
     </header>
   );

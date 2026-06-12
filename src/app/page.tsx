@@ -67,26 +67,26 @@ const heroSlides: HeroSlide[] = [
 
 const testimonials: Testimonial[] = [
   {
-    name: "Trần Minh Quân",
-    role: "CEO tại TechVision",
+    name: "Daniel Tran",
+    role: "CEO at TechVision",
     quote:
-      "Sự tỉ mỉ trong từng chi tiết của ARCHITECTS đã hoàn toàn thuyết phục tôi. Ngôi nhà không chỉ đẹp mà còn mang lại cảm giác bình yên tuyệt đối.",
+      "Maxxim Ltd. won my trust through precision in every detail. The home is not only beautiful, it feels calm, complete, and deeply personal.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAbxydgXFH0jehjvjpbrOlfv0AF7BzMqEpWWuoQoa7gWSkdijNNZEVODWbNsrwYgDW2ffP5YQguH0QdrTgSDi-9IxVsIFYZZyWLNYhtEEPBVIAsaY9DGdDZ_N_ldFq07WvGNc3gsOZJggWSEgOX1Hg87--zaokjjArH22eW2FRdBdU_Pd-Onvix-se0VapsY83Z_ph42gfmKHJW6KuCeiLzjT8IilYjMvRqa7sJ2ybalGE80hwDIbbub7LQEdOh05A0FIrxHnZAbJTJ",
   },
   {
-    name: "Nguyễn Thu Thảo",
-    role: "Nhà thiết kế thời trang",
+    name: "Sophia Nguyen",
+    role: "Fashion designer",
     quote:
-      "Không gian nội thất do ARCHITECTS thiết kế mang đậm tính nghệ thuật. Tôi cảm nhận được sự tinh tế và am hiểu sâu sắc về phong cách sống.",
+      "The interiors feel artistic without becoming impractical. I could sense a real understanding of lifestyle, materials, and atmosphere.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAhOO_XNOpNCCeaTySpdrNNi2bZ_CK1SDdy9bPx5ITQYN4Yf2uBvVmKUl5jr8_eDrn4xKdGgNdihi4KRLW3UqcADN71uauh6CUZVgfpUjyCwMMOChdv3GpMwoEhpSvJeRtPgk01UqCmNoZPUufnp0fWh589eiWgKdn-fD6ikM-IwCA9dZKqTNyBsvLOKKDR5PKkDw_q9uK8IUBaCRj5je1c1izWW125oW_4-S2oecXj82HEaTcsSSWuV6vPjJMVjpxRNeMMxIYW4LtM",
   },
   {
-    name: "Phạm Đức Anh",
-    role: "Nhà đầu tư BĐS",
+    name: "Michael Pham",
+    role: "Real estate investor",
     quote:
-      "Đúng tiến độ và vượt mong đợi về chất lượng hoàn thiện. Đây là đơn vị thiết kế chuyên nghiệp nhất tôi từng hợp tác.",
+      "The team delivered on schedule and exceeded my expectations for finish quality. They are one of the most professional partners I have worked with.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDNSoee7iOY_0hLmBz7H_nL3mcGiAO3DKu9pikvcWL1IHn8179iPSsRQ8bF_RtM3787hqs0riCqCa9-a_Vuop3zSM0qv5u6wNS9ebTOZxPqIyqBDxTGUsQfvyWzOyhLjlig9AmmD10bMbrhrlol5QwzNMZT7fD49YeXMcgEHQrsTxvOVV0SB3tihDWz1a7OlNMgOLqmO63ZFkfAvkhl6FsKs91ccEsKSGFI2eJQ6jU-Pvh2323XY4uJB6RYdijJOKyE7DlWJl237ebp",
   },
@@ -457,8 +457,16 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <header className={[styles.header, scrolled ? styles.headerScrolled : ""].join(" ")}>
-        <a className={styles.logo} href="#home" aria-label="ARCHITECTS home">
-          ARCHITECTS
+        <a className={styles.logo} href="#home" aria-label="Maxxim Ltd. home">
+          <Image
+            alt=""
+            className={styles.logoMark}
+            height={40}
+            priority
+            src="/logo.png"
+            width={40}
+          />
+          <span>Maxxim Ltd.</span>
         </a>
         <nav className={styles.nav} aria-label="Primary navigation">
           <a className={styles.navActive} href="#home">
@@ -469,7 +477,7 @@ export default function Home() {
           <a href="#contact">Contact</a>
         </nav>
         <a className={styles.headerCta} href="#contact">
-          Yêu cầu tư vấn
+          Request consultation
         </a>
       </header>
 
@@ -512,13 +520,13 @@ export default function Home() {
           ))}
           <div className={styles.heroContent}>
             <p className={styles.eyebrow}>Architecture / Interior / Build</p>
-            <h1>THIẾT KẾ KIẾN TRÚC & NỘI THẤT CAO CẤP</h1>
+            <h1>PREMIUM ARCHITECTURE & CONSTRUCTION</h1>
             <p className={styles.heroText}>
-              Kiến tạo không gian sống mang dấu ấn riêng, nơi sự sang trọng giao thoa
-              cùng công năng tối ưu.
+              Building Today - Creating Tomorrow. We craft distinctive spaces where
+              refined design meets enduring construction quality.
             </p>
             <a className={styles.heroLink} href="#projects">
-              Xem dự án
+              View projects
               <span aria-hidden="true">-&gt;</span>
             </a>
           </div>
@@ -545,20 +553,20 @@ export default function Home() {
             />
           </div>
           <div className={[styles.aboutCopy, styles.reveal].join(" ")}>
-            <p className={styles.eyebrow}>Về chúng tôi</p>
-            <h2>Định hình phong cách sống thượng lưu qua từng nét vẽ.</h2>
+            <p className={styles.eyebrow}>About us</p>
+            <h2>Shaping elevated ways of living through thoughtful design.</h2>
             <p>
-              Tại ARCHITECTS, chúng tôi không chỉ xây dựng những ngôi nhà; chúng tôi
-              kiến tạo những di sản. Mỗi dự án là một hành trình tìm kiếm sự cân bằng
-              hoàn hảo giữa thẩm mỹ đương đại và bản sắc cá nhân của gia chủ.
+              At Maxxim Ltd., we do more than build houses; we create lasting places.
+              Every project is a careful pursuit of balance between contemporary
+              aesthetics, practical performance, and the owner&apos;s personal identity.
             </p>
             <p>
-              Với đội ngũ kiến trúc sư dày dặn kinh nghiệm, chúng tôi cam kết mang đến
-              những giải pháp thiết kế đột phá, sử dụng vật liệu cao cấp và công nghệ thi
-              công tiên tiến.
+              Our experienced architects, interior designers, and construction teams
+              deliver refined concepts, premium materials, and reliable execution from
+              first sketch to final handover.
             </p>
             <a className={styles.textLink} href="#contact">
-              Tìm hiểu thêm
+              Learn more
             </a>
           </div>
         </section>
@@ -566,8 +574,8 @@ export default function Home() {
         <section className={styles.projectsSection} id="projects">
           <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
             <p className={styles.eyebrow}>Selected works</p>
-            <h2>Dự Án Nổi Bật</h2>
-            <p>Một số công trình tiêu biểu đã thực hiện với sự tâm huyết và tỉ mỉ.</p>
+            <h2>Featured Projects</h2>
+            <p>A selection of completed works shaped by care, precision, and craft.</p>
           </div>
 
           <div className={styles.projectGrid}>
@@ -597,7 +605,7 @@ export default function Home() {
 
           <div className={[styles.centerAction, styles.reveal].join(" ")}>
             <Link className={styles.primaryButton} href="/projects">
-              Xem tất cả dự án
+              View all projects
             </Link>
           </div>
         </section>
@@ -637,7 +645,7 @@ export default function Home() {
           >
             {galleryImages.map((image, index) => (
               <button
-                aria-label={`Xem ảnh ${image.alt}`}
+                aria-label={`Preview ${image.alt}`}
                 className={styles.galleryImage}
                 key={image.src}
                 onClick={() => setGalleryPreview(index)}
@@ -655,7 +663,7 @@ export default function Home() {
           </DraggableMarquee>
           {previewImage ? (
             <div
-              aria-label={`Xem ảnh ${previewImage.alt}`}
+              aria-label={`Preview ${previewImage.alt}`}
               aria-modal="true"
               className={styles.galleryPreview}
               role="dialog"
@@ -665,10 +673,10 @@ export default function Home() {
                 onClick={() => setGalleryPreview(null)}
                 type="button"
               >
-                Đóng
+                Close
               </button>
               <button
-                aria-label="Ảnh trước"
+                aria-label="Previous image"
                 className={`${styles.previewNav} ${styles.previewPrevious}`}
                 onClick={showPreviousGalleryImage}
                 type="button"
@@ -685,7 +693,7 @@ export default function Home() {
                 />
               </div>
               <button
-                aria-label="Ảnh tiếp theo"
+                aria-label="Next image"
                 className={`${styles.previewNav} ${styles.previewNext}`}
                 onClick={showNextGalleryImage}
                 type="button"
@@ -700,17 +708,17 @@ export default function Home() {
           <div className={[styles.contactPanel, styles.reveal].join(" ")}>
             <div className={styles.sectionIntro}>
               <p className={styles.eyebrow}>Start a project</p>
-              <h2>Đăng Ký Tư Vấn</h2>
-              <p>Hãy để chúng tôi cùng bạn xây dựng không gian sống mơ ước.</p>
+              <h2>Book A Consultation</h2>
+              <p>Let us help you shape the space you have been imagining.</p>
             </div>
             <form className={styles.form} onSubmit={(event) => event.preventDefault()}>
               <div className={styles.formGrid}>
                 <label>
-                  <span>Họ và Tên</span>
-                  <input placeholder="Nguyễn Văn A" type="text" />
+                  <span>Full name</span>
+                  <input placeholder="Alex Nguyen" type="text" />
                 </label>
                 <label>
-                  <span>Số điện thoại</span>
+                  <span>Phone number</span>
                   <input placeholder="0900 000 000" type="tel" />
                 </label>
               </div>
@@ -719,11 +727,11 @@ export default function Home() {
                 <input placeholder="example@gmail.com" type="email" />
               </label>
               <label>
-                <span>Nội dung yêu cầu</span>
-                <textarea placeholder="Chia sẻ ý tưởng của bạn..." rows={4} />
+                <span>Project brief</span>
+                <textarea placeholder="Tell us about your idea..." rows={4} />
               </label>
               <button className={styles.primaryButton} type="submit">
-                Gửi thông tin
+                Send request
               </button>
             </form>
           </div>
@@ -732,12 +740,19 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <div>
-          <a className={styles.logo} href="#home" aria-label="ARCHITECTS home">
-            ARCHITECTS
+          <a className={styles.logo} href="#home" aria-label="Maxxim Ltd. home">
+            <Image
+              alt=""
+              className={styles.logoMark}
+              height={40}
+              src="/logo.png"
+              width={40}
+            />
+            <span>Maxxim Ltd.</span>
           </a>
-          <p>
-            Nơi những giấc mơ kiến trúc trở thành hiện thực với sự hoàn hảo và đẳng cấp
-            nhất.
+          <p className={styles.footerSlogan}>Building Today - Creating Tomorrow</p>
+          <p className={styles.footerDescription}>
+            Premium design and construction for spaces built to last.
           </p>
           <div className={styles.socials}>
             {socialLinks.map((social) => (
@@ -748,17 +763,17 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <h2>Liên hệ</h2>
+          <h2>Contact</h2>
           <address>
-            123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM
+            123 Nam Ky Khoi Nghia Street, District 1, Ho Chi Minh City
             <br />
             +84 28 3930 1234
             <br />
-            contact@architects.vn
+            contact@maxximltd.com
           </address>
         </div>
         <div>
-          <h2>Liên kết nhanh</h2>
+          <h2>Quick links</h2>
           <ul>
             <li>
               <a href="#about">About</a>
@@ -770,8 +785,13 @@ export default function Home() {
               <a href="#contact">Contact</a>
             </li>
           </ul>
-          <small>© 2026 ARCHITECTS. All rights reserved.</small>
         </div>
+        <small className={styles.footerCredit}>
+          © 2026 Maxxim Ltd. All rights reserved. Design by{" "}
+          <a href="https://minhnv.id.vn/" rel="noopener noreferrer" target="_blank">
+            Hip Nguyen
+          </a>
+        </small>
       </footer>
     </div>
   );

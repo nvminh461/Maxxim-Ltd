@@ -30,12 +30,12 @@ export async function generateMetadata({
 
   if (!project) {
     return {
-      title: "Không tìm thấy dự án | ARCHITECTS",
+      title: "Project not found | Maxxim Ltd.",
     };
   }
 
   return {
-    title: `${project.title} | ARCHITECTS`,
+    title: `${project.title} | Maxxim Ltd.`,
     description: project.summary,
   };
 }
@@ -63,8 +63,16 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 function SiteHeader() {
   return (
     <header className={styles.header}>
-      <Link className={styles.logo} href="/">
-        ARCHITECTS
+      <Link className={styles.logo} href="/" aria-label="Maxxim Ltd. home">
+        <Image
+          alt=""
+          className={styles.logoMark}
+          height={40}
+          priority
+          src="/logo.png"
+          width={40}
+        />
+        <span>Maxxim Ltd.</span>
       </Link>
       <nav className={styles.nav} aria-label="Primary navigation">
         <Link href="/">Home</Link>
@@ -75,7 +83,7 @@ function SiteHeader() {
         <Link href="/#contact">Contact</Link>
       </nav>
       <Link className={styles.headerCta} href="/#contact">
-        Yêu cầu tư vấn
+        Request consultation
       </Link>
     </header>
   );
@@ -96,7 +104,7 @@ function ProjectHero({ project }: { project: ProjectRecord }) {
       <div className={styles.detailOverlay} />
       <div className={styles.detailIntro}>
         <Link className={styles.backLink} href="/projects">
-          &lt;- Tất cả dự án
+          &lt;- All projects
         </Link>
         <p className={styles.eyebrow}>
           {project.category} / {project.year} / {project.location}
@@ -105,15 +113,15 @@ function ProjectHero({ project }: { project: ProjectRecord }) {
         <p>{project.summary}</p>
         <dl className={styles.projectFacts}>
           <div>
-            <dt>Diện tích</dt>
+            <dt>Area</dt>
             <dd>{project.area}</dd>
           </div>
           <div>
-            <dt>Địa điểm</dt>
+            <dt>Location</dt>
             <dd>{project.location}</dd>
           </div>
           <div>
-            <dt>Năm</dt>
+            <dt>Year</dt>
             <dd>{project.year}</dd>
           </div>
         </dl>

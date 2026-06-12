@@ -42,12 +42,22 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--gold);
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.55rem, 2.28vw, 2.12rem);
   font-weight: 600;
   line-height: 0.95;
   white-space: nowrap;
+}
+
+.logoMark {
+  width: clamp(30px, 3.4vw, 42px);
+  height: clamp(30px, 3.4vw, 42px);
+  border-radius: 50%;
+  object-fit: contain;
 }
 
 .nav {
@@ -619,19 +629,31 @@
   padding: var(--section-pad) var(--side-pad);
 }
 
-.footer p,
 .footer address,
-.footer li,
-.footer small {
+.footer li {
   color: var(--muted);
   font-size: 0.95rem;
   font-style: normal;
   line-height: 1.8;
 }
 
-.footer p {
+.footerSlogan {
   max-width: 360px;
-  margin-top: 24px;
+  margin-top: 26px;
+  color: var(--gold);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.footerDescription {
+  max-width: 340px;
+  margin-top: 14px;
+  color: rgba(242, 238, 231, 0.68);
+  font-size: 0.95rem;
+  line-height: 1.75;
 }
 
 .footer h2 {
@@ -656,6 +678,19 @@
 }
 
 .footer a:hover {
+  color: var(--gold);
+}
+
+.footerCredit {
+  grid-column: 1 / -1;
+  justify-self: center;
+  color: rgba(242, 238, 231, 0.52);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.footerCredit a {
   color: var(--gold);
 }
 

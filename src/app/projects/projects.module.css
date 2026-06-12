@@ -33,12 +33,22 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--gold);
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.5rem, 2.18vw, 2rem);
   font-weight: 600;
   line-height: 0.95;
   white-space: nowrap;
+}
+
+.logoMark {
+  width: clamp(30px, 3.4vw, 40px);
+  height: clamp(30px, 3.4vw, 40px);
+  border-radius: 50%;
+  object-fit: contain;
 }
 
 .nav {
