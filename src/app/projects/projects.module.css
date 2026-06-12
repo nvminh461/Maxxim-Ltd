@@ -1,0 +1,447 @@
+.page {
+  --surface: #060708;
+  --surface-raised: #101113;
+  --surface-soft: #171718;
+  --line: rgba(255, 255, 255, 0.1);
+  --gold: #f3bc87;
+  --stone: #d8cabc;
+  --text: #f2eee7;
+  --muted: rgba(242, 238, 231, 0.72);
+  --ink: #050505;
+  --side-pad: clamp(20px, 4vw, 56px);
+
+  min-height: 100vh;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+.header {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(6, 7, 8, 0.92);
+  padding: 16px var(--side-pad);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  color: var(--gold);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.5rem, 2.18vw, 2rem);
+  font-weight: 600;
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(22px, 3vw, 42px);
+  color: var(--stone);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.nav a {
+  border-bottom: 1px solid transparent;
+  padding-bottom: 6px;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.nav a:hover,
+.activeNav {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.headerCta {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 13px 22px;
+  text-transform: uppercase;
+}
+
+.hero {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(118px, 13vw, 166px) var(--side-pad) clamp(46px, 6vw, 76px);
+}
+
+.eyebrow {
+  margin-bottom: 16px;
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero h1,
+.detailIntro h1,
+.albumHeader h2 {
+  color: var(--gold);
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+}
+
+.hero h1 {
+  max-width: 820px;
+  font-size: clamp(2.55rem, 5.8vw, 5.25rem);
+  line-height: 0.97;
+}
+
+.hero p:not(.eyebrow) {
+  max-width: 760px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: clamp(0.96rem, 1.12vw, 1.08rem);
+  line-height: 1.72;
+}
+
+.gridSection,
+.albumSection {
+  padding: 0 var(--side-pad) clamp(86px, 10vw, 132px);
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2.2vw, 30px);
+}
+
+.projectCard {
+  display: block;
+}
+
+.projectImage {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--surface-soft);
+}
+
+.projectImage img,
+.detailImage img,
+.albumTile img,
+.lightboxImage img {
+  object-fit: cover;
+}
+
+.projectImage img,
+.albumTile img {
+  transition: transform 700ms ease;
+}
+
+.projectCard:hover .projectImage img,
+.albumTile:hover img {
+  transform: scale(1.045);
+}
+
+.projectMeta {
+  display: block;
+  margin-top: 20px;
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.projectTitle {
+  display: block;
+  margin-top: 10px;
+  color: var(--stone);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.48rem, 1.95vw, 2.05rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.projectSummary {
+  display: block;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.loadState {
+  display: flex;
+  min-height: 140px;
+  align-items: center;
+  justify-content: center;
+  color: var(--stone);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.detailHero {
+  position: relative;
+  min-height: 92svh;
+  overflow: hidden;
+}
+
+.detailImage {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-soft);
+}
+
+.detailOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.28) 58%, rgba(0, 0, 0, 0.58)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.76));
+}
+
+.detailIntro {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+  padding: clamp(122px, 13vw, 166px) var(--side-pad) clamp(58px, 7vw, 90px);
+}
+
+.backLink {
+  display: inline-flex;
+  margin-bottom: 30px;
+  color: var(--stone);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.detailIntro h1 {
+  font-size: clamp(2.55rem, 5.9vw, 5.25rem);
+  line-height: 0.97;
+}
+
+.detailIntro p:not(.eyebrow) {
+  max-width: 720px;
+  margin-top: 24px;
+  color: rgba(242, 238, 231, 0.86);
+  font-size: clamp(0.98rem, 1.16vw, 1.1rem);
+  line-height: 1.72;
+}
+
+.projectFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 760px;
+  margin-top: 38px;
+}
+
+.projectFacts div {
+  border-top: 1px solid rgba(243, 188, 135, 0.42);
+  padding-top: 14px;
+}
+
+.projectFacts dt {
+  color: var(--stone);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.projectFacts dd {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.albumSection {
+  background:
+    linear-gradient(180deg, rgba(16, 17, 19, 0) 0%, var(--surface-raised) 18%),
+    var(--surface-raised);
+  padding-top: clamp(58px, 7vw, 96px);
+}
+
+.albumHeader {
+  max-width: 1320px;
+  margin: 0 auto 42px;
+}
+
+.albumHeader h2 {
+  font-size: clamp(2rem, 4vw, 3.55rem);
+  line-height: 1;
+}
+
+.albumGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.albumTile {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 0;
+  background: var(--surface-soft);
+  cursor: zoom-in;
+}
+
+.albumTile:nth-child(1),
+.albumTile:nth-child(4n) {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
+
+.lightbox {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.92);
+  padding: clamp(18px, 3vw, 42px);
+}
+
+.lightboxImage {
+  position: relative;
+  width: min(1180px, 100%);
+  height: min(78vh, 780px);
+}
+
+.lightboxImage img {
+  object-fit: contain;
+}
+
+.closeButton,
+.albumNavButton {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(16, 17, 19, 0.72);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.closeButton {
+  top: 24px;
+  right: 24px;
+  min-height: 42px;
+  padding: 0 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.albumNavButton {
+  top: 50%;
+  width: 48px;
+  height: 58px;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+}
+
+.previousButton {
+  left: 24px;
+}
+
+.nextButton {
+  right: 24px;
+}
+
+.lightboxCounter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  color: var(--stone);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 1020px) {
+  .nav {
+    display: none;
+  }
+
+  .projectGrid,
+  .albumGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .header {
+    align-items: flex-start;
+    padding-block: 14px;
+  }
+
+  .logo {
+    font-size: 1.45rem;
+  }
+
+  .headerCta {
+    max-width: 140px;
+    min-height: 42px;
+    padding: 10px 12px;
+    font-size: 0.62rem;
+  }
+
+  .hero h1,
+  .detailIntro h1 {
+    font-size: clamp(2.08rem, 10vw, 3rem);
+  }
+
+  .projectGrid,
+  .albumGrid,
+  .projectFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .albumTile:nth-child(1),
+  .albumTile:nth-child(4n) {
+    grid-column: span 1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .detailHero {
+    min-height: 86svh;
+  }
+
+  .albumNavButton {
+    top: auto;
+    bottom: 24px;
+    transform: none;
+  }
+
+  .previousButton {
+    left: 24px;
+  }
+
+  .nextButton {
+    right: 24px;
+  }
+}

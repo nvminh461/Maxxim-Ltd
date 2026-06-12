@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ARCHITECTS | Kiến Trúc &amp; Nội Thất Cao Cấp</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&amp;family=Inter:wght@300;400;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#211b14",
+                        "stone-taupe": "#d8cabc",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffddb4",
+                        "on-secondary-fixed-variant": "#4d453d",
+                        "surface": "#060708",
+                        "on-secondary": "#ffffff",
+                        "background": "#060708",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface-variant": "#101113",
+                        "on-tertiary-fixed-variant": "#5a4323",
+                        "on-error": "#ffffff",
+                        "primary-container": "#2b2b2b",
+                        "secondary-fixed-dim": "#d1c4b9",
+                        "tertiary": "#231300",
+                        "on-primary-container": "#939292",
+                        "tertiary-fixed-dim": "#e3c197",
+                        "inverse-on-surface": "#f3f0eb",
+                        "surface-container-low": "#101113",
+                        "surface-container-lowest": "#060708",
+                        "line-separator": "rgba(255,255,255,0.08)",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-highest": "#e5e2dd",
+                        "primary": "#f3bc87",
+                        "surface-dim": "#060708",
+                        "on-surface": "#f2eee7",
+                        "error": "#ba1a1a",
+                        "on-background": "#f2eee7",
+                        "on-tertiary-container": "#ab8d67",
+                        "outline": "#747878",
+                        "on-primary": "#000000",
+                        "primary-fixed": "#e4e2e1",
+                        "tertiary-container": "#3b2709",
+                        "outline-variant": "#c4c7c7",
+                        "on-surface-variant": "#f2eee7",
+                        "on-primary-fixed": "#1b1c1c",
+                        "inverse-primary": "#c8c6c5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#101113",
+                        "surface-bright": "#101113",
+                        "on-secondary-container": "#d8cabc",
+                        "surface-ivory": "#F7F4EF",
+                        "inverse-surface": "#f3f0eb",
+                        "surface-container-high": "#101113",
+                        "on-tertiary-fixed": "#291800",
+                        "secondary-fixed": "#ede0d5",
+                        "surface-container": "#101113",
+                        "secondary": "#d8cabc",
+                        "gold-leaf": "#f3bc87",
+                        "ink-charcoal": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "40px",
+                        "section-gap": "120px",
+                        "element-gap": "1.5rem",
+                        "page-margin": "10px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["EB Garamond"],
+                        "headline-xl": ["EB Garamond"],
+                        "headline-md": ["EB Garamond"],
+                        "headline-xl-mobile": ["EB Garamond"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .marquee-content {
+            display: inline-flex;
+            animation: scroll 40s linear infinite;
+        }
+
+        .marquee-images {
+            display: inline-flex;
+            animation: scroll-fast 60s linear infinite;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes scroll-fast {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(8px);
+            background-color: rgba(6, 7, 8, 0.5);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #f3bc87 !important;
+        }
+
+        .bg-gradient-alternate {
+            background: linear-gradient(180deg, rgba(16, 17, 19, 0) 0%, rgba(16, 17, 19, 1) 18%), #101113;
+        }
+    </style>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface antialiased overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding py-6 glass-nav transition-all duration-500 ease-in-out border-b border-line-separator">
+        <div class="font-display-lg text-headline-md tracking-tighter text-gold-leaf">ARCHITECTS</div>
+        <nav class="hidden md:flex items-center gap-10">
+            <a class="font-label-caps text-label-caps text-gold-leaf border-b border-gold-leaf pb-1" href="#">Home</a>
+            <a class="font-label-caps text-label-caps text-stone-taupe hover:text-gold-leaf transition-colors"
+                href="#">Projects</a>
+            <a class="font-label-caps text-label-caps text-stone-taupe hover:text-gold-leaf transition-colors"
+                href="#">About</a>
+            <a class="font-label-caps text-label-caps text-stone-taupe hover:text-gold-leaf transition-colors"
+                href="#">Contact</a>
+        </nav>
+        <button
+            class="bg-gold-leaf text-ink-charcoal px-6 py-3 font-label-caps text-label-caps hover:opacity-80 transition-opacity">
+            Yêu cầu tư vấn
+        </button>
+    </header>
+    <main>
+        <!-- Section 01: Hero Banner -->
+        <section class="relative h-screen w-full overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 z-10"></div>
+            <img alt="Luxury Modern Architecture" class="w-full h-full object-cover"
+                data-alt="A grand, high-end architectural masterpiece showcasing a minimalist modern villa at dusk. The structure features clean concrete lines, expansive floor-to-ceiling glass walls, and a glowing warm interior that spills onto a pristine stone terrace. A luxury infinity pool in the foreground reflects the purple and deep blue hues of the twilight sky. The overall atmosphere is one of extreme exclusivity, quiet power, and architectural precision."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdFbJOxOsWcTgiAFTpR09mCz64BQeY0rBIImayNFQXO3kq9V8OIlaE0WpM8ddVdryWex3PnARCyihHk4xnh0qQLEY2VnoVOAJvTBwzmAbgGmI9K6JTFzeP29YHswt9DkJheuC5ohFzYsgwaaNwej1GaHQDYDqARROeeuXK9vamrIWz0YEavJUaQhzEmeC2reFzFvhLVevMHPcMidp36FFY5eFRKvWDypkWE_k03xtP2N6LVhD0S4J4d67s4RKAZzZyPwWCf5dMUv74" />
+            <div class="absolute bottom-24 left-10 z-20 max-w-4xl px-page-margin">
+                <h1 class="font-headline-xl text-headline-xl md:text-display-lg text-gold-leaf mb-4 leading-tight">
+                    THIẾT KẾ KIẾN TRÚC &amp;<br />NỘI THẤT CAO CẤP
+                </h1>
+                <p class="font-body-lg text-body-lg text-on-surface mb-10 max-w-xl opacity-90">
+                    Kiến tạo không gian sống mang dấu ấn riêng, nơi sự sang trọng giao thoa cùng công năng tối ưu.
+                </p>
+                <button
+                    class="flex items-center gap-4 text-gold-leaf font-label-caps text-label-caps group border-b border-gold-leaf/30 pb-2 hover:border-gold-leaf transition-all">
+                    XEM DỰ ÁN
+                    <span
+                        class="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
+                </button>
+            </div>
+        </section>
+        <!-- Section 02: Introduction (Alternating: Background Gradient) -->
+        <section
+            class="px-container-padding py-section-gap grid grid-cols-1 md:grid-cols-12 gap-12 items-center max-w-[1440px] mx-auto bg-gradient-alternate">
+            <div class="md:col-span-5 fade-up">
+                <div class="aspect-[4/5] overflow-hidden">
+                    <img alt="About Our Firm"
+                        class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
+                        data-alt="A vertical portrait orientation of a sophisticated, minimalist architectural office interior. The scene captures a pristine white environment with a long, raw oak meeting table, designer black leather chairs, and architectural blueprints laid out with precision. Soft natural light flows through large industrial windows, highlighting the clean, focused work environment. The mood is professional, intellectual, and deeply committed to high design standards."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx-liMlFDg9CxSrlk8bBaSEKQnivcTyyFvvdmR2rLaZPdbApqZznstyGT-q4B3M7Xkcjo38NXQtCV-I5bI72hJoTxYnhvaHX0tiuiSMCjxR0t3RV0ahMnasslTkuvYcDacLdF8JBqfuPTSSH0LzBha4ePBlgRWzc5FHUkikKL740vjd5gJTJ0U5SS6VQ7RGPNSszazzi0t3sbvPiyrjLyGRwjp7boTifJR7bxAhu_wGu-Uirkax1hJQP0NffmxzisRr5WHARCDgrQm" />
+                </div>
+            </div>
+            <div class="md:col-span-6 md:col-start-7 fade-up">
+                <h2 class="font-label-caps text-label-caps text-gold-leaf mb-6 tracking-[0.2em]">VỀ CHÚNG TÔI</h2>
+                <h3 class="font-headline-xl text-headline-xl text-gold-leaf mb-8 leading-tight">
+                    Định hình phong cách sống thượng lưu qua từng nét vẽ.
+                </h3>
+                <div class="space-y-6 font-body-lg text-body-lg text-on-surface leading-relaxed">
+                    <p>
+                        Tại ARCHITECTS, chúng tôi không chỉ xây dựng những ngôi nhà; chúng tôi kiến tạo những di sản.
+                        Mỗi dự án là một hành trình tìm kiếm sự cân bằng hoàn hảo giữa thẩm mỹ đương đại và bản sắc cá
+                        nhân của gia chủ.
+                    </p>
+                    <p>
+                        Với đội ngũ kiến trúc sư dày dặn kinh nghiệm, chúng tôi cam kết mang đến những giải pháp thiết
+                        kế đột phá, sử dụng vật liệu cao cấp và công nghệ thi công tiên tiến nhất để hiện thực hóa những
+                        giấc mơ kiến trúc xa hoa nhất.
+                    </p>
+                </div>
+                <a class="inline-block mt-12 font-label-caps text-label-caps text-gold-leaf border-b border-gold-leaf pb-2 hover:text-stone-taupe hover:border-stone-taupe transition-colors"
+                    href="#">
+                    TÌM HIỂU THÊM
+                </a>
+            </div>
+        </section>
+        <!-- Section 03: Featured Projects -->
+        <section class="px-container-padding py-section-gap bg-surface">
+            <div class="text-center mb-24 fade-up">
+                <h2 class="font-headline-xl text-headline-xl text-gold-leaf mb-4">Dự Án Nổi Bật</h2>
+                <p class="font-body-lg text-body-lg text-stone-taupe">Một số công trình tiêu biểu đã thực hiện với sự
+                    tâm huyết và tỉ mỉ.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Project 01 -->
+                <div class="group cursor-pointer fade-up">
+                    <div class="aspect-[4/5] overflow-hidden mb-6">
+                        <img alt="Penthouse Residence"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            data-alt="A luxury penthouse interior with expansive views of a metropolitan skyline at night. The design features a double-height living room with marble flooring, a sculptural central fireplace, and custom velvet furniture in charcoal and gold tones. Low-profile designer lighting creates a mood of sophisticated intimacy. The image is clean, sharp, and embodies high-end urban living."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJhc0IYAiBRKojICfbZmMmvy1i1vAtqFshLdy2C-dnNRY3MrTNoZabE4uCvioWe_7Rnxk-pT0zwrmLItzCJ5-NilAwJ0yXEbdsl8uxyDJa_PmtMvKgZKMKwS2n9YaNErL95qGoxBq3vpMhVScHv65jZKvAI88T3GwvAQiOvn_7Pt3AC-KTtPeVctlOCvlPAg1Rl0eXEQbrXIOPnNEIeHk1q7LTSMAuV-DfQ10j_g046msW9SU8XTNKdO8zMYh1qnhaL_PlcJ8qcxAz" />
+                    </div>
+                    <p class="font-label-caps text-label-caps text-gold-leaf mb-2">BIỆT THỰ • 2023</p>
+                    <h4
+                        class="font-headline-md text-headline-md text-stone-taupe group-hover:text-gold-leaf transition-colors">
+                        Ocean View Estate</h4>
+                </div>
+                <!-- Project 02 -->
+                <div class="group cursor-pointer fade-up" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/5] overflow-hidden mb-6">
+                        <img alt="Modern Minimalist Villa"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            data-alt="A modern minimalist villa featuring stark white geometric volumes contrasted with dark wood accents. The courtyard includes a serene Zen garden and a shallow reflection pool. The lighting is soft and indirect, emphasizing the architectural textures of smooth plaster and textured stone. This image radiates calm, order, and high-modernist aesthetic principles."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuARjdzqSBpXbZI2WDGp8k-psEeC0USsN5PR5hidAqiOXPtjNV3HcfON3P1OyuWfRfjomjQc6semvJpRUnqOScgrcEynNfmhqDn8jSrMwu1JrREHPGvRrv_Mzv3QE5eAV17436lG3EdJ-Ljs5f3_P8sRw7CKmRzMiGrffC0H8B0Q_y6LRwzTUe6y-fvQ_ndW0DhTz9JNz8oA3nOaJioeLY4QDxkKDb-GP2rJtdW-sUmoOA7RDyRLusu9eTChgAOwnK8ZueYIh2DL_TDp" />
+                    </div>
+                    <p class="font-label-caps text-label-caps text-gold-leaf mb-2">NHÀ PHỐ • 2024</p>
+                    <h4
+                        class="font-headline-md text-headline-md text-stone-taupe group-hover:text-gold-leaf transition-colors">
+                        The Monolith House</h4>
+                </div>
+                <!-- Project 03 -->
+                <div class="group cursor-pointer fade-up" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/5] overflow-hidden mb-6">
+                        <img alt="Luxury Kitchen Design"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            data-alt="An ultra-luxury kitchen and dining area featuring a massive island made of rare Calacatta marble. The cabinetry is matte black with brass hardware, and designer pendant lights hang like jewelry from the ceiling. Large glass doors open to a lush private garden, blurring the lines between indoor and outdoor spaces. The aesthetic is opulent yet refined."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBettvba4fBk2qTnDxh2fdq7jGVz9wMGbPsJ8nUnRyXAWK5bchxC8qm7NPl8W8y9geS-aYuCaQjS3-yqRlun-GJPT9AZczvp8dydW8pl7_wEOdYOk6gid_aIyypJxAxmMQOOc6VOP9zpCYl_WODzU8IjbQJltL8lzFIfqbrn_UvxjKavwZKENXg_zFk7LRKBMa46umW7wPJGdwLIwAUOwqUQZqt-n1a8-zuG_Z923rXu63NhS8AijuhIzLebXeiGWp732-m9cjhSa8O" />
+                    </div>
+                    <p class="font-label-caps text-label-caps text-gold-leaf mb-2">NỘI THẤT • 2023</p>
+                    <h4
+                        class="font-headline-md text-headline-md text-stone-taupe group-hover:text-gold-leaf transition-colors">
+                        Serenity Interior</h4>
+                </div>
+                <!-- Row 2 -->
+                <div class="group cursor-pointer fade-up">
+                    <div class="aspect-[4/5] overflow-hidden mb-6">
+                        <img alt="Grand Lobby"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            data-alt="A grand residential lobby with soaring ceilings and a curved architectural staircase. The walls are paneled in rich walnut wood, and the floor is a seamless terrazzo. High-key natural lighting emphasizes the openness of the space. A large contemporary art piece serves as a focal point, indicating a space that values culture and luxury equally."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUidleh_dFwRrJHuI0aJqBBi1jLZ7yPLwUU2bQlt4iYd64G9Cg7Tfz9eYKR7jS1SQdXEEd10kyvhBR_jP8MDZbzvY4cQ9t_lMBUtjRQTrXYAk8uzl26JctEO2ysIgK-OFtE6q9jUxWdXCaWY-5TQ9AqYp3-XdQRFh9M_D6r1jWlK2aUg1BGlmMqHXZwCaUbnmv7ZRN_KK0YyxWCErKNw6on49ZK6TNMYW7k0zxGSAxkD-bdJ6fSqh3NwsW6Ma8c0xLK-Htcs-xy5I5" />
+                    </div>
+                    <p class="font-label-caps text-label-caps text-gold-leaf mb-2">VĂN PHÒNG • 2022</p>
+                    <h4
+                        class="font-headline-md text-headline-md text-stone-taupe group-hover:text-gold-leaf transition-colors">
+                        Skyline Hub</h4>
+                </div>
+                <div class="group cursor-pointer fade-up" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/5] overflow-hidden mb-6">
+                        <img alt="Master Bedroom"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            data-alt="A serene master bedroom sanctuary with soft neutral fabrics, light oak flooring, and a large window framing a mountain landscape. The design is minimal, featuring only essential, high-quality furniture pieces. Subtle lighting integrated into the ceiling creates a warm, cocoon-like atmosphere for rest and relaxation."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZg5svKXZbvkJNa5TxdMoWBVM_mt9wo2cw6w7H8zhUtq0TavxRvR8UdTlMRgbfHay-Sfl8absYoiNLf2FpK2MfXrHvQXfvIKCyT5RpRhaGwaMOlCwsfbHMllrCn3cxBqucFDxh0PrKQKci_R41PC3_wrRiqjpkb6iVRYKUzJl_lh-Na1S_upkOa35_ujJaGaq6v1qfdCoqNq9iX0MME-Kcy7SytPFRzefrymTCsW8rpuXp_yQNIq9a5XGXvueUfd2mUCGmmqbR4HLu" />
+                    </div>
+                    <p class="font-label-caps text-label-caps text-gold-leaf mb-2">CĂN HỘ • 2023</p>
+                    <h4
+                        class="font-headline-md text-headline-md text-stone-taupe group-hover:text-gold-leaf transition-colors">
+                        Cloud Nine Suite</h4>
+                </div>
+                <div class="group cursor-pointer fade-up" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/5] overflow-hidden mb-6">
+                        <img alt="Garden Pavillion"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            data-alt="A contemporary garden pavilion made of charred timber and glass, nestled within a lush, manicured landscape. The structure serves as an outdoor lounge with a sunken seating area and a modern fire pit. The lighting is low and warm, creating a cozy and exclusive outdoor retreat for evenings."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEkEhtFcL-s6W9CF_3uYFyqbO_ZZ4F_HU3VXFeW0OHqHfaehUGNhkDDq_tRM0vO60t0hXiQSVRkzgQ4ctUL_UymLr5rKVA5YlPCwSJKA9j0UwTcMH_2UgrLqsGhl-Lxr5Wy2tABhL6B3quoJFn7jDIpfZEkpZ5OPEqCaJVxrbGk3IG2GaSqUCgW3a_2e7frEw2OdusGu265xLKmSS7CoRXblMPs-KJkHH7VzF8xyBfcXoXjW8wibqcLSqboDaNp70NDYq8vnIABb1C" />
+                    </div>
+                    <p class="font-label-caps text-label-caps text-gold-leaf mb-2">CẢNH QUAN • 2024</p>
+                    <h4
+                        class="font-headline-md text-headline-md text-stone-taupe group-hover:text-gold-leaf transition-colors">
+                        The Garden Pavilion</h4>
+                </div>
+            </div>
+            <div class="mt-24 text-center fade-up">
+                <button
+                    class="bg-gold-leaf text-ink-charcoal px-12 py-5 font-label-caps text-label-caps hover:opacity-80 transition-opacity duration-500">
+                    XEM TẤT CẢ DỰ ÁN
+                </button>
+            </div>
+        </section>
+        <!-- Section 04: Feedback Marquee (Alternating: Background Gradient) -->
+        <section class="py-20 overflow-hidden bg-gradient-alternate">
+            <div class="marquee-container">
+                <div class="marquee-content gap-12">
+                    <!-- Feedback Cards (Duplicated for seamless loop) -->
+                    <div class="flex gap-12">
+                        <div class="flex-shrink-0 w-[400px] bg-surface-container-low p-8 border border-line-separator">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-stone-taupe/20 overflow-hidden">
+                                    <img alt="User Avatar" class="w-full h-full object-cover"
+                                        data-alt="Portrait of a successful male client in his 50s, looking professional and satisfied, in a bright studio lighting setup."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbxydgXFH0jehjvjpbrOlfv0AF7BzMqEpWWuoQoa7gWSkdijNNZEVODWbNsrwYgDW2ffP5YQguH0QdrTgSDi-9IxVsIFYZZyWLNYhtEEPBVIAsaY9DGdDZ_N_ldFq07WvGNc3gsOZJggWSEgOX1Hg87--zaokjjArH22eW2FRdBdU_Pd-Onvix-se0VapsY83Z_ph42gfmKHJW6KuCeiLzjT8IilYjMvRqa7sJ2ybalGE80hwDIbbub7LQEdOh05A0FIrxHnZAbJTJ" />
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-gold-leaf">Trần Minh Quân</h5>
+                                    <p class="text-xs text-stone-taupe font-label-caps uppercase tracking-tighter">CEO
+                                        tại TechVision</p>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-on-surface italic">"Sự tỉ mỉ trong từng chi tiết của ARCHITECTS
+                                đã hoàn toàn thuyết phục tôi. Ngôi nhà không chỉ đẹp mà còn mang lại cảm giác bình yên
+                                tuyệt đối."</p>
+                        </div>
+                        <div class="flex-shrink-0 w-[400px] bg-surface-container-low p-8 border border-line-separator">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-stone-taupe/20 overflow-hidden">
+                                    <img alt="User Avatar" class="w-full h-full object-cover"
+                                        data-alt="Portrait of a elegant woman in her 40s, embodying luxury and taste, with a minimalist professional background."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhOO_XNOpNCCeaTySpdrNNi2bZ_CK1SDdy9bPx5ITQYN4Yf2uBvVmKUl5jr8_eDrn4xKdGgNdihi4KRLW3UqcADN71uauh6CUZVgfpUjyCwMMOChdv3GpMwoEhpSvJeRtPgk01UqCmNoZPUufnp0fWh589eiWgKdn-fD6ikM-IwCA9dZKqTNyBsvLOKKDR5PKkDw_q9uK8IUBaCRj5je1c1izWW125oW_4-S2oecXj82HEaTcsSSWuV6vPjJMVjpxRNeMMxIYW4LtM" />
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-gold-leaf">Nguyễn Thu Thảo</h5>
+                                    <p class="text-xs text-stone-taupe font-label-caps uppercase tracking-tighter">Nhà
+                                        thiết kế thời trang</p>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-on-surface italic">"Không gian nội thất do ARCHITECTS thiết kế
+                                mang đậm tính nghệ thuật. Tôi cảm nhận được sự tinh tế và am hiểu sâu sắc về phong cách
+                                sống."</p>
+                        </div>
+                        <div class="flex-shrink-0 w-[400px] bg-surface-container-low p-8 border border-line-separator">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-stone-taupe/20 overflow-hidden">
+                                    <img alt="User Avatar" class="w-full h-full object-cover"
+                                        data-alt="Close up portrait of a middle-aged gentleman with a refined look, suitable for a luxury brand testimonial."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNSoee7iOY_0hLmBz7H_nL3mcGiAO3DKu9pikvcWL1IHn8179iPSsRQ8bF_RtM3787hqs0riCqCa9-a_Vuop3zSM0qv5u6wNS9ebTOZxPqIyqBDxTGUsQfvyWzOyhLjlig9AmmD10bMbrhrlol5QwzNMZT7fD49YeXMcgEHQrsTxvOVV0SB3tihDWz1a7OlNMgOLqmO63ZFkfAvkhl6FsKs91ccEsKSGFI2eJQ6jU-Pvh2323XY4uJB6RYdijJOKyE7DlWJl237ebp" />
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-gold-leaf">Phạm Đức Anh</h5>
+                                    <p class="text-xs text-stone-taupe font-label-caps uppercase tracking-tighter">Nhà
+                                        đầu tư BĐS</p>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-on-surface italic">"Đúng tiến độ và vượt mong đợi về chất lượng
+                                hoàn thiện. Đây là đơn vị thiết kế chuyên nghiệp nhất tôi từng hợp tác."</p>
+                        </div>
+                    </div>
+                    <!-- Duplicate for loop -->
+                    <div class="flex gap-12">
+                        <div class="flex-shrink-0 w-[400px] bg-surface-container-low p-8 border border-line-separator">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-stone-taupe/20 overflow-hidden">
+                                    <img alt="User Avatar" class="w-full h-full object-cover"
+                                        data-alt="Portrait of a successful male client in his 50s, looking professional and satisfied, in a bright studio lighting setup."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVi4rMAb2rJ8Dn71GRFNfv6uD4aOrlxkaMC6PRWzuN0p7EEo3IDpanYm_0wKMN41qTtnRyXIBtN9PEEnA66W55r_0sOGVDgCOjgyFEgKHRiMkimirIoEjaXyYrgyFgD7tsNdrNasAFMx88cLjb_prH85BdTRgVDXPTIPfIP6YgbgqEd-HoFyLRMOe2lrPqCx9Hm0_Dpc45z40PSHQzMJBcw8JIGGQVraPkX2n2mYxfffzsnLRGJTRwd7EB3nsu-ekRuddHMYFri_Ex" />
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-gold-leaf">Trần Minh Quân</h5>
+                                    <p class="text-xs text-stone-taupe font-label-caps uppercase tracking-tighter">CEO
+                                        tại TechVision</p>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-on-surface italic">"Sự tỉ mỉ trong từng chi tiết của ARCHITECTS
+                                đã hoàn toàn thuyết phục tôi. Ngôi nhà không chỉ đẹp mà còn mang lại cảm giác bình yên
+                                tuyệt đối."</p>
+                        </div>
+                        <div class="flex-shrink-0 w-[400px] bg-surface-container-low p-8 border border-line-separator">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-stone-taupe/20 overflow-hidden">
+                                    <img alt="User Avatar" class="w-full h-full object-cover"
+                                        data-alt="Portrait of a elegant woman in her 40s, embodying luxury and taste, with a minimalist professional background."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNu5mWmQ004YvW19eqW3xWLXl5OcC9KKaDm4cYf7IUrs7UqL-mhGBUzoLodneUmctb5NxNS4fpARPy8-hljjzVSDDbcx6x_611kwbPCucZnAfPQMnvLBWITRiZMSne7VcvCZ_Sp-iqgoKJXFM0I7eMxYdMdSTVFHSyDD8jg2-2Tw6intmCmqalMWTKHJJJMqKmGZzBmX6ddB4DzXYvZwXSXG_MiYBH16em48GvnYs9gC1TG3DhMzc6lYHlhpmHjg4As56V6RtmMwWY" />
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-gold-leaf">Nguyễn Thu Thảo</h5>
+                                    <p class="text-xs text-stone-taupe font-label-caps uppercase tracking-tighter">Nhà
+                                        thiết kế thời trang</p>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-on-surface italic">"Không gian nội thất do ARCHITECTS thiết kế
+                                mang đậm tính nghệ thuật. Tôi cảm nhận được sự tinh tế và am hiểu sâu sắc về phong cách
+                                sống."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section 05: Image Marquee -->
+        <section class="py-12 bg-surface overflow-hidden">
+            <div class="marquee-container">
+                <div class="marquee-images gap-2">
+                    <!-- Showcase Images (Duplicated for loop) -->
+                    <div class="flex gap-2">
+                        <img alt="Detail 1" class="w-[500px] aspect-video object-cover"
+                            data-alt="Macro architectural detail of a concrete facade with elegant shadows, morning light."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpwspu5rRlHFxTs7WFNWzt62c5g_4g4hpjR7RxpRQCAXHpFYOl4ex8C2JQDlRPe70AKXbvZ0AC5VXSLNEj397VvFL0FeRaOLEp7ee0Tvo4mZcfVtQbd8psQ8YwhvYlV0nYD0UPMQ_RII9FeL3ED2JDkzurXqxFY5HzqFPAh8XSfcpVGWhTryheTyhiB3gaaAEBmkYDBuP3e5fWMhnNLVKLPbQGhDNNx0dCa6E2QEVwLLVr9SPzQiPBONbmj1IPqIBQO4iZyij7sJ6m" />
+                        <img alt="Detail 2" class="w-[500px] aspect-video object-cover"
+                            data-alt="Interior hallway of a luxury villa with minimalist lighting and polished floors."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfDRTxjiY14vqZftp_JZH1vreZoFK5yVMxjdZybHtdDPSBoKDIjSPrRdCKzzLUpUKMX9kNrgDfOf7so3RlgqO5CxvoeAD6VVMxYm91j04V_0JK6r-kVtF7XDehqpbHeNW2N_ympVYwanleapXU_BBZJwtCMlyKhwUOn7BAYdZLMwMuRbseipaiidTBmgy1GYWoTus9mdhzlTZFZYuK0w_aqaRhylm5547_0ZGvfoCl7XTYrJNOP8_OOORDSn4gsEbwt9c0Y8KUaqGH" />
+                        <img alt="Detail 3" class="w-[500px] aspect-video object-cover"
+                            data-alt="Double height living room with a feature glass wall looking out to a forest."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtyEfbi5WO9zDJmLRQAzB1-q9bgRB2fET9H-Dfe2u5ojfkc91PIjz-6r-yacSxONG2BRgQs1a9z_VEZewBdyGZAh4PvsbycJ6Idb5eR3EzLTvzXceL_IhTDq-qR0CKJSimN1GOBDKa8rZBsONF0PR-P1ynR424OsIwFQZ9QxHf2Jrp90Hw73UrdOjIx1KI5gYL8Vf9VsID2XJNo6ycVsWIEht2CacRTC7rKAqy7HxSkvMDbidhAecZovo1T1nOL8dNsFm_5uptqCbE" />
+                        <img alt="Detail 4" class="w-[500px] aspect-video object-cover"
+                            data-alt="Modern sculptural staircase made of steel and glass in a luxury penthouse."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJcGF8L34G7v_qllDtdLumDtxrMYiTDGlN4yslWif66dBQyYp0RLYTlklbtdvFIw2VVDsQq0y5DGf2VwXXlCLnn7DHApMOzM-8RW3c3PCmWTpf6sRhsKut7apLUoJHxZ9KsIuaTLgkcIb8xVUCC8HP1rWHdAfhkgkusGcMkauC-pTcos7JfGEvh5I941H6eZvx2MudC-nkPKzQEjxf9k7jc0R1w0eYLSCHiCsFm9ju5ijs1D-N7Vr9Bz2N1wQIAttnaL21eBhI36dt" />
+                    </div>
+                    <div class="flex gap-2">
+                        <img alt="Detail 1" class="w-[500px] aspect-video object-cover"
+                            data-alt="Macro architectural detail of a concrete facade with elegant shadows, morning light."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx8-iAtfA1yvfaVkWL8fqiiF6MDyMpnJ9eQ2GIqfz_dtsGEKFDLbGy3ux9lNhjxlJcA2TtMhA4OstH9HgSQpoqKhl16-fxbqrip1qWwAn4xS2Z2b10_UM3SEdYylF7eUrGTyAstQ90EcGneI4Juj6sHOyi9_wUOjOhkpu84pXQT40VB2DNhoL2sMSY6yOhnOnTq462VVNO1UduVWM_bn3gx6RqfuUCKsgGfUbLtOob_ok56Kkd-m4VkxUJQwaD8SL_RLqgYUaINywI" />
+                        <img alt="Detail 2" class="w-[500px] aspect-video object-cover"
+                            data-alt="Interior hallway of a luxury villa with minimalist lighting and polished floors."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7MtwyEqZFU63wZg3NoeroXXuEEOXufMkm-ui9UHcDhSQD5PigGP-bIyklZXW8bf1BqkJ567D7z892ZU1mDhSqA70kert_EGe4tQAFC9LD0irAo6utZ-73jDRQiBVkYrswRCEkqHb6M-giW4FSBdjOrg4_3uQikPYJzbpxUR6S0u8G5_RVgzYFO2-o3G2aW21gLcV0b_560R5LISu3qfcejy8D9W5gxSWhi6qisaGfqI1ZCVeUnlqjMD5H0QHr3zrVtbsMqbQmSBOB" />
+                        <img alt="Detail 3" class="w-[500px] aspect-video object-cover"
+                            data-alt="Double height living room with a feature glass wall looking out to a forest."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9FRvGStHmamEdk_ZrxGGa1BJATNqzktxqVW-jdJUXSCCFnIEOc1uz0M05yFFWleYEhtHD0_V6IqKtxvAwK4Luz_-LKzv4gIHJEuut6YU9hHfKbJWVXtklIEBayh49qFZY6OjdIN4wCZRuSpxYDWJQ8J_MqIuK36wh4xSgDQWn1Rw2cPuIkHgkR_8np8p7xNoXcwT8CF1V5R80no3TUJVz9B67b9athIpR0x7tbFKZuBMgzPF8EqRGfR5OY9_i9xTRDAdIoIZAKkWL" />
+                        <img alt="Detail 4" class="w-[500px] aspect-video object-cover"
+                            data-alt="Modern sculptural staircase made of steel and glass in a luxury penthouse."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBd6trIR9ZEhBtEItwILtR4hy7JbhIS6Jkfuofd95OMMGDnJqhflIb1yxm5WuBD3iCTxt7sM2nzR1s84ZYqLYnTkANOcdcqc4KlJtfE2E-i3EJvRY6ruonuums3x8bso6lNCJ160YhMf0uB1CUoYzlpV5hlGnshTYFtT88nRBtF5eyBtMmu3U2mS1n-_zgwm8Amh9m-WWOIUw-Jb9Ram2LmssQ0MBghlsp6MoCokLYeRP-lMh7cjBsLeEPpAQWRYHMXqz-jLToOqQzf" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section 06: Contact Form (Alternating: Background Gradient) -->
+        <section class="py-section-gap px-container-padding bg-gradient-alternate">
+            <div class="max-w-[700px] mx-auto fade-up">
+                <div class="text-center mb-16">
+                    <h2 class="font-headline-xl text-headline-xl text-gold-leaf mb-4">Đăng Ký Tư Vấn</h2>
+                    <p class="font-body-lg text-body-lg text-stone-taupe">Hãy để chúng tôi cùng bạn xây dựng không gian
+                        sống mơ ước.</p>
+                </div>
+                <form class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="font-label-caps text-[10px] tracking-widest text-stone-taupe uppercase">Họ và
+                                Tên</label>
+                            <input
+                                class="w-full bg-transparent border-0 border-b border-line-separator py-3 px-0 focus:ring-0 text-on-surface placeholder:text-stone-taupe/40 transition-all"
+                                placeholder="Nguyễn Văn A" type="text" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="font-label-caps text-[10px] tracking-widest text-stone-taupe uppercase">Số
+                                điện thoại</label>
+                            <input
+                                class="w-full bg-transparent border-0 border-b border-line-separator py-3 px-0 focus:ring-0 text-on-surface placeholder:text-stone-taupe/40 transition-all"
+                                placeholder="0900 000 000" type="tel" />
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                            class="font-label-caps text-[10px] tracking-widest text-stone-taupe uppercase">Email</label>
+                        <input
+                            class="w-full bg-transparent border-0 border-b border-line-separator py-3 px-0 focus:ring-0 text-on-surface placeholder:text-stone-taupe/40 transition-all"
+                            placeholder="example@gmail.com" type="email" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-label-caps text-[10px] tracking-widest text-stone-taupe uppercase">Nội dung
+                            yêu cầu</label>
+                        <textarea
+                            class="w-full bg-transparent border-0 border-b border-line-separator py-3 px-0 focus:ring-0 text-on-surface placeholder:text-stone-taupe/40 transition-all resize-none"
+                            placeholder="Chia sẻ ý tưởng của bạn..." rows="4"></textarea>
+                    </div>
+                    <div class="text-center pt-8">
+                        <button
+                            class="bg-gold-leaf text-ink-charcoal px-16 py-5 font-label-caps text-label-caps hover:opacity-80 transition-colors duration-500 min-w-[240px]"
+                            type="submit">
+                            GỬI THÔNG TIN
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="w-full px-container-padding py-section-gap grid grid-cols-1 md:grid-cols-3 gap-element-gap bg-surface border-t border-line-separator">
+        <div class="space-y-6">
+            <div class="font-display-lg text-headline-md text-gold-leaf">ARCHITECTS</div>
+            <p class="font-body-md text-body-md text-on-surface max-w-xs leading-relaxed opacity-80">
+                Nơi những giấc mơ kiến trúc trở thành hiện thực với sự hoàn hảo và đẳng cấp nhất.
+            </p>
+            <div class="flex gap-4">
+                <a class="text-on-surface hover:text-gold-leaf transition-colors" href="#"><span
+                        class="material-symbols-outlined">public</span></a>
+                <a class="text-on-surface hover:text-gold-leaf transition-colors" href="#"><span
+                        class="material-symbols-outlined">alternate_email</span></a>
+                <a class="text-on-surface hover:text-gold-leaf transition-colors" href="#"><span
+                        class="material-symbols-outlined">share</span></a>
+            </div>
+        </div>
+        <div class="space-y-6">
+            <h4 class="font-label-caps text-label-caps text-gold-leaf tracking-widest">LIÊN HỆ</h4>
+            <div class="space-y-4 font-body-md text-on-surface opacity-80">
+                <p class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-gold-leaf text-sm">location_on</span>
+                    123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM
+                </p>
+                <p class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-gold-leaf text-sm">call</span>
+                    +84 28 3930 1234
+                </p>
+                <p class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-gold-leaf text-sm">mail</span>
+                    contact@architects.vn
+                </p>
+            </div>
+        </div>
+        <div class="space-y-6">
+            <h4 class="font-label-caps text-label-caps text-gold-leaf tracking-widest">LIÊN KẾT NHANH</h4>
+            <ul class="space-y-4">
+                <li><a class="font-body-md text-body-md text-on-surface hover:text-gold-leaf transition-colors"
+                        href="#">Privacy Policy</a></li>
+                <li><a class="font-body-md text-body-md text-on-surface hover:text-gold-leaf transition-colors"
+                        href="#">Terms of Service</a></li>
+                <li><a class="font-body-md text-body-md text-on-surface hover:text-gold-leaf transition-colors"
+                        href="#">FAQ</a></li>
+                <li class="pt-4 text-xs opacity-50 text-on-surface">© 2024 ARCHITECTS. All rights reserved.</li>
+            </ul>
+        </div>
+    </footer>
+    <script>
+        // Intersection Observer for fade-up animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // Navigation transparency on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-surface/95', 'py-4');
+                header.classList.remove('py-6', 'glass-nav');
+            } else {
+                header.classList.remove('bg-surface/95', 'py-4');
+                header.classList.add('py-6', 'glass-nav');
+            }
+        });
+    </script>
+</body>
+
+</html>
