@@ -136,19 +136,61 @@
 .projectGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(20px, 2.2vw, 30px);
+  gap: 32px;
+  grid-auto-flow: dense;
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
 .projectCard {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.cardWide {
+  grid-column: span 2;
+}
+
+.cardWide .projectImage {
+  aspect-ratio: 16 / 9;
+}
+
+.cardTall {
+  grid-column: span 1;
+}
+
+.cardTall .projectImage {
+  aspect-ratio: 3 / 4;
+}
+
+.cardSquare {
+  grid-column: span 1;
+}
+
+.cardSquare .projectImage {
+  aspect-ratio: 1 / 1;
 }
 
 .projectImage {
   position: relative;
-  display: block;
-  aspect-ratio: 4 / 5;
+  width: 100%;
   overflow: hidden;
   background: var(--surface-soft);
+}
+
+.projectCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 7, 8, 0) 50%, rgba(6, 7, 8, 0.78) 100%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.projectCard:hover .projectCardOverlay {
+  opacity: 1;
 }
 
 .projectImage img,
@@ -185,16 +227,15 @@
   font-family: var(--font-display), Georgia, serif;
   font-size: clamp(1.48rem, 1.95vw, 2.05rem);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.1;
+  transition: color 200ms ease;
 }
 
-.projectSummary {
-  display: block;
-  margin-top: 14px;
-  color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.65;
+.projectCard:hover .projectTitle {
+  color: var(--gold);
 }
+
+
 
 .loadState {
   display: flex;
@@ -333,6 +374,7 @@
   place-items: center;
   background: rgba(0, 0, 0, 0.92);
   padding: clamp(18px, 3vw, 42px);
+  backdrop-filter: blur(10px);
 }
 
 .lightboxImage {

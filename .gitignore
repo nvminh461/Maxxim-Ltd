@@ -13,6 +13,14 @@
 # testing
 /coverage
 
+/.claude
+/.agents
+/.gemini
+/.cursor
+/.impeccable
+PRODUCT.md
+DESIGN.md
+
 # next.js
 /.next/
 /out/

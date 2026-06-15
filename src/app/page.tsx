@@ -10,19 +10,26 @@ import {
   useEffect,
   useRef,
   useState,
+  useMemo,
 } from "react";
-import { featuredProjects } from "@/data/projects";
+import { projects } from "@/data/projects";
 import styles from "./page.module.css";
 
 type HeroSlide =
   | {
       type: "video";
       src: string;
+    title: string;
+    subtitle: string;
+    link?: string;
     }
   | {
       type: "image";
       src: string;
       alt: string;
+    title: string;
+    subtitle: string;
+    link?: string;
     };
 
 type Testimonial = {
@@ -47,21 +54,32 @@ const heroSlides: HeroSlide[] = [
   {
     type: "video",
     src: "/banner.mp4",
+    title: "MAXXIM ARCHITECTURE & BUILD",
+    subtitle: "PREMIUM SPACES / ARCHITECTURE / INTERIOR",
   },
   {
     type: "image",
     alt: "Luxury modern villa at dusk",
     src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdFbJOxOsWcTgiAFTpR09mCz64BQeY0rBIImayNFQXO3kq9V8OIlaE0WpM8ddVdryWex3PnARCyihHk4xnh0qQLEY2VnoVOAJvTBwzmAbgGmI9K6JTFzeP29YHswt9DkJheuC5ohFzYsgwaaNwej1GaHQDYDqARROeeuXK9vamrIWz0YEavJUaQhzEmeC2reFzFvhLVevMHPcMidp36FFY5eFRKvWDypkWE_k03xtP2N6LVhD0S4J4d67s4RKAZzZyPwWCf5dMUv74",
+    title: "AURORA VILLA",
+    subtitle: "VILLA / PHU QUOC / 2024",
+    link: "/projects/aurora-villa",
   },
   {
     type: "image",
     alt: "Minimal villa with reflection pool",
     src: "https://lh3.googleusercontent.com/aida-public/AB6AXuARjdzqSBpXbZI2WDGp8k-psEeC0USsN5PR5hidAqiOXPtjNV3HcfON3P1OyuWfRfjomjQc6semvJpRUnqOScgrcEynNfmhqDn8jSrMwu1JrREHPGvRrv_Mzv3QE5eAV17436lG3EdJ-Ljs5f3_P8sRw7CKmRzMiGrffC0H8B0Q_y6LRwzTUe6y-fvQ_ndW0DhTz9JNz8oA3nOaJioeLY4QDxkKDb-GP2rJtdW-sUmoOA7RDyRLusu9eTChgAOwnK8ZueYIh2DL_TDp",
+    title: "ZEN WATER HOUSE",
+    subtitle: "VILLA / LONG AN / 2023",
+    link: "/projects/zen-water-house",
   },
   {
     type: "image",
     alt: "Luxury interior with marble kitchen island",
     src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBettvba4fBk2qTnDxh2fdq7jGVz9wMGbPsJ8nUnRyXAWK5bchxC8qm7NPl8W8y9geS-aYuCaQjS3-yqRlun-GJPT9AZczvp8dydW8pl7_wEOdYOk6gid_aIyypJxAxmMQOOc6VOP9zpCYl_WODzU8IjbQJltL8lzFIfqbrn_UvxjKavwZKENXg_zFk7LRKBMa46umW7wPJGdwLIwAUOwqUQZqt-n1a8-zuG_Z923rXu63NhS8AijuhIzLebXeiGWp732-m9cjhSa8O",
+    title: "SERENITY INTERIOR",
+    subtitle: "INTERIOR / HANOI / 2023",
+    link: "/projects/serenity-interior",
   },
 ];
 
@@ -330,13 +348,164 @@ function DraggableMarquee({
   );
 }
 
+const aboutPillars = [
+  {
+    num: "01",
+    title: "ARCHITECTURE",
+    subtitle: "Sleek Monolithic Design",
+    desc: "Bespoke structural forms built with precision alignment, natural materials, and quiet luxury.",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuAx-liMlFDg9CxSrlk8bBaSEKQnivcTyyFvvdmR2rLaZPdbApqZznstyGT-q4B3M7Xkcjo38NXQtCV-I5bI72hJoTxYnhvaHX0tiuiSMCjxR0t3RV0ahMnasslTkuvYcDacLdF8JBqfuPTSSH0LzBha4ePBlgRWzc5FHUkikKL740vjd5gJTJ0U5SS6VQ7RGPNSszazzi0t3sbvPiyrjLyGRwjp7boTifJR7bxAhu_wGu-Uirkax1hJQP0NffmxzisRr5WHARCDgrQm",
+  },
+  {
+    num: "02",
+    title: "INTERIORS",
+    subtitle: "Tactile Atmosphere",
+    desc: "Curated stone slabs, brushed metals, and custom cabinetry tailored to private living.",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBettvba4fBk2qTnDxh2fdq7jGVz9wMGbPsJ8nUnRyXAWK5bchxC8qm7NPl8W8y9geS-aYuCaQjS3-yqRlun-GJPT9AZczvp8dydW8pl7_wEOdYOk6gid_aIyypJxAxmMQOOc6VOP9zpCYl_WODzU8IjbQJltL8lzFIfqbrn_UvxjKavwZKENXg_zFk7LRKBMa46umW7wPJGdwLIwAUOwqUQZqt-n1a8-zuG_Z923rXu63NhS8AijuhIzLebXeiGWp732-m9cjhSa8O",
+  },
+  {
+    num: "03",
+    title: "CRAFT",
+    subtitle: "Enduring Build Quality",
+    desc: "Meticulous construction detailing, raw textured concrete, and solid timber structures.",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCpwspu5rRlHFxTs7WFNWzt62c5g_4g4hpjR7RxpRQCAXHpFYOl4ex8C2JQDlRPe70AKXbvZ0AC5VXSLNEj397VvFL0FeRaOLEp7ee0Tvo4mZcfVtQbd8psQ8YwhvYlV0nYD0UPMQ_RII9FeL3ED2JDkzurXqxFY5HzqFPAh8XSfcpVGWhTryheTyhiB3gaaAEBmkYDBuP3e5fWMhnNLVKLPbQGhDNNx0dCa6E2QEVwLLVr9SPzQiPBONbmj1IPqIBQO4iZyij7sJ6m",
+  },
+];
+
+const testimonialImages = [
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuDJhc0IYAiBRKojICfbZmMmvy1i1vAtqFshLdy2C-dnNRY3MrTNoZabE4uCvioWe_7Rnxk-pT0zwrmLItzCJ5-NilAwJ0yXEbdsl8uxyDJa_PmtMvKgZKMKwS2n9YaNErL95qGoxBq3vpMhVScHv65jZKvAI88T3GwvAQiOvn_7Pt3AC-KTtPeVctlOCvlPAg1Rl0eXEQbrXIOPnNEIeHk1q7LTSMAuV-DfQ10j_g046msW9SU8XTNKdO8zMYh1qnhaL_PlcJ8qcxAz",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBettvba4fBk2qTnDxh2fdq7jGVz9wMGbPsJ8nUnRyXAWK5bchxC8qm7NPl8W8y9geS-aYuCaQjS3-yqRlun-GJPT9AZczvp8dydW8pl7_wEOdYOk6gid_aIyypJxAxmMQOOc6VOP9zpCYl_WODzU8IjbQJltL8lzFIfqbrn_UvxjKavwZKENXg_zFk7LRKBMa46umW7wPJGdwLIwAUOwqUQZqt-n1a8-zuG_Z923rXu63NhS8AijuhIzLebXeiGWp732-m9cjhSa8O",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuAUidleh_dFwRrJHuI0aJqBBi1jLZ7yPLwUU2bQlt4iYd64G9Cg7Tfz9eYKR7jS1SQdXEEd10kyvhBR_jP8MDZbzvY4cQ9t_lMBUtjRQTrXYAk8uzl26JctEO2ysIgK-OFtE6q9jUxWdXCaWY-5TQ9AqYp3-XdQRFh9M_D6r1jWlK2aUg1BGlmMqHXZwCaUbnmv7ZRN_KK0YyxWCErKNw6on49ZK6TNMYW7k0zxGSAxkD-bdJ6fSqh3NwsW6Ma8c0xLK-Htcs-xy5I5",
+];
+
+function ConceptBuildSlider() {
+  const [position, setPosition] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+
+  const handleMove = (clientX: number) => {
+    if (!containerRef.current) {
+      return;
+    }
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const pct = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setPosition(pct);
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (event.touches.length > 0) {
+      handleMove(event.touches[0].clientX);
+    }
+  };
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.buttons === 1 || isDragging.current) {
+      handleMove(event.clientX);
+    }
+  };
+
+  const handleStartDrag = () => {
+    isDragging.current = true;
+  };
+
+  const handleStopDrag = () => {
+    isDragging.current = false;
+  };
+
+  useEffect(() => {
+    const stopDrag = () => {
+      isDragging.current = false;
+    };
+    window.addEventListener("mouseup", stopDrag);
+    window.addEventListener("touchend", stopDrag);
+    return () => {
+      window.removeEventListener("mouseup", stopDrag);
+      window.removeEventListener("touchend", stopDrag);
+    };
+  }, []);
+
+  return (
+    <section className={styles.sliderSection}>
+      <div className={[styles.sectionIntro, styles.reveal, styles.visible].join(" ")}>
+        <p className={styles.eyebrow}>Concept to execution</p>
+        <h2>Vision vs Reality</h2>
+        <p>Drag the slider to transition between our structural layout blueprint and the completed luxury build.</p>
+      </div>
+      <div
+        className={[styles.sliderContainer, styles.reveal, styles.visible].join(" ")}
+        onMouseDown={handleStartDrag}
+        onMouseLeave={handleStopDrag}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleStopDrag}
+        onTouchMove={handleTouchMove}
+        onTouchStart={handleStartDrag}
+        ref={containerRef}
+      >
+        <div className={styles.conceptSlide}>
+          <Image
+            alt="Concept Blueprint"
+            className={styles.blueprintImage}
+            draggable={false}
+            fill
+            sizes="100vw"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuARjdzqSBpXbZI2WDGp8k-psEeC0USsN5PR5hidAqiOXPtjNV3HcfON3P1OyuWfRfjomjQc6semvJpRUnqOScgrcEynNfmhqDn8jSrMwu1JrREHPGvRrv_Mzv3QE5eAV17436lG3EdJ-Ljs5f3_P8sRw7CKmRzMiGrffC0H8B0Q_y6LRwzTUe6y-fvQ_ndW0DhTz9JNz8oA3nOaJioeLY4QDxkKDb-GP2rJtdW-sUmoOA7RDyRLusu9eTChgAOwnK8ZueYIh2DL_TDp"
+          />
+          <div className={styles.blueprintGridOverlay} />
+          <div className={styles.blueprintLabel}>CONCEPT SCHEMA</div>
+        </div>
+
+        <div
+          className={styles.buildSlide}
+          style={{
+            clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`,
+          }}
+        >
+          <Image
+            alt="Completed Build"
+            className={styles.completedImage}
+            draggable={false}
+            fill
+            sizes="100vw"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuARjdzqSBpXbZI2WDGp8k-psEeC0USsN5PR5hidAqiOXPtjNV3HcfON3P1OyuWfRfjomjQc6semvJpRUnqOScgrcEynNfmhqDn8jSrMwu1JrREHPGvRrv_Mzv3QE5eAV17436lG3EdJ-Ljs5f3_P8sRw7CKmRzMiGrffC0H8B0Q_y6LRwzTUe6y-fvQ_ndW0DhTz9JNz8oA3nOaJioeLY4QDxkKDb-GP2rJtdW-sUmoOA7RDyRLusu9eTChgAOwnK8ZueYIh2DL_TDp"
+          />
+          <div className={styles.buildLabel}>COMPLETED RESIDENCE</div>
+        </div>
+
+        <div className={styles.sliderHandle} style={{ left: `${position}%` }}>
+          <div className={styles.sliderLine} />
+          <div className={styles.sliderButton}>
+            <span className={styles.sliderArrow}>&#8592;</span>
+            <span className={styles.sliderArrow}>&#8594;</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [galleryPreview, setGalleryPreview] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const previewImage =
     galleryPreview === null ? null : galleryImages[galleryPreview % galleryImages.length];
+
+  const categories = ["All", "Villa", "Townhouse", "Interior", "Office", "Apartment", "Landscape"];
+
+  const filteredProjects = useMemo(() => {
+    if (activeCategory === "All") {
+      return projects.slice(0, 8); // show top 8
+    }
+    return projects.filter((p) => p.category === activeCategory).slice(0, 8);
+  }, [activeCategory]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 48);
@@ -366,6 +535,13 @@ export default function Home() {
     revealElements.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
+  }, [activeCategory]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveTestimonial((current) => (current + 1) % testimonials.length);
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -454,6 +630,20 @@ export default function Home() {
     );
   };
 
+  const getCardStyle = (index: number) => {
+    const layoutPatterns = [
+      styles.cardWide,
+      styles.cardTall,
+      styles.cardTall,
+      styles.cardWide,
+      styles.cardSquare,
+      styles.cardTall,
+      styles.cardSquare,
+      styles.cardTall,
+    ];
+    return layoutPatterns[index % layoutPatterns.length];
+  };
+
   return (
     <div className={styles.page}>
       <header className={[styles.header, scrolled ? styles.headerScrolled : ""].join(" ")}>
@@ -470,7 +660,7 @@ export default function Home() {
         </a>
         <nav className={styles.nav} aria-label="Primary navigation">
           <a className={styles.navActive} href="#home">
-            Home
+            Homeaa
           </a>
           <Link href="/projects">Projects</Link>
           <a href="#about">About</a>
@@ -519,16 +709,20 @@ export default function Home() {
             </div>
           ))}
           <div className={styles.heroContent}>
-            <p className={styles.eyebrow}>Architecture / Interior / Build</p>
-            <h1>PREMIUM ARCHITECTURE & CONSTRUCTION</h1>
-            <p className={styles.heroText}>
-              Building Today - Creating Tomorrow. We craft distinctive spaces where
-              refined design meets enduring construction quality.
-            </p>
-            <a className={styles.heroLink} href="#projects">
-              View projects
-              <span aria-hidden="true">-&gt;</span>
-            </a>
+            <span className={styles.heroNumber}>
+              0{activeSlide + 1} / 0{heroSlides.length}
+            </span>
+            <h1 className={styles.heroTitle}>{heroSlides[activeSlide].title}</h1>
+            <p className={styles.heroSub}>{heroSlides[activeSlide].subtitle}</p>
+            {heroSlides[activeSlide].link ? (
+              <Link className={styles.heroLink} href={heroSlides[activeSlide].link}>
+                Explore Project <span aria-hidden="true">-&gt;</span>
+              </Link>
+            ) : (
+              <a className={styles.heroLink} href="#projects">
+                  View selected works <span aria-hidden="true">-&gt;</span>
+                </a>
+            )}
           </div>
           <div className={styles.slideDots} aria-label="Slide controls">
             {heroSlides.map((slide, index) => (
@@ -543,106 +737,173 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Revamped About Section - Principles Collage */}
         <section className={styles.aboutSection} id="about">
-          <div className={[styles.aboutImage, styles.reveal].join(" ")}>
-            <Image
-              alt="Sophisticated architectural office interior"
-              fill
-              sizes="(max-width: 768px) 100vw, 42vw"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx-liMlFDg9CxSrlk8bBaSEKQnivcTyyFvvdmR2rLaZPdbApqZznstyGT-q4B3M7Xkcjo38NXQtCV-I5bI72hJoTxYnhvaHX0tiuiSMCjxR0t3RV0ahMnasslTkuvYcDacLdF8JBqfuPTSSH0LzBha4ePBlgRWzc5FHUkikKL740vjd5gJTJ0U5SS6VQ7RGPNSszazzi0t3sbvPiyrjLyGRwjp7boTifJR7bxAhu_wGu-Uirkax1hJQP0NffmxzisRr5WHARCDgrQm"
-            />
+          <div className={[styles.sectionIntro, styles.reveal, styles.visible].join(" ")}>
+            <p className={styles.eyebrow}>Our philosophy</p>
+            <h2>CREATIVE DESIGN & RESOLUTE CRAFT</h2>
+            <p>
+              We craft monolithic spaces that balance structural precision, tactile
+              interior materials, and visual atmosphere.
+            </p>
           </div>
-          <div className={[styles.aboutCopy, styles.reveal].join(" ")}>
-            <p className={styles.eyebrow}>About us</p>
-            <h2>Shaping elevated ways of living through thoughtful design.</h2>
-            <p>
-              At Maxxim Ltd., we do more than build houses; we create lasting places.
-              Every project is a careful pursuit of balance between contemporary
-              aesthetics, practical performance, and the owner&apos;s personal identity.
-            </p>
-            <p>
-              Our experienced architects, interior designers, and construction teams
-              deliver refined concepts, premium materials, and reliable execution from
-              first sketch to final handover.
-            </p>
-            <a className={styles.textLink} href="#contact">
-              Learn more
-            </a>
+
+          <div className={styles.aboutGrid}>
+            {aboutPillars.map((pillar) => (
+              <div className={styles.aboutPillar} key={pillar.num}>
+                <div className={styles.pillarBg}>
+                  <Image alt={pillar.title} fill sizes="33vw" src={pillar.image} />
+                </div>
+                <div className={styles.pillarOverlay} />
+                <div className={styles.pillarContent}>
+                  <span className={styles.pillarNum}>{pillar.num}</span>
+                  <h3 className={styles.pillarTitle}>{pillar.title}</h3>
+                  <span className={styles.pillarSubtitle}>{pillar.subtitle}</span>
+                  <p className={styles.pillarDesc}>{pillar.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
+        {/* Interactive Vision vs Reality Spotlight Section */}
+        <ConceptBuildSlider />
+
+        {/* Selected Projects with Category Filter & Asymmetrical Layout */}
         <section className={styles.projectsSection} id="projects">
-          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+          <div className={[styles.sectionIntro, styles.reveal, styles.visible].join(" ")}>
             <p className={styles.eyebrow}>Selected works</p>
-            <h2>Featured Projects</h2>
-            <p>A selection of completed works shaped by care, precision, and craft.</p>
+            <h2>FEATURED PROJECTS</h2>
+            <p>A curated view of our completed architectural works and custom spaces.</p>
+          </div>
+
+          {/* Filter Bar */}
+          <div className={styles.filterBar}>
+            {categories.map((cat) => (
+              <button
+                className={[
+                  styles.filterBtn,
+                  activeCategory === cat ? styles.filterBtnActive : "",
+                ].join(" ")}
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                type="button"
+              >
+                {cat}
+              </button>
+            ))}
           </div>
 
           <div className={styles.projectGrid}>
-            {featuredProjects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <Link
-                className={[styles.projectCard, styles.reveal].join(" ")}
+                className={[
+                  styles.projectCard,
+                  getCardStyle(index),
+                  styles.reveal,
+                  styles.visible,
+                ].join(" ")}
                 href={`/projects/${project.slug}`}
                 key={project.slug}
                 prefetch={index < 3}
-                style={{ transitionDelay: `${(index % 3) * 90}ms` }}
               >
                 <div className={styles.projectImage}>
                   <Image
                     alt={project.alt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     src={project.cover}
                   />
+                  <div className={styles.projectCardOverlay} />
                 </div>
-                <p>
-                  {project.category.toUpperCase()} / {project.year}
-                </p>
-                <h3>{project.title}</h3>
+                <div className={styles.projectCardText}>
+                  <p className={styles.projectCardMeta}>
+                    {project.category.toUpperCase()} / {project.year}
+                  </p>
+                  <h3 className={styles.projectCardTitle}>{project.title}</h3>
+                </div>
               </Link>
             ))}
           </div>
 
-          <div className={[styles.centerAction, styles.reveal].join(" ")}>
+          <div className={[styles.centerAction, styles.reveal, styles.visible].join(" ")}>
             <Link className={styles.primaryButton} href="/projects">
               View all projects
             </Link>
           </div>
         </section>
 
+        {/* Visual testimonial slider */}
         <section className={styles.testimonialSection}>
-          <DraggableMarquee
-            speed={34}
-            trackClassName={styles.testimonialTrack}
-          >
-            {testimonials.map((testimonial) => (
-              <article className={styles.testimonialCard} key={testimonial.name}>
-                <div className={styles.testimonialHeader}>
-                  <div className={styles.avatar}>
+          <div className={styles.testimonialContainer}>
+            <div className={styles.testimonialVisual}>
+              {testimonialImages.map((imgSrc, idx) => (
+                <div
+                  className={[
+                    styles.testimonialBgSlide,
+                    idx === activeTestimonial ? styles.bgActive : "",
+                  ].join(" ")}
+                  key={idx}
+                >
+                  <Image
+                    alt="Completed Client Home"
+                    className={styles.testimonialBgImage}
+                    fill
+                    sizes="50vw"
+                    src={imgSrc}
+                  />
+                </div>
+              ))}
+              <div className={styles.testimonialVisualOverlay} />
+            </div>
+
+            <div className={styles.testimonialContentPanel}>
+              <p className={styles.eyebrow}>Client testimonials</p>
+              <h2 style={{ fontFamily: "var(--font-display)", color: "var(--gold)" }}>
+                CLIENT TRUST
+              </h2>
+
+              <div className={styles.testimonialQuoteBlock}>
+                <blockquote>
+                  &quot;{testimonials[activeTestimonial].quote}&quot;
+                </blockquote>
+
+                <div className={styles.testimonialClientMeta}>
+                  <div className={styles.testimonialClientAvatar}>
                     <Image
-                      alt={testimonial.name}
+                      alt={testimonials[activeTestimonial].name}
                       fill
-                      sizes="64px"
-                      src={testimonial.image}
+                      sizes="48px"
+                      src={testimonials[activeTestimonial].image}
                     />
                   </div>
                   <div>
-                    <h3>{testimonial.name}</h3>
-                    <p>{testimonial.role}</p>
+                    <h3>{testimonials[activeTestimonial].name}</h3>
+                    <p>{testimonials[activeTestimonial].role}</p>
                   </div>
                 </div>
-                <blockquote>&quot;{testimonial.quote}&quot;</blockquote>
-              </article>
-            ))}
-          </DraggableMarquee>
+              </div>
+
+              <div className={styles.testimonialNavControls}>
+                {testimonials.map((_, idx) => (
+                  <button
+                    aria-label={`Go to testimonial ${idx + 1}`}
+                    className={[
+                      styles.testimonialDot,
+                      idx === activeTestimonial ? styles.dotActive : "",
+                    ].join(" ")}
+                    key={idx}
+                    onClick={() => setActiveTestimonial(idx)}
+                    type="button"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className={styles.gallerySection} aria-label="Project details">
-          <DraggableMarquee
-            reverse
-            speed={52}
-            trackClassName={styles.galleryTrack}
-          >
+          <DraggableMarquee reverse speed={52} trackClassName={styles.galleryTrack}>
             {galleryImages.map((image, index) => (
               <button
                 aria-label={`Preview ${image.alt}`}
@@ -700,12 +961,15 @@ export default function Home() {
               >
                 &gt;
               </button>
+              <p className={styles.lightboxCounter}>
+                {(galleryPreview ?? 0) + 1} / {galleryImages.length}
+              </p>
             </div>
           ) : null}
         </section>
 
         <section className={styles.contactSection} id="contact">
-          <div className={[styles.contactPanel, styles.reveal].join(" ")}>
+          <div className={[styles.contactPanel, styles.reveal, styles.visible].join(" ")}>
             <div className={styles.sectionIntro}>
               <p className={styles.eyebrow}>Start a project</p>
               <h2>Book A Consultation</h2>
