@@ -40,6 +40,20 @@ export default function ProjectsPage() {
     return () => observer.disconnect();
   }, []);
 
+  const getCardStyle = (index: number) => {
+    const layoutPatterns = [
+      styles.cardWide,
+      styles.cardTall,
+      styles.cardTall,
+      styles.cardWide,
+      styles.cardSquare,
+      styles.cardTall,
+      styles.cardSquare,
+      styles.cardTall,
+    ];
+    return layoutPatterns[index % layoutPatterns.length];
+  };
+
   return (
     <div className={styles.page}>
       <SiteHeader />
@@ -49,8 +63,8 @@ export default function ProjectsPage() {
           <p className={styles.eyebrow}>Portfolio</p>
           <h1>All Projects</h1>
           <p>
-            Projects load progressively as you scroll, keeping the first visit fast
-            while still giving you access to the full portfolio.
+            Architectural projects load progressively as you scroll. Focus is placed on
+            the precision of physical construction.
           </p>
         </section>
 
@@ -58,7 +72,7 @@ export default function ProjectsPage() {
           <div className={styles.projectGrid}>
             {visibleProjects.map((project, index) => (
               <Link
-                className={styles.projectCard}
+                className={[styles.projectCard, getCardStyle(index)].join(" ")}
                 href={`/projects/${project.slug}`}
                 key={project.slug}
                 prefetch={index < 6}
@@ -71,12 +85,12 @@ export default function ProjectsPage() {
                     sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
                     src={project.cover}
                   />
+                  <span className={styles.projectCardOverlay} />
                 </span>
                 <span className={styles.projectMeta}>
                   {project.category} / {project.year} / {project.location}
                 </span>
                 <span className={styles.projectTitle}>{project.title}</span>
-                <span className={styles.projectSummary}>{project.summary}</span>
               </Link>
             ))}
           </div>
