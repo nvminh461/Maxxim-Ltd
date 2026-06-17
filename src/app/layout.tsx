@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll/smooth-scroll";
 import "./globals.css";
 
-const outfit = Outfit({
+const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
 });
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -25,8 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${cormorantGaramond.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${inter.variable} ${cormorantGaramond.variable}`}>
+      <body>
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }

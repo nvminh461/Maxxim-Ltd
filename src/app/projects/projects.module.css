@@ -9,6 +9,8 @@
   --muted: rgba(242, 238, 231, 0.72);
   --ink: #050505;
   --side-pad: clamp(20px, 4vw, 56px);
+  --section-pad: clamp(80px, 10vw, 160px);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   min-height: 100vh;
   background: var(--surface);
@@ -16,93 +18,20 @@
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-.header {
-  position: fixed;
-  z-index: 40;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(6, 7, 8, 0.92);
-  padding: 16px var(--side-pad);
-  backdrop-filter: blur(10px);
-}
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--gold);
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(1.5rem, 2.18vw, 2rem);
-  font-weight: 600;
-  line-height: 0.95;
-  white-space: nowrap;
-}
-
-.logoMark {
-  width: clamp(30px, 3.4vw, 40px);
-  height: clamp(30px, 3.4vw, 40px);
-  border-radius: 50%;
-  object-fit: contain;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(22px, 3vw, 42px);
-  color: var(--stone);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
-.nav a {
-  border-bottom: 1px solid transparent;
-  padding-bottom: 6px;
-  transition:
-    border-color 180ms ease,
-    color 180ms ease;
-}
-
-.nav a:hover,
-.activeNav {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-.headerCta {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--gold);
-  background: var(--gold);
-  color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  padding: 13px 22px;
-  text-transform: uppercase;
-}
+/* ───────────────────────── Hero ───────────────────────── */
 
 .hero {
   max-width: 1320px;
   margin: 0 auto;
-  padding: clamp(118px, 13vw, 166px) var(--side-pad) clamp(46px, 6vw, 76px);
+  padding: clamp(128px, 14vw, 180px) var(--side-pad) clamp(56px, 7vw, 96px);
 }
 
 .eyebrow {
   margin-bottom: 16px;
   color: var(--gold);
   font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.22em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -111,7 +40,9 @@
 .albumHeader h2 {
   color: var(--gold);
   font-family: var(--font-display), Georgia, serif;
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 .hero h1 {
@@ -125,18 +56,21 @@
   margin-top: 22px;
   color: var(--muted);
   font-size: clamp(0.96rem, 1.12vw, 1.08rem);
-  line-height: 1.72;
+  line-height: 1.8;
+  max-width: 65ch;
 }
+
+/* ───────────────────────── Grid Section ───────────────────────── */
 
 .gridSection,
 .albumSection {
-  padding: 0 var(--side-pad) clamp(86px, 10vw, 132px);
+  padding: 0 var(--side-pad) clamp(96px, 12vw, 160px);
 }
 
 .projectGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px;
+  gap: clamp(24px, 3vw, 40px);
   grid-auto-flow: dense;
   max-width: 1320px;
   margin: 0 auto;
@@ -186,7 +120,7 @@
   inset: 0;
   background: linear-gradient(180deg, rgba(6, 7, 8, 0) 50%, rgba(6, 7, 8, 0.78) 100%);
   opacity: 0;
-  transition: opacity 300ms ease;
+  transition: opacity 400ms var(--ease-expo);
 }
 
 .projectCard:hover .projectCardOverlay {
@@ -202,12 +136,12 @@
 
 .projectImage img,
 .albumTile img {
-  transition: transform 700ms ease;
+  transition: transform 1200ms var(--ease-expo);
 }
 
 .projectCard:hover .projectImage img,
 .albumTile:hover img {
-  transform: scale(1.045);
+  transform: scale(1.03);
 }
 
 .projectMeta {
@@ -215,7 +149,7 @@
   margin-top: 20px;
   color: var(--gold);
   font-size: 0.74rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -228,14 +162,14 @@
   font-size: clamp(1.48rem, 1.95vw, 2.05rem);
   font-weight: 500;
   line-height: 1.1;
-  transition: color 200ms ease;
+  transition: color 250ms var(--ease-expo);
 }
 
 .projectCard:hover .projectTitle {
   color: var(--gold);
 }
 
-
+/* ───────────────────────── Load State ───────────────────────── */
 
 .loadState {
   display: flex;
@@ -244,10 +178,12 @@
   justify-content: center;
   color: var(--stone);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
+
+/* ───────────────────────── Detail Hero ───────────────────────── */
 
 .detailHero {
   position: relative;
@@ -273,7 +209,7 @@
   position: relative;
   z-index: 2;
   max-width: 920px;
-  padding: clamp(122px, 13vw, 166px) var(--side-pad) clamp(58px, 7vw, 90px);
+  padding: clamp(128px, 14vw, 180px) var(--side-pad) clamp(64px, 8vw, 100px);
 }
 
 .backLink {
@@ -281,9 +217,14 @@
   margin-bottom: 30px;
   color: var(--stone);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  transition: color 250ms var(--ease-expo);
+}
+
+.backLink:hover {
+  color: var(--gold);
 }
 
 .detailIntro h1 {
@@ -296,7 +237,7 @@
   margin-top: 24px;
   color: rgba(242, 238, 231, 0.86);
   font-size: clamp(0.98rem, 1.16vw, 1.1rem);
-  line-height: 1.72;
+  line-height: 1.8;
 }
 
 .projectFacts {
@@ -304,7 +245,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   max-width: 760px;
-  margin-top: 38px;
+  margin-top: 42px;
 }
 
 .projectFacts div {
@@ -315,7 +256,7 @@
 .projectFacts dt {
   color: var(--stone);
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -326,16 +267,18 @@
   font-size: 0.98rem;
 }
 
+/* ───────────────────────── Album Section ───────────────────────── */
+
 .albumSection {
   background:
     linear-gradient(180deg, rgba(16, 17, 19, 0) 0%, var(--surface-raised) 18%),
     var(--surface-raised);
-  padding-top: clamp(58px, 7vw, 96px);
+  padding-top: clamp(64px, 8vw, 112px);
 }
 
 .albumHeader {
   max-width: 1320px;
-  margin: 0 auto 42px;
+  margin: 0 auto clamp(36px, 5vw, 56px);
 }
 
 .albumHeader h2 {
@@ -366,6 +309,8 @@
   aspect-ratio: 16 / 9;
 }
 
+/* ───────────────────────── Lightbox ───────────────────────── */
+
 .lightbox {
   position: fixed;
   z-index: 80;
@@ -395,7 +340,7 @@
   background: rgba(16, 17, 19, 0.72);
   color: var(--text);
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .closeButton {
@@ -429,16 +374,40 @@
   left: 50%;
   color: var(--stone);
   font-size: 0.84rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.14em;
   transform: translateX(-50%);
 }
 
-@media (max-width: 1020px) {
-  .nav {
-    display: none;
-  }
+/* ───────────────────────── Reveal Animations ───────────────────────── */
 
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 900ms var(--ease-expo),
+    transform 900ms var(--ease-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ───────────────────────── Responsive ───────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .projectImage img,
+  .albumTile img,
+  .projectCardOverlay,
+  .backLink {
+    transition: none;
+  }
+}
+
+@media (max-width: 1020px) {
   .projectGrid,
   .albumGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -446,22 +415,6 @@
 }
 
 @media (max-width: 680px) {
-  .header {
-    align-items: flex-start;
-    padding-block: 14px;
-  }
-
-  .logo {
-    font-size: 1.45rem;
-  }
-
-  .headerCta {
-    max-width: 140px;
-    min-height: 42px;
-    padding: 10px 12px;
-    font-size: 0.62rem;
-  }
-
   .hero h1,
   .detailIntro h1 {
     font-size: clamp(2.08rem, 10vw, 3rem);
@@ -471,6 +424,10 @@
   .albumGrid,
   .projectFacts {
     grid-template-columns: 1fr;
+  }
+
+  .cardWide {
+    grid-column: span 1;
   }
 
   .albumTile:nth-child(1),

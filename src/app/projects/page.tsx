@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { projects } from "@/data/projects";
+import Header from "@/components/Header/Header";
 import styles from "./projects.module.css";
 
 const batchSize = 6;
@@ -40,6 +41,43 @@ export default function ProjectsPage() {
     return () => observer.disconnect();
   }, []);
 
+  // Reveal-on-scroll with stagger
+  useEffect(() => {
+    const revealElements = document.querySelectorAll<HTMLElement>(
+      `.${styles.reveal}`,
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const parentMap = new Map<Element | null, HTMLElement[]>();
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const parent = entry.target.parentElement;
+            if (!parentMap.has(parent)) {
+              parentMap.set(parent, []);
+            }
+            parentMap.get(parent)!.push(entry.target as HTMLElement);
+          }
+        });
+
+        parentMap.forEach((elements) => {
+          elements.forEach((el, index) => {
+            el.style.setProperty("--reveal-delay", `${index * 80}ms`);
+            requestAnimationFrame(() => {
+              el.classList.add(styles.visible);
+            });
+          });
+        });
+      },
+      { threshold: 0.08 },
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, [visibleCount]);
+
   const getCardStyle = (index: number) => {
     const layoutPatterns = [
       styles.cardWide,
@@ -56,7 +94,7 @@ export default function ProjectsPage() {
 
   return (
     <div className={styles.page}>
-      <SiteHeader />
+      <Header activePath="/projects" />
 
       <main>
         <section className={styles.hero}>
@@ -72,7 +110,7 @@ export default function ProjectsPage() {
           <div className={styles.projectGrid}>
             {visibleProjects.map((project, index) => (
               <Link
-                className={[styles.projectCard, getCardStyle(index)].join(" ")}
+                className={[styles.projectCard, getCardStyle(index), styles.reveal].join(" ")}
                 href={`/projects/${project.slug}`}
                 key={project.slug}
                 prefetch={index < 6}
@@ -101,34 +139,5 @@ export default function ProjectsPage() {
         </section>
       </main>
     </div>
-  );
-}
-
-function SiteHeader() {
-  return (
-    <header className={styles.header}>
-      <Link className={styles.logo} href="/" aria-label="Maxxim Ltd. home">
-        <Image
-          alt=""
-          className={styles.logoMark}
-          height={40}
-          priority
-          src="/logo.png"
-          width={40}
-        />
-        <span>Maxxim Ltd.</span>
-      </Link>
-      <nav className={styles.nav} aria-label="Primary navigation">
-        <Link href="/">Home</Link>
-        <Link className={styles.activeNav} href="/projects">
-          Projects
-        </Link>
-        <Link href="/#about">About</Link>
-        <Link href="/#contact">Contact</Link>
-      </nav>
-      <Link className={styles.headerCta} href="/#contact">
-        Request consultation
-      </Link>
-    </header>
   );
 }

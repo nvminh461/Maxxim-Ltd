@@ -13,6 +13,7 @@ import {
   useMemo,
 } from "react";
 import { projects } from "@/data/projects";
+import Header from "@/components/Header/Header";
 import styles from "./page.module.css";
 
 type HeroSlide =
@@ -430,13 +431,13 @@ function ConceptBuildSlider() {
 
   return (
     <section className={styles.sliderSection}>
-      <div className={[styles.sectionIntro, styles.reveal, styles.visible].join(" ")}>
+      <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
         <p className={styles.eyebrow}>Concept to execution</p>
         <h2>Vision vs Reality</h2>
         <p>Drag the slider to transition between our structural layout blueprint and the completed luxury build.</p>
       </div>
       <div
-        className={[styles.sliderContainer, styles.reveal, styles.visible].join(" ")}
+        className={[styles.sliderContainer, styles.reveal].join(" ")}
         onMouseDown={handleStartDrag}
         onMouseLeave={handleStopDrag}
         onMouseMove={handleMouseMove}
@@ -489,7 +490,6 @@ function ConceptBuildSlider() {
 
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [scrolled, setScrolled] = useState(false);
   const [galleryPreview, setGalleryPreview] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -507,15 +507,7 @@ export default function Home() {
     return projects.filter((p) => p.category === activeCategory).slice(0, 8);
   }, [activeCategory]);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 48);
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+  // Reveal-on-scroll with stagger
   useEffect(() => {
     const revealElements = document.querySelectorAll<HTMLElement>(
       `.${styles.reveal}`,
@@ -523,13 +515,30 @@ export default function Home() {
 
     const observer = new IntersectionObserver(
       (entries) => {
+        // Group by their parent to calculate stagger within the same container
+        const parentMap = new Map<Element | null, HTMLElement[]>();
+
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible);
+            const parent = entry.target.parentElement;
+            if (!parentMap.has(parent)) {
+              parentMap.set(parent, []);
+            }
+            parentMap.get(parent)!.push(entry.target as HTMLElement);
           }
         });
+
+        parentMap.forEach((elements) => {
+          elements.forEach((el, index) => {
+            el.style.setProperty("--reveal-delay", `${index * 80}ms`);
+            // Small delay to let the CSS variable take effect
+            requestAnimationFrame(() => {
+              el.classList.add(styles.visible);
+            });
+          });
+        });
       },
-      { threshold: 0.12 },
+      { threshold: 0.08 },
     );
 
     revealElements.forEach((element) => observer.observe(element));
@@ -573,7 +582,7 @@ export default function Home() {
 
     const timer = window.setTimeout(() => {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
-    }, 5200);
+    }, 6000);
 
     return () => window.clearTimeout(timer);
   }, [activeSlide]);
@@ -646,30 +655,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <header className={[styles.header, scrolled ? styles.headerScrolled : ""].join(" ")}>
-        <a className={styles.logo} href="#home" aria-label="Maxxim Ltd. home">
-          <Image
-            alt=""
-            className={styles.logoMark}
-            height={40}
-            priority
-            src="/logo.png"
-            width={40}
-          />
-          <span>Maxxim Ltd.</span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a className={styles.navActive} href="#home">
-            Homeaa
-          </a>
-          <Link href="/projects">Projects</Link>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a className={styles.headerCta} href="#contact">
-          Request consultation
-        </a>
-      </header>
+      <Header activePath="/" />
 
       <main>
         <section className={styles.hero} id="home">
@@ -737,9 +723,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Revamped About Section - Principles Collage */}
+        {/* About Section - Principles Collage */}
         <section className={styles.aboutSection} id="about">
-          <div className={[styles.sectionIntro, styles.reveal, styles.visible].join(" ")}>
+          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
             <p className={styles.eyebrow}>Our philosophy</p>
             <h2>CREATIVE DESIGN & RESOLUTE CRAFT</h2>
             <p>
@@ -771,7 +757,7 @@ export default function Home() {
 
         {/* Selected Projects with Category Filter & Asymmetrical Layout */}
         <section className={styles.projectsSection} id="projects">
-          <div className={[styles.sectionIntro, styles.reveal, styles.visible].join(" ")}>
+          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
             <p className={styles.eyebrow}>Selected works</p>
             <h2>FEATURED PROJECTS</h2>
             <p>A curated view of our completed architectural works and custom spaces.</p>
@@ -801,7 +787,6 @@ export default function Home() {
                   styles.projectCard,
                   getCardStyle(index),
                   styles.reveal,
-                  styles.visible,
                 ].join(" ")}
                 href={`/projects/${project.slug}`}
                 key={project.slug}
@@ -826,7 +811,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className={[styles.centerAction, styles.reveal, styles.visible].join(" ")}>
+          <div className={[styles.centerAction, styles.reveal].join(" ")}>
             <Link className={styles.primaryButton} href="/projects">
               View all projects
             </Link>
@@ -849,7 +834,7 @@ export default function Home() {
                     alt="Completed Client Home"
                     className={styles.testimonialBgImage}
                     fill
-                    sizes="50vw"
+                    sizes="60vw"
                     src={imgSrc}
                   />
                 </div>
@@ -916,7 +901,7 @@ export default function Home() {
                   alt={image.alt}
                   draggable={false}
                   fill
-                  sizes="520px"
+                  sizes="560px"
                   src={image.src}
                 />
               </button>
@@ -969,7 +954,7 @@ export default function Home() {
         </section>
 
         <section className={styles.contactSection} id="contact">
-          <div className={[styles.contactPanel, styles.reveal, styles.visible].join(" ")}>
+          <div className={[styles.contactPanel, styles.reveal].join(" ")}>
             <div className={styles.sectionIntro}>
               <p className={styles.eyebrow}>Start a project</p>
               <h2>Book A Consultation</h2>

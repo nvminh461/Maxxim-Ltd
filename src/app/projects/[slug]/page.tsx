@@ -7,6 +7,7 @@ import {
   projects,
   type ProjectRecord,
 } from "@/data/projects";
+import Header from "@/components/Header/Header";
 import ProjectAlbum from "./project-album";
 import styles from "../projects.module.css";
 
@@ -50,42 +51,13 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
   return (
     <div className={styles.page}>
-      <SiteHeader />
+      <Header activePath="/projects" />
 
       <main>
         <ProjectHero project={project} />
         <ProjectAlbum images={project.album} title={project.title} />
       </main>
     </div>
-  );
-}
-
-function SiteHeader() {
-  return (
-    <header className={styles.header}>
-      <Link className={styles.logo} href="/" aria-label="Maxxim Ltd. home">
-        <Image
-          alt=""
-          className={styles.logoMark}
-          height={40}
-          priority
-          src="/logo.png"
-          width={40}
-        />
-        <span>Maxxim Ltd.</span>
-      </Link>
-      <nav className={styles.nav} aria-label="Primary navigation">
-        <Link href="/">Home</Link>
-        <Link className={styles.activeNav} href="/projects">
-          Projects
-        </Link>
-        <Link href="/#about">About</Link>
-        <Link href="/#contact">Contact</Link>
-      </nav>
-      <Link className={styles.headerCta} href="/#contact">
-        Request consultation
-      </Link>
-    </header>
   );
 }
 
