@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  getProjectBySlug,
-  projects,
-  type ProjectRecord,
-} from "@/data/projects";
 import Header from "@/components/Header/Header";
+import { getProjectBySlugFromCms } from "@/lib/cms-data";
+import type { ProjectValue } from "@/lib/cms-types";
 import ProjectAlbum from "./project-album";
 import styles from "../projects.module.css";
 
@@ -17,17 +14,13 @@ type ProjectPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlugFromCms(slug);
 
   if (!project) {
     return {
@@ -43,7 +36,7 @@ export async function generateMetadata({
 
 export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlugFromCms(slug);
 
   if (!project) {
     notFound();
@@ -55,22 +48,22 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
       <main>
         <ProjectHero project={project} />
-        <ProjectAlbum images={project.album} title={project.title} />
+        <ProjectAlbum images={project.media.slice(1)} title={project.title} />
       </main>
     </div>
   );
 }
 
-function ProjectHero({ project }: { project: ProjectRecord }) {
+function ProjectHero({ project }: { project: ProjectValue }) {
   return (
     <section className={styles.detailHero}>
       <div className={styles.detailImage}>
         <Image
-          alt={project.alt}
+          alt={project.media[0]?.alt || project.title}
           fill
           priority
           sizes="100vw"
-          src={project.cover}
+          src={project.media[0]?.url || ""}
         />
       </div>
       <div className={styles.detailOverlay} />

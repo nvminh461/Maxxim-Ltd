@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import type { AlbumImage } from "@/data/projects";
+import type { ProjectMedia } from "@/lib/cms-types";
 import styles from "../projects.module.css";
 
 export default function ProjectAlbum({
   images,
   title,
 }: {
-  images: AlbumImage[];
+  images: ProjectMedia[];
   title: string;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -35,7 +35,7 @@ export default function ProjectAlbum({
 
     preloadTargets.forEach((image) => {
       const preloadImage = new window.Image();
-      preloadImage.src = image.src;
+      preloadImage.src = image.url;
     });
   }, [activeIndex, images, nextIndex, previousIndex]);
 
@@ -78,7 +78,7 @@ export default function ProjectAlbum({
         {images.map((image, index) => (
           <button
             className={styles.albumTile}
-            key={`${image.src}-${index}`}
+            key={`${image.url}-${index}`}
             onClick={() => setActiveIndex(index)}
             type="button"
           >
@@ -87,7 +87,7 @@ export default function ProjectAlbum({
               fill
               priority={index < 2}
               sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
-              src={image.src}
+              src={image.url}
             />
           </button>
         ))}
@@ -122,7 +122,7 @@ export default function ProjectAlbum({
               fill
               priority
               sizes="100vw"
-              src={activeImage.src}
+              src={activeImage.url}
             />
           </div>
           <button

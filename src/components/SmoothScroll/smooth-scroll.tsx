@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export default function SmoothScroll({
@@ -9,8 +10,24 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
 
   useEffect(() => {
+    if (isAdmin) {
+      lenisRef.current?.destroy();
+      lenisRef.current = null;
+      document.documentElement.classList.remove(
+        "lenis",
+        "lenis-smooth",
+        "lenis-stopped",
+        "lenis-scrolling",
+      );
+      document.documentElement.removeAttribute("style");
+      document.body.removeAttribute("style");
+      return;
+    }
+
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -27,18 +44,20 @@ export default function SmoothScroll({
 
     lenisRef.current = lenis;
 
+    let frame = 0;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      frame = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    frame = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(frame);
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, []);
+  }, [isAdmin]);
 
   return <>{children}</>;
 }

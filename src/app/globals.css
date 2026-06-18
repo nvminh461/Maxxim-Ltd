@@ -21,6 +21,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body:has(.admin-root) {
+  overflow: visible;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
