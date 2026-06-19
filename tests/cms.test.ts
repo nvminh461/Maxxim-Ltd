@@ -6,7 +6,7 @@ import { slugify } from "../src/lib/utils";
 import { contactSchema, propertySchema } from "../src/lib/validation";
 
 test("slugify tạo slug ổn định từ nội dung có dấu", () => {
-  assert.equal(slugify("Biệt thự Ánh Sáng 2026!"), "biet-thu-anh-sang-2026");
+  assert.equal(slugify("Căn hộ Kensington 2026!"), "can-ho-kensington-2026");
 });
 
 test("contactSchema validate dữ liệu form liên hệ", () => {
@@ -14,7 +14,7 @@ test("contactSchema validate dữ liệu form liên hệ", () => {
     fullName: "Alex Nguyen",
     phone: "0900 000 000",
     email: "alex@example.com",
-    projectBrief: "I want to discuss a new villa project.",
+    projectBrief: "I want to discuss renting out spare bedrooms in London.",
   });
   assert.equal(valid.email, "alex@example.com");
 

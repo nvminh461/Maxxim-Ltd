@@ -281,6 +281,12 @@ const testimonialImages = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAUidleh_dFwRrJHuI0aJqBBi1jLZ7yPLwUU2bQlt4iYd64G9Cg7Tfz9eYKR7jS1SQdXEEd10kyvhBR_jP8MDZbzvY4cQ9t_lMBUtjRQTrXYAk8uzl26JctEO2ysIgK-OFtE6q9jUxWdXCaWY-5TQ9AqYp3-XdQRFh9M_D6r1jWlK2aUg1BGlmMqHXZwCaUbnmv7ZRN_KK0YyxWCErKNw6on49ZK6TNMYW7k0zxGSAxkD-bdJ6fSqh3NwsW6Ma8c0xLK-Htcs-xy5I5",
 ];
 
+const servicePillarImages = [
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuAUidleh_dFwRrJHuI0aJqBBi1jLZ7yPLwUU2bQlt4iYd64G9Cg7Tfz9eYKR7jS1SQdXEEd10kyvhBR_jP8MDZbzvY4cQ9t_lMBUtjRQTrXYAk8uzl26JctEO2ysIgK-OFtE6q9jUxWdXCaWY-5TQ9AqYp3-XdQRFh9M_D6r1jWlK2aUg1BGlmMqHXZwCaUbnmv7ZRN_KK0YyxWCErKNw6on49ZK6TNMYW7k0zxGSAxkD-bdJ6fSqh3NwsW6Ma8c0xLK-Htcs-xy5I5", // lobby
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBettvba4fBk2qTnDxh2fdq7jGVz9wMGbPsJ8nUnRyXAWK5bchxC8qm7NPl8W8y9geS-aYuCaQjS3-yqRlun-GJPT9AZczvp8dydW8pl7_wEOdYOk6gid_aIyypJxAxmMQOOc6VOP9zpCYl_WODzU8IjbQJltL8lzFIfqbrn_UvxjKavwZKENXg_zFk7LRKBMa46umW7wPJGdwLIwAUOwqUQZqt-n1a8-zuG_Z923rXu63NhS8AijuhIzLebXeiGWp732-m9cjhSa8O", // kitchen
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuAx-liMlFDg9CxSrlk8bBaSEKQnivcTyyFvvdmR2rLaZPdbApqZznstyGT-q4B3M7Xkcjo38NXQtCV-I5bI72hJoTxYnhvaHX0tiuiSMCjxR0t3RV0ahMnasslTkuvYcDacLdF8JBqfuPTSSH0LzBha4ePBlgRWzc5FHUkikKL740vjd5gJTJ0U5SS6VQ7RGPNSszazzi0t3sbvPiyrjLyGRwjp7boTifJR7bxAhu_wGu-Uirkax1hJQP0NffmxzisRr5WHARCDgrQm"  // studio
+];
+
 function ConceptBuildSlider() {
   const [position, setPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -381,6 +387,114 @@ function ConceptBuildSlider() {
             <span className={styles.sliderArrow}>&#8592;</span>
             <span className={styles.sliderArrow}>&#8594;</span>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AirbnbCalculator() {
+  const [city, setCity] = useState("London");
+  const [rooms, setRooms] = useState(2);
+
+  const cityRates: Record<string, number> = {
+    London: 145,
+    Manchester: 95,
+    Birmingham: 80,
+    Edinburgh: 105,
+    Bristol: 90,
+  };
+
+  const rate = cityRates[city] || 100;
+  const occupancy = 0.75;
+  const monthlyEst = Math.round(rate * rooms * 30 * occupancy);
+  const yearlyEst = monthlyEst * 12;
+
+  return (
+    <section className={styles.calculatorSection} id="yield-calculator">
+      <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+        <p className={styles.eyebrow}>Monetise Spare Rooms</p>
+        <h2>AIRBNB YIELD ESTIMATOR</h2>
+        <p>
+          Students or parents: if you have spare rooms in your UK property, turn them into passive income.
+          Maxxim sets up and fully manages your Airbnb listings on the ground.
+        </p>
+      </div>
+
+      <div className={[styles.calcGrid, styles.reveal].join(" ")}>
+        <div className={styles.calcCard}>
+          <div className={styles.calcInputs}>
+            <label className={styles.calcLabel}>
+              <span>Select UK City</span>
+              <select
+                className={styles.calcSelect}
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              >
+                <option value="London">London</option>
+                <option value="Manchester">Manchester</option>
+                <option value="Birmingham">Birmingham</option>
+                <option value="Edinburgh">Edinburgh</option>
+                <option value="Bristol">Bristol</option>
+              </select>
+            </label>
+
+            <label className={styles.calcLabel}>
+              <span>Number of Spare Rooms</span>
+              <div className={styles.roomButtons}>
+                {[1, 2, 3].map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    className={`${styles.roomBtn} ${rooms === num ? styles.roomBtnActive : ""}`}
+                    onClick={() => setRooms(num)}
+                  >
+                    {num} {num === 1 ? "Room" : "Rooms"}
+                  </button>
+                ))}
+              </div>
+            </label>
+          </div>
+
+          <div className={styles.calcResults}>
+            <div className={styles.resultItem}>
+              <span className={styles.resultLabel}>Est. Monthly Earnings</span>
+              <span className={styles.resultValue}>£{monthlyEst.toLocaleString("en-GB")}</span>
+            </div>
+            <div className={styles.resultDivider} />
+            <div className={styles.resultItem}>
+              <span className={styles.resultLabel}>Est. Yearly Yield</span>
+              <span className={styles.resultValueSecondary}>£{yearlyEst.toLocaleString("en-GB")} / year</span>
+            </div>
+            <p className={styles.calcDisclaimer}>
+              *Based on a conservative 75% average occupancy rate. Actual results may vary depending on local university semesters.
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.calcDetails}>
+          <h3 className={styles.calcDetailsTitle}>How Maxxim Makes It Easy</h3>
+          <p className={styles.calcDetailsIntro}>
+            Your child focuses on studying, while we turn empty rooms into rental revenue.
+            We handle 100% of the daily operations locally in the UK:
+          </p>
+          <ul className={styles.calcChecklist}>
+            <li>
+              <strong>Design & Refurbishment:</strong> We style and furnish the spare rooms to attract high-paying short-term guests.
+            </li>
+            <li>
+              <strong>Airbnb Listing & Marketing:</strong> Professional photography and optimization to keep bookings high.
+            </li>
+            <li>
+              <strong>24/7 Guest Operations:</strong> We manage check-ins, guest inquiries, key handovers, and security vetting.
+            </li>
+            <li>
+              <strong>Professional Housekeeping:</strong> Regular cleaning and laundry between guest stays, keeping your property pristine.
+            </li>
+          </ul>
+          <a href="#contact" className={styles.calcCta}>
+            Get a Free Airbnb Strategy Plan &rarr;
+          </a>
         </div>
       </div>
     </section>
@@ -575,6 +689,10 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
     const form = event.currentTarget;
     const data = new FormData(form);
 
+    const enquiryType = data.get("enquiryType") as string;
+    const brief = data.get("projectBrief") as string;
+    const combinedBrief = `[Enquiry: ${enquiryType}] ${brief}`;
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -583,7 +701,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
           fullName: data.get("fullName"),
           phone: data.get("phone"),
           email: data.get("email"),
-          projectBrief: data.get("projectBrief"),
+          projectBrief: combinedBrief,
         }),
       });
       const result = (await response.json()) as { message?: string; error?: string };
@@ -713,8 +831,11 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
             </p>
           </div>
           <div className={styles.aboutGrid}>
-            {servicesContent.map((service) => (
+            {servicesContent.map((service, index) => (
               <Link className={styles.aboutPillar} href={service.href} key={service.num}>
+                <div className={styles.pillarBg}>
+                  <Image alt={service.title} fill sizes="33vw" src={servicePillarImages[index]} />
+                </div>
                 <div className={styles.pillarOverlay} />
                 <div className={styles.pillarContent}>
                   <span className={styles.pillarNum}>{service.num}</span>
@@ -729,6 +850,43 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
             <Link className={styles.primaryButton} href="/services">
               Learn about our services
             </Link>
+          </div>
+        </section>
+
+        {/* Airbnb Yield Calculator */}
+        <AirbnbCalculator />
+
+        {/* Peace of Mind Section */}
+        <section className={styles.trustSection}>
+          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+            <p className={styles.eyebrow}>Peace of Mind</p>
+            <h2>BUYING FROM ABROAD SECURELY</h2>
+            <p>
+              We understand the anxiety of investing in an unfamiliar market.
+              Maxxim operates with strict compliance and transparency protocols to safeguard your assets.
+            </p>
+          </div>
+          <div className={styles.trustGrid}>
+            <div className={styles.trustItem}>
+              <div className={styles.trustIcon}>🛡️</div>
+              <h3>100% Local Representation</h3>
+              <p>We act as your local representatives in the UK, supervising building projects and coordinating lawyers.</p>
+            </div>
+            <div className={styles.trustItem}>
+              <div className={styles.trustIcon}>📑</div>
+              <h3>Plain Language Contracts</h3>
+              <p>Clear, straightforward English agreements with upfront fees. No hidden markups or commission loops.</p>
+            </div>
+            <div className={styles.trustItem}>
+              <div className={styles.trustIcon}>📸</div>
+              <h3>Real-Time Progress Portal</h3>
+              <p>Weekly photo/video status updates of all renovations directly to your WhatsApp or email.</p>
+            </div>
+            <div className={styles.trustItem}>
+              <div className={styles.trustIcon}>🎓</div>
+              <h3>Compliance Certified</h3>
+              <p>All listings meet UK rental compliance, fire safety rules, and local council student letting licenses.</p>
+            </div>
           </div>
         </section>
 
@@ -780,13 +938,21 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                     src={property.media[0]?.url || ""}
                   />
                   <div className={styles.projectCardOverlay} />
+                  <span className={styles.propertyBadge}>
+                    {listingTypeLabel(property.listingType)}
+                  </span>
                 </div>
                 <div className={styles.projectCardText}>
                   <p className={styles.projectCardMeta}>
-                    {property.city.toUpperCase()} / {listingTypeLabel(property.listingType)}
+                    {property.city.toUpperCase()}
                   </p>
                   <h3 className={styles.projectCardTitle}>{property.title}</h3>
-                  <p className={styles.projectCardMeta}>
+                  {property.university ? (
+                    <p className={styles.projectCardUni}>
+                      🎓 Near {property.university}
+                    </p>
+                  ) : null}
+                  <p className={styles.projectCardMeta} style={{ marginTop: "6px" }}>
                     {formatPrice(property.price, property.listingType)} · {property.bedrooms} bed
                   </p>
                 </div>
@@ -956,10 +1122,21 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                   <input name="phone" placeholder="0900 000 000" required type="tel" />
                 </label>
               </div>
-              <label>
-                <span>Email</span>
-                <input name="email" placeholder="example@gmail.com" required type="email" />
-              </label>
+              <div className={styles.formGrid}>
+                <label>
+                  <span>Email</span>
+                  <input name="email" placeholder="example@gmail.com" required type="email" />
+                </label>
+                <label>
+                  <span>Enquiry Type</span>
+                  <select name="enquiryType" required className={styles.formSelect}>
+                    <option value="Consultation">UK Property Purchase & Consultation</option>
+                    <option value="Renovation">Property Refurbishment & Renovation</option>
+                    <option value="Airbnb">Airbnb Setup & Spare Room Lettings</option>
+                    <option value="Management">Full Property Management</option>
+                  </select>
+                </label>
+              </div>
               <label>
                 <span>Your enquiry</span>
                 <textarea

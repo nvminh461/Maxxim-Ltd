@@ -251,15 +251,21 @@ export default function PropertiesClient({
                     src={property.media[0]?.url || ""}
                   />
                   <span className={styles.projectCardOverlay} />
+                  <span className={styles.propertyBadge}>
+                    {listingTypeLabel(property.listingType as ListingType)}
+                  </span>
                 </span>
                 <span className={styles.projectMeta}>
-                  {property.city} / {listingTypeLabel(property.listingType as ListingType)} /{" "}
-                  {property.bedrooms} bed
+                  {property.city} · {property.bedrooms} bed · {propertyTypeLabel(property.propertyType as PropertyType)}
                 </span>
                 <span className={styles.projectTitle}>{property.title}</span>
-                <span className={styles.propertyPrice}>
-                  {formatPrice(property.price, property.listingType as ListingType)} ·{" "}
-                  {propertyTypeLabel(property.propertyType as PropertyType)}
+                {property.university ? (
+                  <span className={styles.projectCardUni} style={{ display: "block", marginTop: "4px" }}>
+                    🎓 Near {property.university}
+                  </span>
+                ) : null}
+                <span className={styles.propertyPrice} style={{ marginTop: "8px", display: "block" }}>
+                  {formatPrice(property.price, property.listingType as ListingType)}
                 </span>
               </Link>
             ))}

@@ -285,7 +285,7 @@ async function main() {
       type: "video" as const,
       source: { kind: "video" as const, source: "local" as const, filePath: "public/banner.mp4" },
       title: "MAXXIM UK PROPERTY SERVICES",
-      subtitle: "BUY · RENOVATE · LET — TRUSTED PARTNER IN THE UK",
+      subtitle: "Bespoke UK Property Solutions for Vietnamese & Middle Eastern Families. Buy, Renovate, and Let with Absolute Trust.",
       alt: "",
       ctaLabel: "View properties",
       link: "/properties",

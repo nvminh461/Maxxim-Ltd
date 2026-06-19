@@ -3,45 +3,45 @@ export const servicesContent = [
     num: "01",
     title: "CONSULTATION",
     subtitle: "Before you buy",
-    desc: "We help overseas families choose the right UK property — near your child's university, within budget, and with clear legal guidance.",
+    desc: "We help parents in Vietnam & the Middle East choose the right UK property — within budget, near their child's university campus, and with clear legal and tax guidance.",
     href: "/services#consultation",
   },
   {
     num: "02",
     title: "RENOVATION",
     subtitle: "After you own",
-    desc: "From refurbishment to interior upgrades, we prepare your property for living or renting — managed on the ground while you are abroad.",
+    desc: "Complete interior upgrades and space optimizations. We transform flats into photogenic, rental-ready spaces and supervise all works locally so you never have to travel.",
     href: "/services#renovation",
   },
   {
     num: "03",
     title: "LETTINGS",
     subtitle: "When you want income",
-    desc: "Long-term lets or short-term Airbnb — we find tenants, handle contracts, and manage day-to-day operations on your behalf.",
+    desc: "Whether renting out the entire property or setting up Airbnb in spare bedrooms, we handle guest screening, cleaning, and day-to-day management for passive income.",
     href: "/services#lettings",
   },
 ] as const;
 
 export const customerJourney = [
   {
-    stage: "Before purchase",
-    audience: "Families in Vietnam or the Middle East researching UK property",
+    stage: "Before Purchase",
+    audience: "Families in VN or the Middle East researching UK properties",
     service: "Consultation",
     detail:
-      "Choose the right area, understand UK buying process, and find properties near your child's university.",
+      "Identify high-value areas near your child's university, understand UK regulations, and secure the property entirely from abroad.",
   },
   {
-    stage: "After purchase",
-    audience: "Owners who need the property ready to live in or rent",
+    stage: "After Purchase",
+    audience: "Owners who want properties ready for living or high-yield renting",
     service: "Renovation",
     detail:
-      "Refurbishment, furnishing, and compliance work — all supervised locally so you do not have to travel.",
+      "Coordinate full refurbishment, furnish rooms to professional student/Airbnb standards, and ensure complete local compliance.",
   },
   {
-    stage: "Generating income",
-    audience: "Students with spare rooms or investors seeking rental yield",
-    service: "Lettings",
+    stage: "Generating Income",
+    audience: "Students with empty spare rooms or investors seeking high yields",
+    service: "Lettings & Airbnb",
     detail:
-      "Long-term student lets or short-term Airbnb — full management including guest screening and maintenance.",
+      "Host on Airbnb to monetise spare bedrooms or lease long-term. We manage check-ins, guest vetting, cleaning, and maintenance on the ground.",
   },
 ] as const;

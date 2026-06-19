@@ -92,9 +92,9 @@
   text-wrap: balance;
 }
 
-.heroText {
+.heroSub {
   max-width: 620px;
-  margin-top: 20px;
+  margin-top: 24px;
   color: rgba(242, 238, 231, 0.9);
   font-size: clamp(1rem, 1.18vw, 1.16rem);
   line-height: 1.72;
@@ -1174,5 +1174,446 @@
     top: auto;
     bottom: 24px;
     transform: none;
+  }
+}
+
+/* ───────────────────────── Premium Enhancements ───────────────────────── */
+
+.calculatorSection {
+  padding: var(--section-pad) var(--side-pad);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-raised) 100%);
+  border-bottom: 1px solid var(--line);
+}
+
+.calcGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(32px, 5vw, 64px);
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.calcCard {
+  background: rgba(23, 23, 24, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(243, 188, 135, 0.12);
+  border-radius: 8px;
+  padding: clamp(24px, 3.5vw, 42px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.calcInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.calcLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calcLabel span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.calcSelect {
+  width: 100%;
+  height: 48px;
+  background: rgba(5, 5, 5, 0.6);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 0 16px;
+  font-size: 0.92rem;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 250ms var(--ease-expo);
+}
+
+.calcSelect:focus {
+  border-color: var(--gold);
+}
+
+.roomButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.roomBtn {
+  height: 46px;
+  background: rgba(5, 5, 5, 0.6);
+  border: 1px solid var(--line);
+  color: var(--stone);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 250ms var(--ease-expo),
+    border-color 250ms var(--ease-expo),
+    color 250ms var(--ease-expo),
+    transform 150ms var(--ease-expo);
+  border-radius: 4px;
+}
+
+.roomBtnActive {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink) !important;
+}
+
+.roomBtn:active {
+  transform: scale(0.96);
+}
+
+.roomBtn:focus-visible {
+  border-color: var(--gold);
+  outline: 2px solid rgba(243, 188, 135, 0.35);
+  outline-offset: 3px;
+}
+
+.calcResults {
+  background: rgba(5, 5, 5, 0.4);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.resultItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.resultLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.resultValue {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  color: var(--gold);
+  line-height: 1;
+  font-weight: 500;
+}
+
+.resultValueSecondary {
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  color: var(--stone);
+  font-weight: 600;
+}
+
+.resultDivider {
+  height: 1px;
+  background: var(--line);
+  margin: 18px 0;
+}
+
+.calcDisclaimer {
+  font-size: 0.68rem;
+  color: rgba(242, 238, 231, 0.5);
+  line-height: 1.5;
+  margin-top: 14px;
+}
+
+.calcDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calcDetailsTitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.calcDetailsIntro {
+  color: var(--stone);
+  line-height: 1.7;
+  font-size: 0.98rem;
+  margin-bottom: 24px;
+}
+
+.calcChecklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.calcChecklist li {
+  position: relative;
+  padding-left: 28px;
+  line-height: 1.6;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.calcChecklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: var(--gold);
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.calcChecklist strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.calcCta {
+  align-self: flex-start;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(243, 188, 135, 0.4);
+  padding-bottom: 6px;
+  transition: all 250ms var(--ease-expo);
+}
+
+.calcCta:hover {
+  color: var(--stone);
+  border-color: var(--gold);
+  padding-left: 6px;
+}
+
+/* ───────────────────────── Trust Section ───────────────────────── */
+
+.trustSection {
+  padding: var(--section-pad) var(--side-pad);
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--line);
+}
+
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.trustItem {
+  background: rgba(25, 25, 26, 0.35);
+  border: 1px solid var(--line);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 300ms var(--ease-expo);
+}
+
+.trustItem:hover {
+  border-color: rgba(243, 188, 135, 0.35);
+}
+
+.trustIcon {
+  font-size: 1.8rem;
+}
+
+.trustItem h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.18rem;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.trustItem p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ───────────────────────── Badges & Tags ───────────────────────── */
+
+.propertyBadge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  z-index: 5;
+  border-radius: 2px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.projectCardUni {
+  color: var(--stone);
+  font-size: 0.8rem;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.formSelect {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  padding: 14px 0;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 250ms var(--ease-expo);
+}
+
+.formSelect:focus {
+  border-color: var(--gold);
+  outline: 0;
+}
+
+/* ───────────────────────── Services Visual alternation ───────────────────────── */
+
+.servicesListSection {
+  padding: 0 0 var(--section-pad) 0;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+}
+
+.serviceRow {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+  padding: 0 var(--side-pad);
+}
+
+.serviceRowReverse {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+
+.serviceRowReverse .serviceVisual {
+  order: 2;
+}
+
+.serviceRowReverse .serviceText {
+  order: 1;
+}
+
+.serviceVisual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+
+.serviceVisual img {
+  object-fit: cover;
+  transition: transform 1200ms var(--ease-expo);
+  filter: brightness(88%);
+}
+
+.serviceRow:hover .serviceVisual img {
+  transform: scale(1.03);
+}
+
+.serviceVisualOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6,7,8,0) 60%, rgba(6,7,8,0.2) 100%);
+  pointer-events: none;
+}
+
+.serviceText {
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceNum {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.serviceSubtitle {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin-bottom: 12px;
+}
+
+.serviceText h2 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  color: var(--gold);
+  font-weight: 500;
+  line-height: 1.05;
+  margin-bottom: 18px;
+}
+
+.serviceDesc {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.72;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 960px) {
+  .calcGrid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .trustGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .serviceRow {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .serviceRowReverse .serviceVisual {
+    order: 0;
+  }
+
+  .serviceRowReverse .serviceText {
+    order: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .trustGrid {
+    grid-template-columns: 1fr;
   }
 }
