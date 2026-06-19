@@ -17,6 +17,15 @@ import type { HomeCmsData } from "@/lib/cms-types";
 import { formatPrice, listingTypeLabel } from "@/lib/format";
 import { servicesContent } from "@/lib/services-content";
 import styles from "./page.module.css";
+import { motion } from "framer-motion";
+import {
+  ScrollReveal,
+  ScrollRevealContainer,
+  ScrollRevealItem,
+  zoomInVariants,
+} from "@/components/ScrollReveal/ScrollReveal";
+
+const MotionLink = motion.create(Link);
 
 type Testimonial = {
   name: string;
@@ -336,13 +345,13 @@ function ConceptBuildSlider() {
 
   return (
     <section className={styles.sliderSection}>
-      <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+      <ScrollReveal className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Renovation showcase</p>
         <h2>Before vs After</h2>
         <p>Drag the slider to see how we transform properties — from dated interiors to rental-ready spaces.</p>
-      </div>
-      <div
-        className={[styles.sliderContainer, styles.reveal].join(" ")}
+      </ScrollReveal>
+      <ScrollReveal
+        className={styles.sliderContainer}
         onMouseDown={handleStartDrag}
         onMouseLeave={handleStopDrag}
         onMouseMove={handleMouseMove}
@@ -388,7 +397,7 @@ function ConceptBuildSlider() {
             <span className={styles.sliderArrow}>&#8594;</span>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }
@@ -412,17 +421,17 @@ function AirbnbCalculator() {
 
   return (
     <section className={styles.calculatorSection} id="yield-calculator">
-      <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+      <ScrollReveal className={styles.sectionIntro}>
         <p className={styles.eyebrow}>Monetise Spare Rooms</p>
         <h2>AIRBNB YIELD ESTIMATOR</h2>
         <p>
           Students or parents: if you have spare rooms in your UK property, turn them into passive income.
           Maxxim sets up and fully manages your Airbnb listings on the ground.
         </p>
-      </div>
+      </ScrollReveal>
 
-      <div className={[styles.calcGrid, styles.reveal].join(" ")}>
-        <div className={styles.calcCard}>
+      <ScrollRevealContainer className={styles.calcGrid} staggerDelay={0.15}>
+        <ScrollRevealItem className={styles.calcCard}>
           <div className={styles.calcInputs}>
             <label className={styles.calcLabel}>
               <span>Select UK City</span>
@@ -470,9 +479,9 @@ function AirbnbCalculator() {
               *Based on a conservative 75% average occupancy rate. Actual results may vary depending on local university semesters.
             </p>
           </div>
-        </div>
+        </ScrollRevealItem>
 
-        <div className={styles.calcDetails}>
+        <ScrollRevealItem className={styles.calcDetails}>
           <h3 className={styles.calcDetailsTitle}>How Maxxim Makes It Easy</h3>
           <p className={styles.calcDetailsIntro}>
             Your child focuses on studying, while we turn empty rooms into rental revenue.
@@ -495,8 +504,8 @@ function AirbnbCalculator() {
           <a href="#contact" className={styles.calcCta}>
             Get a Free Airbnb Strategy Plan &rarr;
           </a>
-        </div>
-      </div>
+        </ScrollRevealItem>
+      </ScrollRevealContainer>
     </section>
   );
 }
@@ -529,44 +538,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
     return properties.filter((p) => p.city === activeCategory).slice(0, 8);
   }, [activeCategory, properties]);
 
-  // Reveal-on-scroll with stagger
-  useEffect(() => {
-    const revealElements = document.querySelectorAll<HTMLElement>(
-      `.${styles.reveal}`,
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Group by their parent to calculate stagger within the same container
-        const parentMap = new Map<Element | null, HTMLElement[]>();
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const parent = entry.target.parentElement;
-            if (!parentMap.has(parent)) {
-              parentMap.set(parent, []);
-            }
-            parentMap.get(parent)!.push(entry.target as HTMLElement);
-          }
-        });
-
-        parentMap.forEach((elements) => {
-          elements.forEach((el, index) => {
-            el.style.setProperty("--reveal-delay", `${index * 80}ms`);
-            // Small delay to let the CSS variable take effect
-            requestAnimationFrame(() => {
-              el.classList.add(styles.visible);
-            });
-          });
-        });
-      },
-      { threshold: 0.08 },
-    );
-
-    revealElements.forEach((element) => observer.observe(element));
-
-    return () => observer.disconnect();
-  }, [activeCategory]);
+  // Legacy IntersectionObserver removed in favor of declarative Framer Motion scroll reveals
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -793,18 +765,18 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
 
         {/* About Section - Principles Collage */}
         <section className={styles.aboutSection} id="about">
-          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+          <ScrollReveal className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Why Maxxim</p>
             <h2>TRUSTED PARTNER FOR OVERSEAS BUYERS</h2>
             <p>
               Buying property in the UK from abroad is a major decision. We provide
               transparent, end-to-end support so you always have someone on the ground.
             </p>
-          </div>
+          </ScrollReveal>
 
-          <div className={styles.aboutGrid}>
+          <ScrollRevealContainer className={styles.aboutGrid} staggerDelay={0.15}>
             {aboutPillars.map((pillar) => (
-              <div className={styles.aboutPillar} key={pillar.num}>
+              <ScrollRevealItem className={styles.aboutPillar} key={pillar.num}>
                 <div className={styles.pillarBg}>
                   <Image alt={pillar.title} fill sizes="33vw" src={pillar.image} />
                 </div>
@@ -815,24 +787,29 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                   <span className={styles.pillarSubtitle}>{pillar.subtitle}</span>
                   <p className={styles.pillarDesc}>{pillar.desc}</p>
                 </div>
-              </div>
+              </ScrollRevealItem>
             ))}
-          </div>
+          </ScrollRevealContainer>
         </section>
 
         {/* Services */}
         <section className={styles.aboutSection} id="services">
-          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+          <ScrollReveal className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Our services</p>
             <h2>FROM SEARCH TO RENTAL INCOME</h2>
             <p>
               Three integrated services that follow your journey — whether you are buying
               for your child&apos;s studies or investing from overseas.
             </p>
-          </div>
-          <div className={styles.aboutGrid}>
+          </ScrollReveal>
+          <ScrollRevealContainer className={styles.aboutGrid} staggerDelay={0.15}>
             {servicesContent.map((service, index) => (
-              <Link className={styles.aboutPillar} href={service.href} key={service.num}>
+              <MotionLink
+                className={styles.aboutPillar}
+                href={service.href}
+                key={service.num}
+                variants={zoomInVariants}
+              >
                 <div className={styles.pillarBg}>
                   <Image alt={service.title} fill sizes="33vw" src={servicePillarImages[index]} />
                 </div>
@@ -843,14 +820,14 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                   <span className={styles.pillarSubtitle}>{service.subtitle}</span>
                   <p className={styles.pillarDesc}>{service.desc}</p>
                 </div>
-              </Link>
+              </MotionLink>
             ))}
-          </div>
-          <div className={[styles.centerAction, styles.reveal].join(" ")}>
+          </ScrollRevealContainer>
+          <ScrollReveal className={styles.centerAction}>
             <Link className={styles.primaryButton} href="/services">
               Learn about our services
             </Link>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* Airbnb Yield Calculator */}
@@ -858,36 +835,32 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
 
         {/* Peace of Mind Section */}
         <section className={styles.trustSection}>
-          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+          <ScrollReveal className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Peace of Mind</p>
             <h2>BUYING FROM ABROAD SECURELY</h2>
             <p>
               We understand the anxiety of investing in an unfamiliar market.
               Maxxim operates with strict compliance and transparency protocols to safeguard your assets.
             </p>
-          </div>
-          <div className={styles.trustGrid}>
-            <div className={styles.trustItem}>
-              <div className={styles.trustIcon}>🛡️</div>
+          </ScrollReveal>
+          <ScrollRevealContainer className={styles.trustGrid} staggerDelay={0.1}>
+            <ScrollRevealItem className={styles.trustItem}>
               <h3>100% Local Representation</h3>
               <p>We act as your local representatives in the UK, supervising building projects and coordinating lawyers.</p>
-            </div>
-            <div className={styles.trustItem}>
-              <div className={styles.trustIcon}>📑</div>
+            </ScrollRevealItem>
+            <ScrollRevealItem className={styles.trustItem}>
               <h3>Plain Language Contracts</h3>
               <p>Clear, straightforward English agreements with upfront fees. No hidden markups or commission loops.</p>
-            </div>
-            <div className={styles.trustItem}>
-              <div className={styles.trustIcon}>📸</div>
+            </ScrollRevealItem>
+            <ScrollRevealItem className={styles.trustItem}>
               <h3>Real-Time Progress Portal</h3>
               <p>Weekly photo/video status updates of all renovations directly to your WhatsApp or email.</p>
-            </div>
-            <div className={styles.trustItem}>
-              <div className={styles.trustIcon}>🎓</div>
+            </ScrollRevealItem>
+            <ScrollRevealItem className={styles.trustItem}>
               <h3>Compliance Certified</h3>
               <p>All listings meet UK rental compliance, fire safety rules, and local council student letting licenses.</p>
-            </div>
-          </div>
+            </ScrollRevealItem>
+          </ScrollRevealContainer>
         </section>
 
         {/* Before/After renovation slider */}
@@ -895,11 +868,11 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
 
         {/* Featured Properties with City Filter */}
         <section className={styles.projectsSection} id="properties">
-          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+          <ScrollReveal className={styles.sectionIntro}>
             <p className={styles.eyebrow}>UK listings</p>
             <h2>FEATURED PROPERTIES</h2>
             <p>Hand-picked properties for sale and rent across the UK, near top universities.</p>
-          </div>
+          </ScrollReveal>
 
           {/* Filter Bar */}
           <div className={styles.filterBar}>
@@ -918,17 +891,22 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
             ))}
           </div>
 
-          <div className={styles.projectGrid}>
+          <ScrollRevealContainer
+            className={styles.projectGrid}
+            staggerDelay={0.08}
+            key={activeCategory}
+          >
             {filteredProperties.map((property, index) => (
-              <Link
+              <MotionLink
                 className={[
                   styles.projectCard,
                   getCardStyle(index),
-                  styles.reveal,
                 ].join(" ")}
                 href={`/properties/${property.slug}`}
                 key={property.slug}
                 prefetch={index < 3}
+                variants={zoomInVariants}
+                layout
               >
                 <div className={styles.projectImage}>
                   <Image
@@ -956,15 +934,15 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                     {formatPrice(property.price, property.listingType)} · {property.bedrooms} bed
                   </p>
                 </div>
-              </Link>
+              </MotionLink>
             ))}
-          </div>
+          </ScrollRevealContainer>
 
-          <div className={[styles.centerAction, styles.reveal].join(" ")}>
+          <ScrollReveal className={styles.centerAction}>
             <Link className={styles.primaryButton} href="/properties">
               View all properties
             </Link>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* Visual testimonial slider */}
@@ -1105,7 +1083,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
         ) : null}
 
         <section className={styles.contactSection} id="contact">
-          <div className={[styles.contactPanel, styles.reveal].join(" ")}>
+          <ScrollReveal className={styles.contactPanel}>
             <div className={styles.sectionIntro}>
               <p className={styles.eyebrow}>Start your journey</p>
               <h2>Book A Consultation</h2>
@@ -1156,7 +1134,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
               </button>
               {contactStatus ? <p aria-live="polite">{contactStatus}</p> : null}
             </form>
-          </div>
+          </ScrollReveal>
         </section>
       </main>
 

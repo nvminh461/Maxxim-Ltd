@@ -5,6 +5,14 @@ import Link from "next/link";
 import Header from "@/components/Header/Header";
 import { customerJourney, servicesContent } from "@/lib/services-content";
 import styles from "../page.module.css";
+import { motion } from "framer-motion";
+import {
+  ScrollReveal,
+  ScrollRevealContainer,
+  ScrollRevealItem,
+  zoomInVariants,
+} from "@/components/ScrollReveal/ScrollReveal";
+
 
 const serviceIds = ["consultation", "renovation", "lettings"] as const;
 
@@ -32,30 +40,33 @@ export default function ServicesClient() {
             margin: "0 auto"
           }}
         >
-          <p className={styles.eyebrow}>Our services</p>
-          <h1
-            className={styles.heroTitle}
-            style={{ fontSize: "clamp(2.55rem, 5.8vw, 5.25rem)" }}
-          >
-            Full UK Property Lifecycle
-          </h1>
-          <p className={styles.heroSub}>
-            Consultation, renovation, and lettings — one trusted partner for overseas
-            buyers and their families studying in the UK.
-          </p>
+          <ScrollReveal>
+            <p className={styles.eyebrow}>Our services</p>
+            <h1
+              className={styles.heroTitle}
+              style={{ fontSize: "clamp(2.55rem, 5.8vw, 5.25rem)" }}
+            >
+              Full UK Property Lifecycle
+            </h1>
+            <p className={styles.heroSub}>
+              Consultation, renovation, and lettings — one trusted partner for overseas
+              buyers and their families studying in the UK.
+            </p>
+          </ScrollReveal>
         </section>
 
-        <section className={styles.servicesListSection}>
+        <ScrollRevealContainer className={styles.servicesListSection} staggerDelay={0.15}>
           {servicesContent.map((service, index) => {
             const isEven = index % 2 === 0;
             return (
-              <article
+              <motion.article
                 className={[
                   styles.serviceRow,
                   isEven ? "" : styles.serviceRowReverse,
                 ].filter(Boolean).join(" ")}
                 id={serviceIds[index]}
                 key={service.num}
+                variants={zoomInVariants}
               >
                 <div className={styles.serviceVisual}>
                   <Image
@@ -75,14 +86,14 @@ export default function ServicesClient() {
                     Inquire about {service.title.toLowerCase()} &rarr;
                   </Link>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
-        </section>
+        </ScrollRevealContainer>
 
         {/* Airbnb for Students Section */}
         <section className={styles.aboutSection} style={{ background: "var(--surface-soft)", borderTop: "1px solid var(--line)" }}>
-          <div className={styles.calcDetails} style={{ maxWidth: "960px", margin: "0 auto" }}>
+          <ScrollReveal className={styles.calcDetails} style={{ maxWidth: "960px", margin: "0 auto" }}>
             <p className={styles.eyebrow} style={{ textAlign: "center" }}>Airbnb for Students</p>
             <h2 style={{ textAlign: "center", fontFamily: "var(--font-display)", color: "var(--gold)", fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}>
               MONETISE YOUR SPARE BEDROOMS
@@ -91,43 +102,40 @@ export default function ServicesClient() {
               Are you a student living in a UK flat with extra rooms? Maxxim helps you convert unused space into monthly revenue.
               We handle the interior styling, local UK licensing, Airbnb management, and 24/7 guest support.
             </p>
-            <div className={styles.trustGrid}>
-              <div className={styles.trustItem}>
-                <div className={styles.trustIcon}>🛋️</div>
+            <ScrollRevealContainer className={styles.trustGrid} staggerDelay={0.15}>
+              <ScrollRevealItem className={styles.trustItem}>
                 <h3>1. Assess & Refurbish</h3>
                 <p>We check your lease compliance, furnish empty rooms to premium photogenic standards, and set up security locks.</p>
-              </div>
-              <div className={styles.trustItem}>
-                <div className={styles.trustIcon}>🛎️</div>
+              </ScrollRevealItem>
+              <ScrollRevealItem className={styles.trustItem}>
                 <h3>2. Setup & Host</h3>
                 <p>We publish optimized listings on Airbnb, screen guests to verify ID, and manage check-ins and handovers.</p>
-              </div>
-              <div className={styles.trustItem}>
-                <div className={styles.trustIcon}>🧹</div>
+              </ScrollRevealItem>
+              <ScrollRevealItem className={styles.trustItem}>
                 <h3>3. Clean & Maintain</h3>
                 <p>Professional housekeeping cleans rooms and provides fresh linens after every guest. Zero effort for you.</p>
-              </div>
-            </div>
+              </ScrollRevealItem>
+            </ScrollRevealContainer>
             <div className={styles.centerAction} style={{ marginTop: "40px" }}>
               <Link className={styles.primaryButton} href="/#yield-calculator">
                 Calculate your Airbnb yield
               </Link>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         <section className={styles.aboutSection}>
-          <div className={styles.sectionIntro}>
+          <ScrollReveal className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Customer journey</p>
             <h2>HOW WE WORK WITH YOU</h2>
             <p>
               Whether you are a parent buying near your child&apos;s university or a
               student looking to monetise spare rooms, Maxxim supports every stage.
             </p>
-          </div>
-          <div className={styles.aboutGrid}>
+          </ScrollReveal>
+          <ScrollRevealContainer className={styles.aboutGrid} staggerDelay={0.15}>
             {customerJourney.map((step, index) => (
-              <div className={styles.aboutPillar} key={step.stage}>
+              <ScrollRevealItem className={styles.aboutPillar} key={step.stage}>
                 <div className={styles.pillarBg}>
                   <Image alt={step.stage} fill sizes="33vw" src={serviceImages[index]} />
                 </div>
@@ -138,14 +146,14 @@ export default function ServicesClient() {
                   <span className={styles.pillarSubtitle}>{step.audience}</span>
                   <p className={styles.pillarDesc}>{step.detail}</p>
                 </div>
-              </div>
+              </ScrollRevealItem>
             ))}
-          </div>
-          <div className={styles.centerAction}>
+          </ScrollRevealContainer>
+          <ScrollReveal className={styles.centerAction}>
             <Link className={styles.primaryButton} href="/#contact">
               Get in touch
             </Link>
-          </div>
+          </ScrollReveal>
         </section>
       </main>
     </div>

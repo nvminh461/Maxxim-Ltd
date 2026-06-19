@@ -7,6 +7,14 @@ import Header from "@/components/Header/Header";
 import type { ListingType, PropertyType, PropertyValue } from "@/lib/cms-types";
 import { formatPrice, listingTypeLabel, propertyTypeLabel } from "@/lib/format";
 import styles from "./properties.module.css";
+import { motion } from "framer-motion";
+import {
+  ScrollReveal,
+  ScrollRevealContainer,
+  zoomInVariants,
+} from "@/components/ScrollReveal/ScrollReveal";
+
+const MotionLink = motion.create(Link);
 
 const batchSize = 6;
 
@@ -68,9 +76,6 @@ export default function PropertiesClient({
   );
   const hasMore = visibleCount < filteredProperties.length;
 
-  useEffect(() => {
-    setVisibleCount(batchSize);
-  }, [filters]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -91,30 +96,7 @@ export default function PropertiesClient({
     return () => observer.disconnect();
   }, [filteredProperties.length]);
 
-  useEffect(() => {
-    const revealElements = document.querySelectorAll<HTMLElement>(`.${styles.reveal}`);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const parentMap = new Map<Element | null, HTMLElement[]>();
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const parent = entry.target.parentElement;
-            if (!parentMap.has(parent)) parentMap.set(parent, []);
-            parentMap.get(parent)!.push(entry.target as HTMLElement);
-          }
-        });
-        parentMap.forEach((elements) => {
-          elements.forEach((el, index) => {
-            el.style.setProperty("--reveal-delay", `${index * 80}ms`);
-            requestAnimationFrame(() => el.classList.add(styles.visible));
-          });
-        });
-      },
-      { threshold: 0.08 },
-    );
-    revealElements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, [visibleCount, filteredProperties.length]);
+  // Legacy IntersectionObserver removed in favor of Framer Motion scroll reveals
 
   const getCardStyle = (index: number) => {
     const layoutPatterns = [
@@ -132,6 +114,7 @@ export default function PropertiesClient({
 
   const updateFilter = (key: keyof Filters, value: string) => {
     setFilters((current) => ({ ...current, [key]: value }));
+    setVisibleCount(batchSize);
   };
 
   return (
@@ -140,16 +123,18 @@ export default function PropertiesClient({
 
       <main>
         <section className={styles.hero}>
-          <p className={styles.eyebrow}>UK Property Listings</p>
-          <h1>Find Your Property</h1>
-          <p>
-            Browse properties across the UK — for sale, long-term lets, and short-term
-            Airbnb opportunities near leading universities.
-          </p>
+          <ScrollReveal>
+            <p className={styles.eyebrow}>UK Property Listings</p>
+            <h1>Find Your Property</h1>
+            <p>
+              Browse properties across the UK — for sale, long-term lets, and short-term
+              Airbnb opportunities near leading universities.
+            </p>
+          </ScrollReveal>
         </section>
 
         <section className={styles.filtersSection} aria-label="Property filters">
-          <div className={styles.filtersGrid}>
+          <ScrollReveal className={styles.filtersGrid}>
             <label>
               City
               <select
@@ -230,17 +215,23 @@ export default function PropertiesClient({
                 value={filters.university}
               />
             </label>
-          </div>
+          </ScrollReveal>
         </section>
 
         <section className={styles.gridSection} aria-label="Property list">
-          <div className={styles.projectGrid}>
+          <ScrollRevealContainer
+            className={styles.projectGrid}
+            staggerDelay={0.08}
+            key={`${filters.city}-${filters.listingType}-${filters.propertyType}-${filters.bedrooms}-${filters.minPrice}-${filters.maxPrice}-${filters.university}-${visibleCount}`}
+          >
             {visibleProperties.map((property, index) => (
-              <Link
-                className={[styles.projectCard, getCardStyle(index), styles.reveal].join(" ")}
+              <MotionLink
+                className={[styles.projectCard, getCardStyle(index)].join(" ")}
                 href={`/properties/${property.slug}`}
                 key={property.slug}
                 prefetch={index < 6}
+                variants={zoomInVariants}
+                layout
               >
                 <span className={styles.projectImage}>
                   <Image
@@ -261,15 +252,15 @@ export default function PropertiesClient({
                 <span className={styles.projectTitle}>{property.title}</span>
                 {property.university ? (
                   <span className={styles.projectCardUni} style={{ display: "block", marginTop: "4px" }}>
-                    🎓 Near {property.university}
+                    Near {property.university}
                   </span>
                 ) : null}
                 <span className={styles.propertyPrice} style={{ marginTop: "8px", display: "block" }}>
                   {formatPrice(property.price, property.listingType as ListingType)}
                 </span>
-              </Link>
+              </MotionLink>
             ))}
-          </div>
+          </ScrollRevealContainer>
 
           <div className={styles.loadState} ref={sentinelRef}>
             {filteredProperties.length === 0
