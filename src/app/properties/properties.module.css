@@ -454,3 +454,64 @@
     right: 24px;
   }
 }
+
+/* ───────────────────────── Filters ───────────────────────── */
+
+.filtersSection {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 var(--side-pad) 40px;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+.filtersGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.filtersGrid select,
+.filtersGrid input {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 10px 0;
+}
+
+.filtersGrid select:focus,
+.filtersGrid input:focus {
+  border-bottom-color: var(--gold);
+  outline: none;
+}
+
+.propertyPrice {
+  color: var(--gold);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 960px) {
+  .filtersGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+}

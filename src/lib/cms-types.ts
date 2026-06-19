@@ -13,11 +13,14 @@ export type AssetValue = {
   originalName: string;
 };
 
-export type ProjectMedia = {
+export type PropertyMedia = {
   assetId: string;
   url: string;
   alt: string;
 };
+
+export type ListingType = "sale" | "long-term" | "short-term";
+export type PropertyType = "apartment" | "house";
 
 export type CategoryValue = {
   id: string;
@@ -26,20 +29,34 @@ export type CategoryValue = {
   order: number;
 };
 
-export type ProjectValue = {
+export type PropertyValue = {
   id: string;
   slug: string;
   title: string;
-  categoryId: string;
-  category: string;
-  year: string;
-  location: string;
+  cityId: string;
+  city: string;
+  listingType: ListingType;
+  propertyType: PropertyType;
+  price: number;
+  bedrooms: number;
+  bathrooms: number;
   area: string;
-  summary: string;
-  media: ProjectMedia[];
+  university: string;
+  description: string;
+  media: PropertyMedia[];
   featured: boolean;
   featuredOrder: number;
   order: number;
+};
+
+export type PropertyFilters = {
+  cityId?: string;
+  listingType?: ListingType;
+  propertyType?: PropertyType;
+  bedrooms?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  university?: string;
 };
 
 export type BannerValue = {
@@ -86,7 +103,7 @@ export type SiteSettingsValue = {
 
 export type HomeCmsData = {
   banners: BannerValue[];
-  projects: ProjectValue[];
+  properties: PropertyValue[];
   categories: CategoryValue[];
   marquee: MarqueeValue[];
   settings: SiteSettingsValue;

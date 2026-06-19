@@ -14,6 +14,8 @@ import {
 } from "react";
 import Header from "@/components/Header/Header";
 import type { HomeCmsData } from "@/lib/cms-types";
+import { formatPrice, listingTypeLabel } from "@/lib/format";
+import { servicesContent } from "@/lib/services-content";
 import styles from "./page.module.css";
 
 type Testimonial = {
@@ -25,26 +27,26 @@ type Testimonial = {
 
 const testimonials: Testimonial[] = [
   {
-    name: "Daniel Tran",
-    role: "CEO at TechVision",
+    name: "Lan Nguyen",
+    role: "Parent of a UCL student",
     quote:
-      "Maxxim Ltd. won my trust through precision in every detail. The home is not only beautiful, it feels calm, complete, and deeply personal.",
+      "We bought a flat in London without ever visiting the UK. Maxxim guided us through every step — from choosing the area to handling the legal paperwork.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAbxydgXFH0jehjvjpbrOlfv0AF7BzMqEpWWuoQoa7gWSkdijNNZEVODWbNsrwYgDW2ffP5YQguH0QdrTgSDi-9IxVsIFYZZyWLNYhtEEPBVIAsaY9DGdDZ_N_ldFq07WvGNc3gsOZJggWSEgOX1Hg87--zaokjjArH22eW2FRdBdU_Pd-Onvix-se0VapsY83Z_ph42gfmKHJW6KuCeiLzjT8IilYjMvRqa7sJ2ybalGE80hwDIbbub7LQEdOh05A0FIrxHnZAbJTJ",
   },
   {
-    name: "Sophia Nguyen",
-    role: "Fashion designer",
+    name: "Ahmed Al-Rashid",
+    role: "Property investor, Dubai",
     quote:
-      "The interiors feel artistic without becoming impractical. I could sense a real understanding of lifestyle, materials, and atmosphere.",
+      "Maxxim renovated our Manchester apartment and set up Airbnb for the spare rooms. My son uses one bedroom — the other two now generate steady income.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAhOO_XNOpNCCeaTySpdrNNi2bZ_CK1SDdy9bPx5ITQYN4Yf2uBvVmKUl5jr8_eDrn4xKdGgNdihi4KRLW3UqcADN71uauh6CUZVgfpUjyCwMMOChdv3GpMwoEhpSvJeRtPgk01UqCmNoZPUufnp0fWh589eiWgKdn-fD6ikM-IwCA9dZKqTNyBsvLOKKDR5PKkDw_q9uK8IUBaCRj5je1c1izWW125oW_4-S2oecXj82HEaTcsSSWuV6vPjJMVjpxRNeMMxIYW4LtM",
   },
   {
     name: "Michael Pham",
-    role: "Real estate investor",
+    role: "Overseas property owner",
     quote:
-      "The team delivered on schedule and exceeded my expectations for finish quality. They are one of the most professional partners I have worked with.",
+      "Having a trusted team on the ground in the UK changed everything. They manage tenants, maintenance, and rent collection — I never worry about the property.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDNSoee7iOY_0hLmBz7H_nL3mcGiAO3DKu9pikvcWL1IHn8179iPSsRQ8bF_RtM3787hqs0riCqCa9-a_Vuop3zSM0qv5u6wNS9ebTOZxPqIyqBDxTGUsQfvyWzOyhLjlig9AmmD10bMbrhrlol5QwzNMZT7fD49YeXMcgEHQrsTxvOVV0SB3tihDWz1a7OlNMgOLqmO63ZFkfAvkhl6FsKs91ccEsKSGFI2eJQ6jU-Pvh2323XY4uJB6RYdijJOKyE7DlWJl237ebp",
   },
@@ -249,25 +251,25 @@ function DraggableMarquee({
 const aboutPillars = [
   {
     num: "01",
-    title: "ARCHITECTURE",
-    subtitle: "Sleek Monolithic Design",
-    desc: "Bespoke structural forms built with precision alignment, natural materials, and quiet luxury.",
+    title: "TRUST",
+    subtitle: "Your partner on the ground",
+    desc: "We are based in the UK and manage everything locally — so overseas buyers never feel alone in an unfamiliar market.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAx-liMlFDg9CxSrlk8bBaSEKQnivcTyyFvvdmR2rLaZPdbApqZznstyGT-q4B3M7Xkcjo38NXQtCV-I5bI72hJoTxYnhvaHX0tiuiSMCjxR0t3RV0ahMnasslTkuvYcDacLdF8JBqfuPTSSH0LzBha4ePBlgRWzc5FHUkikKL740vjd5gJTJ0U5SS6VQ7RGPNSszazzi0t3sbvPiyrjLyGRwjp7boTifJR7bxAhu_wGu-Uirkax1hJQP0NffmxzisRr5WHARCDgrQm",
   },
   {
     num: "02",
-    title: "INTERIORS",
-    subtitle: "Tactile Atmosphere",
-    desc: "Curated stone slabs, brushed metals, and custom cabinetry tailored to private living.",
+    title: "TRANSPARENCY",
+    subtitle: "Clear process, no surprises",
+    desc: "From property selection to legal completion, every step is explained in plain language — pricing, timelines, and obligations included.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBettvba4fBk2qTnDxh2fdq7jGVz9wMGbPsJ8nUnRyXAWK5bchxC8qm7NPl8W8y9geS-aYuCaQjS3-yqRlun-GJPT9AZczvp8dydW8pl7_wEOdYOk6gid_aIyypJxAxmMQOOc6VOP9zpCYl_WODzU8IjbQJltL8lzFIfqbrn_UvxjKavwZKENXg_zFk7LRKBMa46umW7wPJGdwLIwAUOwqUQZqt-n1a8-zuG_Z923rXu63NhS8AijuhIzLebXeiGWp732-m9cjhSa8O",
   },
   {
     num: "03",
-    title: "CRAFT",
-    subtitle: "Enduring Build Quality",
-    desc: "Meticulous construction detailing, raw textured concrete, and solid timber structures.",
+    title: "END-TO-END",
+    subtitle: "One team, full lifecycle",
+    desc: "Buy, renovate, and let — Maxxim stays with you from the first viewing to monthly rental income, without switching providers.",
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuCpwspu5rRlHFxTs7WFNWzt62c5g_4g4hpjR7RxpRQCAXHpFYOl4ex8C2JQDlRPe70AKXbvZ0AC5VXSLNEj397VvFL0FeRaOLEp7ee0Tvo4mZcfVtQbd8psQ8YwhvYlV0nYD0UPMQ_RII9FeL3ED2JDkzurXqxFY5HzqFPAh8XSfcpVGWhTryheTyhiB3gaaAEBmkYDBuP3e5fWMhnNLVKLPbQGhDNNx0dCa6E2QEVwLLVr9SPzQiPBONbmj1IPqIBQO4iZyij7sJ6m",
   },
@@ -329,9 +331,9 @@ function ConceptBuildSlider() {
   return (
     <section className={styles.sliderSection}>
       <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
-        <p className={styles.eyebrow}>Concept to execution</p>
-        <h2>Vision vs Reality</h2>
-        <p>Drag the slider to transition between our structural layout blueprint and the completed luxury build.</p>
+        <p className={styles.eyebrow}>Renovation showcase</p>
+        <h2>Before vs After</h2>
+        <p>Drag the slider to see how we transform properties — from dated interiors to rental-ready spaces.</p>
       </div>
       <div
         className={[styles.sliderContainer, styles.reveal].join(" ")}
@@ -345,7 +347,7 @@ function ConceptBuildSlider() {
       >
         <div className={styles.conceptSlide}>
           <Image
-            alt="Concept Blueprint"
+            alt="Before renovation"
             className={styles.blueprintImage}
             draggable={false}
             fill
@@ -353,7 +355,7 @@ function ConceptBuildSlider() {
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuARjdzqSBpXbZI2WDGp8k-psEeC0USsN5PR5hidAqiOXPtjNV3HcfON3P1OyuWfRfjomjQc6semvJpRUnqOScgrcEynNfmhqDn8jSrMwu1JrREHPGvRrv_Mzv3QE5eAV17436lG3EdJ-Ljs5f3_P8sRw7CKmRzMiGrffC0H8B0Q_y6LRwzTUe6y-fvQ_ndW0DhTz9JNz8oA3nOaJioeLY4QDxkKDb-GP2rJtdW-sUmoOA7RDyRLusu9eTChgAOwnK8ZueYIh2DL_TDp"
           />
           <div className={styles.blueprintGridOverlay} />
-          <div className={styles.blueprintLabel}>CONCEPT SCHEMA</div>
+          <div className={styles.blueprintLabel}>BEFORE</div>
         </div>
 
         <div
@@ -363,14 +365,14 @@ function ConceptBuildSlider() {
           }}
         >
           <Image
-            alt="Completed Build"
+            alt="After renovation"
             className={styles.completedImage}
             draggable={false}
             fill
             sizes="100vw"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuARjdzqSBpXbZI2WDGp8k-psEeC0USsN5PR5hidAqiOXPtjNV3HcfON3P1OyuWfRfjomjQc6semvJpRUnqOScgrcEynNfmhqDn8jSrMwu1JrREHPGvRrv_Mzv3QE5eAV17436lG3EdJ-Ljs5f3_P8sRw7CKmRzMiGrffC0H8B0Q_y6LRwzTUe6y-fvQ_ndW0DhTz9JNz8oA3nOaJioeLY4QDxkKDb-GP2rJtdW-sUmoOA7RDyRLusu9eTChgAOwnK8ZueYIh2DL_TDp"
           />
-          <div className={styles.buildLabel}>COMPLETED RESIDENCE</div>
+          <div className={styles.buildLabel}>AFTER</div>
         </div>
 
         <div className={styles.sliderHandle} style={{ left: `${position}%` }}>
@@ -395,7 +397,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
 
   const heroSlides = cms.banners;
   const galleryImages = cms.marquee;
-  const projects = cms.projects;
+  const properties = cms.properties;
   const socialLinks = cms.settings.socialLinks;
   const activeHero = heroSlides[activeSlide];
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -406,12 +408,12 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
 
   const categories = ["All", ...cms.categories.map((category) => category.name)];
 
-  const filteredProjects = useMemo(() => {
+  const filteredProperties = useMemo(() => {
     if (activeCategory === "All") {
-      return projects.slice(0, 8); // show top 8
+      return properties.slice(0, 8);
     }
-    return projects.filter((p) => p.category === activeCategory).slice(0, 8);
-  }, [activeCategory, projects]);
+    return properties.filter((p) => p.city === activeCategory).slice(0, 8);
+  }, [activeCategory, properties]);
 
   // Reveal-on-scroll with stagger
   useEffect(() => {
@@ -644,18 +646,18 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
               <p className={styles.heroSub}>{activeHero.subtitle}</p>
               {activeHero.link ? (
                 <Link className={styles.heroLink} href={activeHero.link}>
-                  {activeHero.ctaLabel || "Explore Project"}{" "}
+                  {activeHero.ctaLabel || "View property"}{" "}
                   <span aria-hidden="true">-&gt;</span>
                 </Link>
               ) : (
-                <a className={styles.heroLink} href="#projects">
-                  View selected works <span aria-hidden="true">-&gt;</span>
+                <a className={styles.heroLink} href="#properties">
+                  View properties <span aria-hidden="true">-&gt;</span>
                 </a>
               )}
             </div>
           ) : (
             <div className={styles.heroContent}>
-              <h1 className={styles.heroTitle}>MAXXIM ARCHITECTURE & BUILD</h1>
+              <h1 className={styles.heroTitle}>MAXXIM UK PROPERTY SERVICES</h1>
             </div>
           )}
           <div className={styles.slideDots} aria-label="Slide controls">
@@ -674,11 +676,11 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
         {/* About Section - Principles Collage */}
         <section className={styles.aboutSection} id="about">
           <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
-            <p className={styles.eyebrow}>Our philosophy</p>
-            <h2>CREATIVE DESIGN & RESOLUTE CRAFT</h2>
+            <p className={styles.eyebrow}>Why Maxxim</p>
+            <h2>TRUSTED PARTNER FOR OVERSEAS BUYERS</h2>
             <p>
-              We craft monolithic spaces that balance structural precision, tactile
-              interior materials, and visual atmosphere.
+              Buying property in the UK from abroad is a major decision. We provide
+              transparent, end-to-end support so you always have someone on the ground.
             </p>
           </div>
 
@@ -700,15 +702,45 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
           </div>
         </section>
 
-        {/* Interactive Vision vs Reality Spotlight Section */}
+        {/* Services */}
+        <section className={styles.aboutSection} id="services">
+          <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
+            <p className={styles.eyebrow}>Our services</p>
+            <h2>FROM SEARCH TO RENTAL INCOME</h2>
+            <p>
+              Three integrated services that follow your journey — whether you are buying
+              for your child&apos;s studies or investing from overseas.
+            </p>
+          </div>
+          <div className={styles.aboutGrid}>
+            {servicesContent.map((service) => (
+              <Link className={styles.aboutPillar} href={service.href} key={service.num}>
+                <div className={styles.pillarOverlay} />
+                <div className={styles.pillarContent}>
+                  <span className={styles.pillarNum}>{service.num}</span>
+                  <h3 className={styles.pillarTitle}>{service.title}</h3>
+                  <span className={styles.pillarSubtitle}>{service.subtitle}</span>
+                  <p className={styles.pillarDesc}>{service.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className={[styles.centerAction, styles.reveal].join(" ")}>
+            <Link className={styles.primaryButton} href="/services">
+              Learn about our services
+            </Link>
+          </div>
+        </section>
+
+        {/* Before/After renovation slider */}
         <ConceptBuildSlider />
 
-        {/* Selected Projects with Category Filter & Asymmetrical Layout */}
-        <section className={styles.projectsSection} id="projects">
+        {/* Featured Properties with City Filter */}
+        <section className={styles.projectsSection} id="properties">
           <div className={[styles.sectionIntro, styles.reveal].join(" ")}>
-            <p className={styles.eyebrow}>Selected works</p>
-            <h2>FEATURED PROJECTS</h2>
-            <p>A curated view of our completed architectural works and custom spaces.</p>
+            <p className={styles.eyebrow}>UK listings</p>
+            <h2>FEATURED PROPERTIES</h2>
+            <p>Hand-picked properties for sale and rent across the UK, near top universities.</p>
           </div>
 
           {/* Filter Bar */}
@@ -729,39 +761,42 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
           </div>
 
           <div className={styles.projectGrid}>
-            {filteredProjects.map((project, index) => (
+            {filteredProperties.map((property, index) => (
               <Link
                 className={[
                   styles.projectCard,
                   getCardStyle(index),
                   styles.reveal,
                 ].join(" ")}
-                href={`/projects/${project.slug}`}
-                key={project.slug}
+                href={`/properties/${property.slug}`}
+                key={property.slug}
                 prefetch={index < 3}
               >
                 <div className={styles.projectImage}>
                   <Image
-                    alt={project.media[0]?.alt || project.title}
+                    alt={property.media[0]?.alt || property.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    src={project.media[0]?.url || ""}
+                    src={property.media[0]?.url || ""}
                   />
                   <div className={styles.projectCardOverlay} />
                 </div>
                 <div className={styles.projectCardText}>
                   <p className={styles.projectCardMeta}>
-                    {project.category.toUpperCase()} / {project.year}
+                    {property.city.toUpperCase()} / {listingTypeLabel(property.listingType)}
                   </p>
-                  <h3 className={styles.projectCardTitle}>{project.title}</h3>
+                  <h3 className={styles.projectCardTitle}>{property.title}</h3>
+                  <p className={styles.projectCardMeta}>
+                    {formatPrice(property.price, property.listingType)} · {property.bedrooms} bed
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
 
           <div className={[styles.centerAction, styles.reveal].join(" ")}>
-            <Link className={styles.primaryButton} href="/projects">
-              View all projects
+            <Link className={styles.primaryButton} href="/properties">
+              View all properties
             </Link>
           </div>
         </section>
@@ -836,7 +871,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
         </section>
 
         {galleryImages.length > 0 ? (
-        <section className={styles.gallerySection} aria-label="Project details">
+        <section className={styles.gallerySection} aria-label="Property gallery">
           <DraggableMarquee reverse speed={52} trackClassName={styles.galleryTrack}>
             {galleryImages.map((image, index) => (
               <button
@@ -906,9 +941,9 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
         <section className={styles.contactSection} id="contact">
           <div className={[styles.contactPanel, styles.reveal].join(" ")}>
             <div className={styles.sectionIntro}>
-              <p className={styles.eyebrow}>Start a project</p>
+              <p className={styles.eyebrow}>Start your journey</p>
               <h2>Book A Consultation</h2>
-              <p>Let us help you shape the space you have been imagining.</p>
+              <p>Tell us about your UK property goals — buying, renovating, or letting.</p>
             </div>
             <form className={styles.form} onSubmit={submitContact}>
               <div className={styles.formGrid}>
@@ -926,11 +961,11 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                 <input name="email" placeholder="example@gmail.com" required type="email" />
               </label>
               <label>
-                <span>Project brief</span>
+                <span>Your enquiry</span>
                 <textarea
                   minLength={10}
                   name="projectBrief"
-                  placeholder="Tell us about your idea..."
+                  placeholder="Tell us about your property needs..."
                   required
                   rows={4}
                 />
@@ -993,7 +1028,10 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
               <a href="#about">About</a>
             </li>
             <li>
-              <Link href="/projects">Projects</Link>
+              <Link href="/properties">Properties</Link>
+            </li>
+            <li>
+              <Link href="/services">Services</Link>
             </li>
             <li>
               <a href="#contact">Contact</a>

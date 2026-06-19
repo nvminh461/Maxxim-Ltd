@@ -5,6 +5,13 @@ const r2PublicHost = process.env.R2_PUBLIC_BASE_URL
   : null;
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      { source: "/projects", destination: "/properties", permanent: true },
+      { source: "/projects/:slug", destination: "/properties/:slug", permanent: true },
+      { source: "/admin/projects", destination: "/admin/properties", permanent: true },
+    ];
+  },
   images: {
     // Images are served from R2/CDN; skip Vercel Image Optimization to avoid free-tier 402 quota limits.
     unoptimized: true,

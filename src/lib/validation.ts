@@ -20,15 +20,19 @@ export const categorySchema = z.object({
   order: z.coerce.number().int().min(0).default(0),
 });
 
-export const projectSchema = z.object({
+export const propertySchema = z.object({
   title: z.string().trim().min(1).max(180),
   slug: z.string().trim().min(1).max(200),
-  categoryId: objectId,
-  year: z.string().trim().min(1).max(20),
-  location: z.string().trim().min(1).max(160),
+  cityId: objectId,
+  listingType: z.enum(["sale", "long-term", "short-term"]),
+  propertyType: z.enum(["apartment", "house"]),
+  price: z.coerce.number().positive(),
+  bedrooms: z.coerce.number().int().min(0).max(20),
+  bathrooms: z.coerce.number().int().min(0).max(20),
   area: z.string().trim().min(1).max(80),
-  summary: z.string().trim().min(1).max(5000),
-  media: z.array(imageMedia).min(2, "Dự án cần ít nhất một ảnh chính và một ảnh phụ"),
+  university: z.string().trim().max(160).default(""),
+  description: z.string().trim().min(1).max(5000),
+  media: z.array(imageMedia).min(2, "Bất động sản cần ít nhất một ảnh chính và một ảnh phụ"),
   featured: z.boolean().default(false),
   featuredOrder: z.coerce.number().int().min(0).default(0),
   order: z.coerce.number().int().min(0).default(0),

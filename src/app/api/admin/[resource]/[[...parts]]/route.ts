@@ -8,7 +8,7 @@ import {
   Category,
   ContactSubmission,
   MarqueeItem,
-  Project,
+  Property,
   SiteSettings,
 } from "@/lib/models";
 import { cleanupUnusedAssets } from "@/lib/r2";
@@ -17,7 +17,7 @@ import {
   bannerSchema,
   categorySchema,
   marqueeSchema,
-  projectSchema,
+  propertySchema,
   settingsSchema,
 } from "@/lib/validation";
 
@@ -104,8 +104,8 @@ export async function POST(request: Request, context: RouteParams) {
       const model =
         resource === "categories"
           ? Category
-          : resource === "projects"
-            ? Project
+          : resource === "properties"
+            ? Property
             : resource === "banners"
               ? Banner
               : resource === "marquee"
@@ -121,12 +121,12 @@ export async function POST(request: Request, context: RouteParams) {
       return NextResponse.json({ success: true });
     }
 
-    if (resource === "projects" && body.action === "reorder-featured") {
+    if (resource === "properties" && body.action === "reorder-featured") {
       const ids = Array.isArray(body.ids) ? body.ids : [];
-      await Project.updateMany({}, { $set: { featured: false, featuredOrder: 0 } });
+      await Property.updateMany({}, { $set: { featured: false, featuredOrder: 0 } });
       await Promise.all(
         ids.slice(0, 8).map((id: string, featuredOrder: number) =>
-          Project.updateOne(
+          Property.updateOne(
             { _id: id },
             { $set: { featured: true, featuredOrder } },
           ),
@@ -144,13 +144,13 @@ export async function POST(request: Request, context: RouteParams) {
       return NextResponse.json({ id: category._id.toString() }, { status: 201 });
     }
 
-    if (resource === "projects") {
-      const input = projectSchema.parse({
+    if (resource === "properties") {
+      const input = propertySchema.parse({
         ...body,
         slug: body.slug || slugify(body.title || ""),
       });
-      const project = await Project.create(input);
-      return NextResponse.json({ id: project._id.toString() }, { status: 201 });
+      const property = await Property.create(input);
+      return NextResponse.json({ id: property._id.toString() }, { status: 201 });
     }
 
     if (resource === "banners") {
@@ -204,14 +204,14 @@ export async function PUT(request: Request, context: RouteParams) {
       return NextResponse.json({ success: true });
     }
 
-    if (resource === "projects") {
-      const input = projectSchema.parse({
+    if (resource === "properties") {
+      const input = propertySchema.parse({
         ...body,
         slug: body.slug || slugify(body.title || ""),
       });
-      const old = await Project.findById(id).lean();
-      if (!old) return NextResponse.json({ error: "Không tìm thấy dự án." }, { status: 404 });
-      await Project.findByIdAndUpdate(id, input, { runValidators: true });
+      const old = await Property.findById(id).lean();
+      if (!old) return NextResponse.json({ error: "Không tìm thấy bất động sản." }, { status: 404 });
+      await Property.findByIdAndUpdate(id, input, { runValidators: true });
       const nextIds = new Set(input.media.map((item) => item.assetId));
       await cleanupUnusedAssets(
         old.media
@@ -284,10 +284,10 @@ export async function DELETE(_request: Request, context: RouteParams) {
     await connectToDatabase();
 
     if (resource === "categories") {
-      const inUse = await Project.exists({ categoryId: id });
+      const inUse = await Property.exists({ cityId: id });
       if (inUse) {
         return NextResponse.json(
-          { error: "Không thể xóa danh mục đang được dự án sử dụng." },
+          { error: "Không thể xóa thành phố đang được bất động sản sử dụng." },
           { status: 409 },
         );
       }
@@ -295,11 +295,11 @@ export async function DELETE(_request: Request, context: RouteParams) {
       return NextResponse.json({ success: true });
     }
 
-    if (resource === "projects") {
-      const project = await Project.findByIdAndDelete(id);
-      if (project) {
+    if (resource === "properties") {
+      const property = await Property.findByIdAndDelete(id);
+      if (property) {
         await cleanupUnusedAssets(
-          project.media.map((item: { assetId: unknown }) => String(item.assetId)),
+          property.media.map((item: { assetId: unknown }) => String(item.assetId)),
         );
       }
       return NextResponse.json({ success: true });

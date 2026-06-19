@@ -8,8 +8,8 @@ import type { ReactNode } from "react";
 const links = [
   { href: "/admin", label: "Bảng điều khiển" },
   { href: "/admin/banners", label: "Banner" },
-  { href: "/admin/projects", label: "Dự án" },
-  { href: "/admin/categories", label: "Danh mục" },
+  { href: "/admin/properties", label: "Bất động sản" },
+  { href: "/admin/categories", label: "Thành phố" },
   { href: "/admin/marquee", label: "Ảnh marquee" },
   { href: "/admin/contacts", label: "Liên hệ" },
   { href: "/admin/settings", label: "Cấu hình footer" },

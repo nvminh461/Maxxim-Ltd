@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import type { ProjectMedia } from "@/lib/cms-types";
-import styles from "../projects.module.css";
+import type { PropertyMedia } from "@/lib/cms-types";
+import styles from "../properties.module.css";
 
-export default function ProjectAlbum({
+export default function PropertyAlbum({
   images,
   title,
 }: {
-  images: ProjectMedia[];
+  images: PropertyMedia[];
   title: string;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -27,40 +27,24 @@ export default function ProjectAlbum({
   );
 
   useEffect(() => {
-    if (activeIndex === null) {
-      return;
-    }
-
-    const preloadTargets = [images[nextIndex], images[previousIndex]];
-
-    preloadTargets.forEach((image) => {
+    if (activeIndex === null) return;
+    [images[nextIndex], images[previousIndex]].forEach((image) => {
       const preloadImage = new window.Image();
       preloadImage.src = image.url;
     });
   }, [activeIndex, images, nextIndex, previousIndex]);
 
   useEffect(() => {
-    if (activeIndex === null) {
-      return;
-    }
+    if (activeIndex === null) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveIndex(null);
-      }
-
-      if (event.key === "ArrowRight") {
-        setActiveIndex(nextIndex);
-      }
-
-      if (event.key === "ArrowLeft") {
-        setActiveIndex(previousIndex);
-      }
+      if (event.key === "Escape") setActiveIndex(null);
+      if (event.key === "ArrowRight") setActiveIndex(nextIndex);
+      if (event.key === "ArrowLeft") setActiveIndex(previousIndex);
     };
 
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
@@ -70,8 +54,8 @@ export default function ProjectAlbum({
   return (
     <section className={styles.albumSection}>
       <div className={styles.albumHeader}>
-        <p className={styles.eyebrow}>Full album</p>
-        <h2>Project Photo Album</h2>
+        <p className={styles.eyebrow}>Gallery</p>
+        <h2>Property Photo Album</h2>
       </div>
 
       <div className={styles.albumGrid}>

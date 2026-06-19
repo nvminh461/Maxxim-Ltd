@@ -34,7 +34,7 @@ const categorySchema = new Schema(
   { timestamps: true },
 );
 
-const projectMediaSchema = new Schema(
+const propertyMediaSchema = new Schema(
   {
     assetId: { type: Schema.Types.ObjectId, ref: "Asset", required: true },
     url: { type: String, required: true },
@@ -43,23 +43,37 @@ const projectMediaSchema = new Schema(
   { _id: false },
 );
 
-const projectSchema = new Schema(
+const propertySchema = new Schema(
   {
     slug: { type: String, required: true, unique: true, index: true },
     title: { type: String, required: true },
-    categoryId: {
+    cityId: {
       type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
       index: true,
     },
-    year: { type: String, required: true },
-    location: { type: String, required: true },
+    listingType: {
+      type: String,
+      enum: ["sale", "long-term", "short-term"],
+      required: true,
+      index: true,
+    },
+    propertyType: {
+      type: String,
+      enum: ["apartment", "house"],
+      required: true,
+      index: true,
+    },
+    price: { type: Number, required: true, index: true },
+    bedrooms: { type: Number, required: true, index: true },
+    bathrooms: { type: Number, required: true },
     area: { type: String, required: true },
-    summary: { type: String, required: true },
+    university: { type: String, default: "", trim: true },
+    description: { type: String, required: true },
     media: {
-      type: [projectMediaSchema],
-      validate: [(value: unknown[]) => value.length >= 2, "Dự án cần ít nhất 2 ảnh"],
+      type: [propertyMediaSchema],
+      validate: [(value: unknown[]) => value.length >= 2, "Property needs at least 2 images"],
     },
     featured: { type: Boolean, default: false, index: true },
     featuredOrder: { type: Number, default: 0 },
@@ -141,8 +155,8 @@ export const AdminUser =
   mongoose.models.AdminUser || mongoose.model("AdminUser", adminUserSchema, "admin_users");
 export const Category =
   mongoose.models.Category || mongoose.model("Category", categorySchema, "categories");
-export const Project =
-  mongoose.models.Project || mongoose.model("Project", projectSchema, "projects");
+export const Property =
+  mongoose.models.Property || mongoose.model("Property", propertySchema, "properties");
 export const Banner =
   mongoose.models.Banner || mongoose.model("Banner", bannerSchema, "banners");
 export const MarqueeItem =

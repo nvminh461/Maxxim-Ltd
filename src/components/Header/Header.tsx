@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 
 type HeaderProps = {
-  /** Which nav link is currently active */
-  activePath?: "/" | "/projects" | "/#about" | "/#contact";
+  activePath?: "/" | "/properties" | "/services" | "/#about" | "/#contact";
 };
 
 export default function Header({ activePath = "/" }: HeaderProps) {
@@ -34,7 +33,8 @@ export default function Header({ activePath = "/" }: HeaderProps) {
 
   const navLinks = [
     { href: "/", label: "Home", isAnchor: false },
-    { href: "/projects", label: "Projects", isAnchor: false },
+    { href: "/properties", label: "Properties", isAnchor: false },
+    { href: "/services", label: "Services", isAnchor: false },
     { href: "/#about", label: "About", isAnchor: true },
     { href: "/#contact", label: "Contact", isAnchor: true },
   ];
@@ -42,10 +42,7 @@ export default function Header({ activePath = "/" }: HeaderProps) {
   return (
     <>
       <header
-        className={[
-          styles.header,
-          scrolled ? styles.headerScrolled : "",
-        ]
+        className={[styles.header, scrolled ? styles.headerScrolled : ""]
           .filter(Boolean)
           .join(" ")}
       >
@@ -99,10 +96,7 @@ export default function Header({ activePath = "/" }: HeaderProps) {
 
           <button
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            className={[
-              styles.menuToggle,
-              menuOpen ? styles.menuToggleOpen : "",
-            ]
+            className={[styles.menuToggle, menuOpen ? styles.menuToggleOpen : ""]
               .filter(Boolean)
               .join(" ")}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -114,7 +108,6 @@ export default function Header({ activePath = "/" }: HeaderProps) {
         </div>
       </header>
 
-      {/* Mobile overlay menu */}
       <div
         className={[styles.mobileMenu, menuOpen ? styles.mobileMenuOpen : ""]
           .filter(Boolean)

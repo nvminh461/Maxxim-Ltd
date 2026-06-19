@@ -4,8 +4,10 @@ import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import type {
   BannerValue,
   CategoryValue,
+  ListingType,
   MarqueeValue,
-  ProjectValue,
+  PropertyType,
+  PropertyValue,
   SiteSettingsValue,
 } from "@/lib/cms-types";
 import { slugify } from "@/lib/utils";
@@ -80,7 +82,7 @@ export function CategoryForm({
   return (
     <form className="admin-form" onSubmit={submit}>
       <label>
-        <span>Tên danh mục — Nội dung tiếng Anh</span>
+        <span>Tên thành phố — Nội dung tiếng Anh</span>
         <input onChange={(event) => setName(event.target.value)} required value={name} />
       </label>
       <label>
@@ -206,7 +208,7 @@ export function BannerForm({
           />
         </label>
         <label>
-          <span>Liên kết (URL, /projects/... hoặc #anchor)</span>
+          <span>Liên kết (URL, /properties/... hoặc #anchor)</span>
           <input
             onChange={(event) => setValue({ ...value, link: event.target.value })}
             value={value.link}
@@ -277,25 +279,29 @@ export function MarqueeForm({
   );
 }
 
-export function ProjectForm({
+export function PropertyForm({
   categories,
   initial,
   onCancel,
   onSave,
 }: {
   categories: CategoryValue[];
-  initial?: ProjectValue;
+  initial?: PropertyValue;
   onCancel: () => void;
-  onSave: (value: Omit<ProjectValue, "id" | "category">) => Promise<void>;
+  onSave: (value: Omit<PropertyValue, "id" | "city">) => Promise<void>;
 }) {
-  const [value, setValue] = useState<Omit<ProjectValue, "id" | "category">>({
+  const [value, setValue] = useState<Omit<PropertyValue, "id" | "city">>({
     slug: initial?.slug || "",
     title: initial?.title || "",
-    categoryId: initial?.categoryId || categories[0]?.id || "",
-    year: initial?.year || "",
-    location: initial?.location || "",
+    cityId: initial?.cityId || categories[0]?.id || "",
+    listingType: initial?.listingType || "sale",
+    propertyType: initial?.propertyType || "apartment",
+    price: initial?.price || 0,
+    bedrooms: initial?.bedrooms || 1,
+    bathrooms: initial?.bathrooms || 1,
     area: initial?.area || "",
-    summary: initial?.summary || "",
+    university: initial?.university || "",
+    description: initial?.description || "",
     media: initial?.media || [],
     featured: initial?.featured || false,
     featuredOrder: initial?.featuredOrder || 0,
@@ -317,7 +323,7 @@ export function ProjectForm({
     >
       <div className="admin-form-grid">
         <label>
-          <span>Tên dự án — Nội dung tiếng Anh</span>
+          <span>Tiêu đề — Nội dung tiếng Anh</span>
           <input
             onChange={(event) => setValue({ ...value, title: event.target.value })}
             required
@@ -333,11 +339,11 @@ export function ProjectForm({
           />
         </label>
         <label>
-          <span>Danh mục</span>
+          <span>Thành phố</span>
           <select
-            onChange={(event) => setValue({ ...value, categoryId: event.target.value })}
+            onChange={(event) => setValue({ ...value, cityId: event.target.value })}
             required
-            value={value.categoryId}
+            value={value.cityId}
           >
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
@@ -347,37 +353,87 @@ export function ProjectForm({
           </select>
         </label>
         <label>
-          <span>Năm — Nội dung tiếng Anh</span>
-          <input
-            onChange={(event) => setValue({ ...value, year: event.target.value })}
+          <span>Mục đích</span>
+          <select
+            onChange={(event) =>
+              setValue({ ...value, listingType: event.target.value as ListingType })
+            }
             required
-            value={value.year}
+            value={value.listingType}
+          >
+            <option value="sale">Rao bán (For sale)</option>
+            <option value="long-term">Cho thuê dài hạn</option>
+            <option value="short-term">Cho thuê ngắn hạn / Airbnb</option>
+          </select>
+        </label>
+        <label>
+          <span>Loại hình</span>
+          <select
+            onChange={(event) =>
+              setValue({ ...value, propertyType: event.target.value as PropertyType })
+            }
+            required
+            value={value.propertyType}
+          >
+            <option value="apartment">Căn hộ (Apartment)</option>
+            <option value="house">Nhà (House)</option>
+          </select>
+        </label>
+        <label>
+          <span>Giá (£)</span>
+          <input
+            min={1}
+            onChange={(event) => setValue({ ...value, price: Number(event.target.value) })}
+            required
+            type="number"
+            value={value.price || ""}
           />
         </label>
         <label>
-          <span>Địa điểm — Nội dung tiếng Anh</span>
+          <span>Phòng ngủ</span>
           <input
-            onChange={(event) => setValue({ ...value, location: event.target.value })}
+            min={0}
+            onChange={(event) => setValue({ ...value, bedrooms: Number(event.target.value) })}
             required
-            value={value.location}
+            type="number"
+            value={value.bedrooms}
+          />
+        </label>
+        <label>
+          <span>Phòng tắm</span>
+          <input
+            min={0}
+            onChange={(event) => setValue({ ...value, bathrooms: Number(event.target.value) })}
+            required
+            type="number"
+            value={value.bathrooms}
           />
         </label>
         <label>
           <span>Diện tích — Nội dung tiếng Anh</span>
           <input
             onChange={(event) => setValue({ ...value, area: event.target.value })}
+            placeholder="850 sq ft"
             required
             value={value.area}
+          />
+        </label>
+        <label>
+          <span>Gần trường đại học — Nội dung tiếng Anh (tùy chọn)</span>
+          <input
+            onChange={(event) => setValue({ ...value, university: event.target.value })}
+            placeholder="University of Manchester"
+            value={value.university}
           />
         </label>
       </div>
       <label>
         <span>Mô tả chi tiết — Nội dung tiếng Anh</span>
         <textarea
-          onChange={(event) => setValue({ ...value, summary: event.target.value })}
+          onChange={(event) => setValue({ ...value, description: event.target.value })}
           required
           rows={5}
-          value={value.summary}
+          value={value.description}
         />
       </label>
       <label className="admin-checkbox">
@@ -386,10 +442,10 @@ export function ProjectForm({
           onChange={(event) => setValue({ ...value, featured: event.target.checked })}
           type="checkbox"
         />
-        <span>Hiển thị trong Featured Projects</span>
+        <span>Hiển thị trong Featured Properties</span>
       </label>
       <div className="admin-field">
-        <span>Album dự án</span>
+        <span>Album ảnh</span>
         <small>
           Kéo thả để sắp xếp. Ảnh đầu tiên là ảnh chính; album trên FE bắt đầu từ ảnh
           thứ hai.
@@ -439,7 +495,7 @@ export function ProjectForm({
         <MediaUploader
           accept="image/jpeg,image/png,image/webp,image/avif"
           kind="image"
-          label="Thêm ảnh dự án"
+          label="Thêm ảnh BĐS"
           multiple
           onUploaded={(asset) =>
             setValue((current) => ({

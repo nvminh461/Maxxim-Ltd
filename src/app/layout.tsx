@@ -15,9 +15,9 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Maxxim Ltd. | Premium Architecture & Construction",
+  title: "Maxxim Ltd. | UK Property Services",
   description:
-    "Maxxim Ltd. delivers premium architecture, interiors, and construction solutions. Building Today - Creating Tomorrow.",
+    "Maxxim Ltd. helps overseas families buy, renovate, and let UK property — trusted end-to-end support near top universities.",
 };
 
 export default function RootLayout({

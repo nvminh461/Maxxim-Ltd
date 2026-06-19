@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { S3Client, HeadObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { hash } from "bcryptjs";
 import mongoose from "mongoose";
-import { projects as mockProjects } from "../src/data/projects";
+import { properties as mockProperties } from "../src/data/properties";
 import { connectToDatabase } from "../src/lib/db";
 import {
   AdminUser,
@@ -12,7 +12,7 @@ import {
   Banner,
   Category,
   MarqueeItem,
-  Project,
+  Property,
   SiteSettings,
 } from "../src/lib/models";
 import { slugify } from "../src/lib/utils";
@@ -200,70 +200,75 @@ async function seedAdmin() {
 async function main() {
   const client = getS3Client();
   await connectToDatabase();
+  console.log("Seed mode: upsert (existing records are updated, new ones are inserted)");
   await seedAdmin();
 
-  const categoryNames = Array.from(new Set(mockProjects.map((project) => project.category)));
-  const categoryMap = new Map<string, string>();
+  const cityNames = Array.from(new Set(mockProperties.map((property) => property.city)));
+  const cityMap = new Map<string, string>();
   await Promise.all(
-    categoryNames.map(async (name, order) => {
+    cityNames.map(async (name, order) => {
       const category = await Category.findOneAndUpdate(
         { slug: slugify(name) },
         { $set: { name, slug: slugify(name), order } },
         { upsert: true, new: true, setDefaultsOnInsert: true },
       );
-      categoryMap.set(name, category._id.toString());
+      cityMap.set(name, category._id.toString());
     }),
   );
-  console.log(`Seeded ${categoryNames.length} categories`);
+  console.log(`Upserted ${cityNames.length} cities`);
 
-  const projectAssets = new Map<string, SeedAsset>();
-  for (const project of mockProjects) {
+  const propertyAssets = new Map<string, SeedAsset>();
+  for (const property of mockProperties) {
     const album = uniqueByUrl([
-      { src: project.cover, alt: project.alt },
-      ...project.album,
+      { src: property.cover, alt: property.alt },
+      ...property.album,
     ]);
     for (const image of album) {
-      if (!projectAssets.has(image.src)) {
-        projectAssets.set(
+      if (!propertyAssets.has(image.src)) {
+        propertyAssets.set(
           image.src,
           await ensureAsset(client, {
             kind: "image",
             source: "remote",
             url: image.src,
-            originalName: `${slugify(image.alt || project.title)}.jpg`,
+            originalName: `${slugify(image.alt || property.title)}.jpg`,
           }),
         );
       }
     }
   }
 
-  for (const [order, project] of mockProjects.entries()) {
+  for (const [order, property] of mockProperties.entries()) {
     const album = uniqueByUrl([
-      { src: project.cover, alt: project.alt },
-      ...project.album,
+      { src: property.cover, alt: property.alt },
+      ...property.album,
     ]);
     const media = album.map((image) => {
-      const asset = projectAssets.get(image.src);
-      if (!asset) throw new Error(`Thiếu asset cho ${image.src}`);
+      const asset = propertyAssets.get(image.src);
+      if (!asset) throw new Error(`Missing asset for ${image.src}`);
       return {
         assetId: asset.id,
         url: asset.url,
-        alt: image.alt || project.title,
+        alt: image.alt || property.title,
       };
     });
     const featuredOrder = order < 8 ? order : 0;
 
-    await Project.findOneAndUpdate(
-      { slug: project.slug },
+    await Property.findOneAndUpdate(
+      { slug: property.slug },
       {
         $set: {
-          slug: project.slug,
-          title: project.title,
-          categoryId: categoryMap.get(project.category),
-          year: project.year,
-          location: project.location,
-          area: project.area,
-          summary: project.summary,
+          slug: property.slug,
+          title: property.title,
+          cityId: cityMap.get(property.city),
+          listingType: property.listingType,
+          propertyType: property.propertyType,
+          price: property.price,
+          bedrooms: property.bedrooms,
+          bathrooms: property.bathrooms,
+          area: property.area,
+          university: property.university,
+          description: property.description,
           media,
           featured: order < 8,
           featuredOrder,
@@ -273,41 +278,41 @@ async function main() {
       { upsert: true, new: true, setDefaultsOnInsert: true },
     );
   }
-  console.log(`Seeded ${mockProjects.length} projects`);
+  console.log(`Upserted ${mockProperties.length} properties`);
 
   const heroSpecs = [
     {
       type: "video" as const,
       source: { kind: "video" as const, source: "local" as const, filePath: "public/banner.mp4" },
-      title: "MAXXIM ARCHITECTURE & BUILD",
-      subtitle: "PREMIUM SPACES / ARCHITECTURE / INTERIOR",
+      title: "MAXXIM UK PROPERTY SERVICES",
+      subtitle: "BUY · RENOVATE · LET — TRUSTED PARTNER IN THE UK",
       alt: "",
-      ctaLabel: "View selected works",
-      link: "#projects",
+      ctaLabel: "View properties",
+      link: "/properties",
     },
     {
       type: "image" as const,
-      project: mockProjects.find((project) => project.slug === "aurora-villa"),
-      title: "AURORA VILLA",
-      subtitle: "VILLA / PHU QUOC / 2024",
-      ctaLabel: "Explore Project",
-      link: "/projects/aurora-villa",
+      property: mockProperties.find((item) => item.slug === "kensington-student-flat"),
+      title: "KENSINGTON STUDENT FLAT",
+      subtitle: "LONDON / FOR SALE / NEAR IMPERIAL COLLEGE",
+      ctaLabel: "View property",
+      link: "/properties/kensington-student-flat",
     },
     {
       type: "image" as const,
-      project: mockProjects.find((project) => project.slug === "zen-water-house"),
-      title: "ZEN WATER HOUSE",
-      subtitle: "VILLA / LONG AN / 2023",
-      ctaLabel: "Explore Project",
-      link: "/projects/zen-water-house",
+      property: mockProperties.find((item) => item.slug === "manchester-canal-apartment"),
+      title: "MANCHESTER CANAL APARTMENT",
+      subtitle: "MANCHESTER / FOR SALE / 2 BED",
+      ctaLabel: "View property",
+      link: "/properties/manchester-canal-apartment",
     },
     {
       type: "image" as const,
-      project: mockProjects.find((project) => project.slug === "serenity-interior"),
-      title: "SERENITY INTERIOR",
-      subtitle: "INTERIOR / HANOI / 2023",
-      ctaLabel: "Explore Project",
-      link: "/projects/serenity-interior",
+      property: mockProperties.find((item) => item.slug === "london-shoreditch-airbnb"),
+      title: "SHOREDITCH AIRBNB SUITE",
+      subtitle: "LONDON / SHORT-TERM LET / STUDENT INCOME",
+      ctaLabel: "View property",
+      link: "/properties/london-shoreditch-airbnb",
     },
   ];
 
@@ -318,7 +323,7 @@ async function main() {
         : ({
             kind: "image",
             source: "remote",
-            url: spec.project?.cover || "",
+            url: spec.property?.cover || "",
             originalName: `${slugify(spec.title)}.jpg`,
           } as const);
     const asset = await ensureAsset(client, source);
@@ -329,7 +334,7 @@ async function main() {
           assetId: asset.id,
           type: spec.type,
           src: asset.url,
-          alt: spec.type === "image" ? spec.project?.alt || spec.title : "",
+          alt: spec.type === "image" ? spec.property?.alt || spec.title : "",
           title: spec.title,
           subtitle: spec.subtitle,
           ctaLabel: spec.ctaLabel,
@@ -340,22 +345,22 @@ async function main() {
       { upsert: true, new: true, setDefaultsOnInsert: true },
     );
   }
-  console.log(`Seeded ${heroSpecs.length} banners`);
+  console.log(`Upserted ${heroSpecs.length} banners`);
 
-  const marqueeProjects = [
-    ["shadow-courtyard", "Concrete facade detail"],
-    ["quiet-lane-home", "Luxury villa hallway"],
-    ["terrace-loop", "Double height living room"],
-    ["gallery-stair-house", "Sculptural staircase"],
+  const marqueeProperties = [
+    ["birmingham-family-house", "Birmingham family house"],
+    ["edinburgh-old-town-flat", "Edinburgh old town flat"],
+    ["bristol-harbour-apartment", "Bristol harbour apartment"],
+    ["manchester-student-house", "Manchester student house"],
   ] as const;
 
-  for (const [order, [slug, alt]] of marqueeProjects.entries()) {
-    const project = mockProjects.find((item) => item.slug === slug);
-    if (!project) throw new Error(`Không tìm thấy project mock ${slug}`);
+  for (const [order, [slug, alt]] of marqueeProperties.entries()) {
+    const property = mockProperties.find((item) => item.slug === slug);
+    if (!property) throw new Error(`Missing mock property ${slug}`);
     const asset = await ensureAsset(client, {
       kind: "image",
       source: "remote",
-      url: project.cover,
+      url: property.cover,
       originalName: `${slugify(alt)}.jpg`,
     });
     await MarqueeItem.findOneAndUpdate(
@@ -364,7 +369,7 @@ async function main() {
       { upsert: true, new: true, setDefaultsOnInsert: true },
     );
   }
-  console.log(`Seeded ${marqueeProjects.length} marquee images`);
+  console.log(`Upserted ${marqueeProperties.length} marquee images`);
 
   const logo = await ensureAsset(client, {
     kind: "image",
@@ -399,10 +404,11 @@ async function main() {
         companyName: "Maxxim Ltd.",
         logoAssetId: logo.id,
         logoUrl: logo.url,
-        slogan: "Building Today - Creating Tomorrow",
-        description: "Premium design and construction for spaces built to last.",
-        address: "123 Nam Ky Khoi Nghia Street, District 1, Ho Chi Minh City",
-        phone: "+84 28 3930 1234",
+        slogan: "Your trusted UK property partner",
+        description:
+          "End-to-end UK property services for overseas buyers — consultation, renovation, and lettings near top universities.",
+        address: "London, United Kingdom",
+        phone: "+44 20 7946 0958",
         email: "contact@maxximltd.com",
         copyright: "© 2026 Maxxim Ltd. All rights reserved.",
         socialLinks,
@@ -410,7 +416,7 @@ async function main() {
     },
     { upsert: true, new: true, setDefaultsOnInsert: true },
   );
-  console.log("Seeded footer settings");
+  console.log("Upserted footer settings");
 }
 
 main()

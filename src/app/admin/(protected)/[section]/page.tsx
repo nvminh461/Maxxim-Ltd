@@ -3,7 +3,7 @@ import AdminResource from "@/components/Admin/admin-resource";
 
 const sections = new Set([
   "banners",
-  "projects",
+  "properties",
   "categories",
   "marquee",
   "contacts",

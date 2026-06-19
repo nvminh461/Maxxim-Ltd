@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { getRateLimitKey, hashRateLimitIdentity } from "../src/lib/rate-limit";
 import { validateMediaFile } from "../src/lib/r2";
 import { slugify } from "../src/lib/utils";
-import { contactSchema, projectSchema } from "../src/lib/validation";
+import { contactSchema, propertySchema } from "../src/lib/validation";
 
 test("slugify tạo slug ổn định từ nội dung có dấu", () => {
   assert.equal(slugify("Biệt thự Ánh Sáng 2026!"), "biet-thu-anh-sang-2026");
@@ -28,15 +28,19 @@ test("contactSchema validate dữ liệu form liên hệ", () => {
   );
 });
 
-test("projectSchema giữ thứ tự media và yêu cầu ảnh chính + ảnh phụ", () => {
-  const project = projectSchema.parse({
-    title: "Aurora Villa",
-    slug: "aurora-villa",
-    categoryId: "0123456789abcdef01234567",
-    year: "2026",
-    location: "Phu Quoc",
-    area: "1,000 sq m",
-    summary: "A private villa with a calm coastal atmosphere.",
+test("propertySchema giữ thứ tự media và yêu cầu ảnh chính + ảnh phụ", () => {
+  const property = propertySchema.parse({
+    title: "Kensington Student Flat",
+    slug: "kensington-student-flat",
+    cityId: "0123456789abcdef01234567",
+    listingType: "sale",
+    propertyType: "apartment",
+    price: 875000,
+    bedrooms: 2,
+    bathrooms: 1,
+    area: "720 sq ft",
+    university: "Imperial College London",
+    description: "A bright two-bedroom flat near Imperial College.",
     media: [
       {
         assetId: "0123456789abcdef01234567",
@@ -51,8 +55,10 @@ test("projectSchema giữ thứ tự media và yêu cầu ảnh chính + ảnh p
     ],
   });
 
-  assert.equal(project.media[0].alt, "Main image");
-  assert.throws(() => projectSchema.parse({ ...project, media: project.media.slice(0, 1) }));
+  assert.equal(property.media[0].alt, "Main image");
+  assert.throws(() =>
+    propertySchema.parse({ ...property, media: property.media.slice(0, 1) }),
+  );
 });
 
 test("validateMediaFile kiểm tra loại file và dung lượng upload", () => {

@@ -18,7 +18,7 @@ import {
   Asset,
   Banner,
   MarqueeItem,
-  Project,
+  Property,
   SiteSettings,
 } from "@/lib/models";
 
@@ -158,7 +158,7 @@ export async function cleanupUnusedAssets(assetIds: string[]) {
 
   for (const assetId of uniqueIds) {
     const references = await Promise.all([
-      Project.countDocuments({ "media.assetId": assetId }),
+      Property.countDocuments({ "media.assetId": assetId }),
       Banner.countDocuments({ assetId }),
       MarqueeItem.countDocuments({ assetId }),
       SiteSettings.countDocuments({

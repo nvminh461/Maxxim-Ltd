@@ -4,7 +4,8 @@ import type {
   ContactSubmissionValue,
   HomeCmsData,
   MarqueeValue,
-  ProjectValue,
+  PropertyFilters,
+  PropertyValue,
   SiteSettingsValue,
 } from "@/lib/cms-types";
 import { connectToDatabase, hasDatabaseConfig } from "@/lib/db";
@@ -13,7 +14,7 @@ import {
   Category,
   ContactSubmission,
   MarqueeItem,
-  Project,
+  Property,
   SiteSettings,
 } from "@/lib/models";
 import { escapeRegExp } from "@/lib/utils";
@@ -25,15 +26,19 @@ type CategoryDoc = {
   order: number;
 };
 
-type ProjectDoc = {
+type PropertyDoc = {
   _id: unknown;
   slug: string;
   title: string;
-  categoryId: CategoryDoc | unknown;
-  year: string;
-  location: string;
+  cityId: CategoryDoc | unknown;
+  listingType: "sale" | "long-term" | "short-term";
+  propertyType: "apartment" | "house";
+  price: number;
+  bedrooms: number;
+  bathrooms: number;
   area: string;
-  summary: string;
+  university: string;
+  description: string;
   media: Array<{ assetId: unknown; url: string; alt: string }>;
   featured: boolean;
   featuredOrder: number;
@@ -102,22 +107,26 @@ function serializeCategory(doc: CategoryDoc): CategoryValue {
   };
 }
 
-function serializeProject(doc: ProjectDoc): ProjectValue {
-  const populatedCategory =
-    typeof doc.categoryId === "object" && doc.categoryId && "name" in doc.categoryId
-      ? (doc.categoryId as CategoryDoc)
+function serializeProperty(doc: PropertyDoc): PropertyValue {
+  const populatedCity =
+    typeof doc.cityId === "object" && doc.cityId && "name" in doc.cityId
+      ? (doc.cityId as CategoryDoc)
       : null;
 
   return {
     id: String(doc._id),
     slug: doc.slug,
     title: doc.title,
-    categoryId: populatedCategory ? String(populatedCategory._id) : String(doc.categoryId),
-    category: populatedCategory?.name || "",
-    year: doc.year,
-    location: doc.location,
+    cityId: populatedCity ? String(populatedCity._id) : String(doc.cityId),
+    city: populatedCity?.name || "",
+    listingType: doc.listingType,
+    propertyType: doc.propertyType,
+    price: doc.price,
+    bedrooms: doc.bedrooms,
+    bathrooms: doc.bathrooms,
     area: doc.area,
-    summary: doc.summary,
+    university: doc.university || "",
+    description: doc.description,
     media: doc.media.map((item) => ({
       assetId: String(item.assetId),
       url: item.url,
@@ -179,11 +188,36 @@ function serializeSettings(doc: SettingsDoc | null): SiteSettingsValue {
   };
 }
 
+function buildPropertyFilter(filters?: PropertyFilters) {
+  if (!filters) return {};
+
+  const query: Record<string, unknown> = {};
+
+  if (filters.cityId) query.cityId = filters.cityId;
+  if (filters.listingType) query.listingType = filters.listingType;
+  if (filters.propertyType) query.propertyType = filters.propertyType;
+  if (filters.bedrooms !== undefined) query.bedrooms = { $gte: filters.bedrooms };
+  if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+    query.price = {};
+    if (filters.minPrice !== undefined) {
+      (query.price as Record<string, number>).$gte = filters.minPrice;
+    }
+    if (filters.maxPrice !== undefined) {
+      (query.price as Record<string, number>).$lte = filters.maxPrice;
+    }
+  }
+  if (filters.university) {
+    query.university = { $regex: escapeRegExp(filters.university), $options: "i" };
+  }
+
+  return query;
+}
+
 export async function getHomeCmsData(): Promise<HomeCmsData> {
   if (!hasDatabaseConfig()) {
     return {
       banners: [],
-      projects: [],
+      properties: [],
       categories: [],
       marquee: [],
       settings: emptySettings,
@@ -192,12 +226,12 @@ export async function getHomeCmsData(): Promise<HomeCmsData> {
 
   try {
     await connectToDatabase();
-    const [banners, projects, categories, marquee, settings] = await Promise.all([
+    const [banners, properties, categories, marquee, settings] = await Promise.all([
       Banner.find().sort({ order: 1 }).lean(),
-      Project.find({ featured: true })
+      Property.find({ featured: true })
         .sort({ featuredOrder: 1 })
         .limit(8)
-        .populate("categoryId")
+        .populate("cityId")
         .lean(),
       Category.find().sort({ order: 1 }).lean(),
       MarqueeItem.find().sort({ order: 1 }).lean(),
@@ -206,7 +240,7 @@ export async function getHomeCmsData(): Promise<HomeCmsData> {
 
     return {
       banners: (banners as unknown as BannerDoc[]).map(serializeBanner),
-      projects: (projects as unknown as ProjectDoc[]).map(serializeProject),
+      properties: (properties as unknown as PropertyDoc[]).map(serializeProperty),
       categories: (categories as unknown as CategoryDoc[]).map(serializeCategory),
       marquee: (marquee as unknown as MarqueeDoc[]).map(serializeMarquee),
       settings: serializeSettings(settings as unknown as SettingsDoc | null),
@@ -215,7 +249,7 @@ export async function getHomeCmsData(): Promise<HomeCmsData> {
     console.error("Không thể tải dữ liệu CMS trang chủ:", error);
     return {
       banners: [],
-      projects: [],
+      properties: [],
       categories: [],
       marquee: [],
       settings: emptySettings,
@@ -223,41 +257,41 @@ export async function getHomeCmsData(): Promise<HomeCmsData> {
   }
 }
 
-export async function getAllProjects(): Promise<ProjectValue[]> {
+export async function getAllProperties(filters?: PropertyFilters): Promise<PropertyValue[]> {
   if (!hasDatabaseConfig()) {
     return [];
   }
 
   await connectToDatabase();
-  const projects = await Project.find()
+  const properties = await Property.find(buildPropertyFilter(filters))
     .sort({ order: 1, createdAt: -1 })
-    .populate("categoryId")
+    .populate("cityId")
     .lean();
-  return (projects as unknown as ProjectDoc[]).map(serializeProject);
+  return (properties as unknown as PropertyDoc[]).map(serializeProperty);
 }
 
-export async function getProjectBySlugFromCms(slug: string) {
+export async function getPropertyBySlugFromCms(slug: string) {
   if (!hasDatabaseConfig()) {
     return null;
   }
 
   await connectToDatabase();
-  const project = await Project.findOne({ slug }).populate("categoryId").lean();
-  return project ? serializeProject(project as unknown as ProjectDoc) : null;
+  const property = await Property.findOne({ slug }).populate("cityId").lean();
+  return property ? serializeProperty(property as unknown as PropertyDoc) : null;
 }
 
 export async function getAdminResource(resource: string, query?: string, page = 1) {
   await connectToDatabase();
 
   if (resource === "dashboard") {
-    const [banners, projects, categories, marquee, contacts] = await Promise.all([
+    const [banners, properties, categories, marquee, contacts] = await Promise.all([
       Banner.countDocuments(),
-      Project.countDocuments(),
+      Property.countDocuments(),
       Category.countDocuments(),
       MarqueeItem.countDocuments(),
       ContactSubmission.countDocuments(),
     ]);
-    return { banners, projects, categories, marquee, contacts };
+    return { banners, properties, categories, marquee, contacts };
   }
 
   if (resource === "categories") {
@@ -265,9 +299,9 @@ export async function getAdminResource(resource: string, query?: string, page = 
     return (docs as unknown as CategoryDoc[]).map(serializeCategory);
   }
 
-  if (resource === "projects") {
-    const docs = await Project.find().sort({ order: 1 }).populate("categoryId").lean();
-    return (docs as unknown as ProjectDoc[]).map(serializeProject);
+  if (resource === "properties") {
+    const docs = await Property.find().sort({ order: 1 }).populate("cityId").lean();
+    return (docs as unknown as PropertyDoc[]).map(serializeProperty);
   }
 
   if (resource === "banners") {

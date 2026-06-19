@@ -6,7 +6,7 @@ import type {
   CategoryValue,
   ContactSubmissionValue,
   MarqueeValue,
-  ProjectValue,
+  PropertyValue,
   SiteSettingsValue,
 } from "@/lib/cms-types";
 import {
@@ -14,14 +14,14 @@ import {
   CategoryForm,
   EditorModal,
   MarqueeForm,
-  ProjectForm,
+  PropertyForm,
   SettingsForm,
 } from "./admin-forms";
 import SortableList from "./sortable-list";
 
 type DashboardData = {
   banners: number;
-  projects: number;
+  properties: number;
   categories: number;
   marquee: number;
   contacts: number;
@@ -84,12 +84,12 @@ export default function AdminResource({ section }: { section: string }) {
   const fetchSectionData = useCallback(async () => {
     const query =
       section === "contacts" ? `?q=${encodeURIComponent(search)}&page=${page}` : "";
-    if (section === "projects") {
-      const [projectsData, categoryData] = await Promise.all([
-        requestJson<ProjectValue[]>("/api/admin/projects"),
+    if (section === "properties") {
+      const [propertiesData, categoryData] = await Promise.all([
+        requestJson<PropertyValue[]>("/api/admin/properties"),
         requestJson<CategoryValue[]>("/api/admin/categories"),
       ]);
-      return { nextData: projectsData, nextCategories: categoryData };
+      return { nextData: propertiesData, nextCategories: categoryData };
     }
 
     return {
@@ -191,8 +191,8 @@ export default function AdminResource({ section }: { section: string }) {
     const cards = dashboard
       ? [
           ["Banner", dashboard.banners],
-          ["Dự án", dashboard.projects],
-          ["Danh mục", dashboard.categories],
+          ["Bất động sản", dashboard.properties],
+          ["Thành phố", dashboard.categories],
           ["Ảnh marquee", dashboard.marquee],
           ["Liên hệ", dashboard.contacts],
         ]
@@ -224,11 +224,11 @@ export default function AdminResource({ section }: { section: string }) {
         <PageHeader
           action={
             <button className="admin-primary" onClick={() => setEditing("new")} type="button">
-              Thêm danh mục
+              Thêm thành phố
             </button>
           }
-          description="Kéo thả để thay đổi thứ tự bộ lọc dự án trên website."
-          title="Quản lý danh mục"
+          description="Kéo thả để thay đổi thứ tự bộ lọc thành phố trên website."
+          title="Quản lý thành phố"
         />
         <ErrorNotice message={error} />
         <SortableList
@@ -261,7 +261,7 @@ export default function AdminResource({ section }: { section: string }) {
         {editing ? (
           <EditorModal
             onClose={() => setEditing(null)}
-            title={editing === "new" ? "Thêm danh mục" : "Sửa danh mục"}
+            title={editing === "new" ? "Thêm thành phố" : "Sửa thành phố"}
           >
             <CategoryForm
               initial={selected}
@@ -402,15 +402,15 @@ export default function AdminResource({ section }: { section: string }) {
     );
   }
 
-  if (section === "projects") {
-    const items = (data || []) as ProjectValue[];
+  if (section === "properties") {
+    const items = (data || []) as PropertyValue[];
     const selected = editing && editing !== "new" ? items.find((item) => item.id === editing) : undefined;
     const featured = items
       .filter((item) => item.featured)
       .sort((a, b) => a.featuredOrder - b.featuredOrder)
       .slice(0, 8);
 
-    async function reorderFeatured(next: ProjectValue[]) {
+    async function reorderFeatured(next: PropertyValue[]) {
       const nextIds = new Set(next.map((item) => item.id));
       setData(
         items.map((item) => ({
@@ -420,7 +420,7 @@ export default function AdminResource({ section }: { section: string }) {
         })),
       );
       try {
-        await requestJson("/api/admin/projects", {
+        await requestJson("/api/admin/properties", {
           method: "POST",
           body: JSON.stringify({
             action: "reorder-featured",
@@ -438,18 +438,18 @@ export default function AdminResource({ section }: { section: string }) {
         <PageHeader
           action={
             <button className="admin-primary" onClick={() => setEditing("new")} type="button">
-              Thêm dự án
+              Thêm bất động sản
             </button>
           }
-          description="Quản lý nội dung, album và thứ tự các dự án hiển thị trên website."
-          title="Quản lý dự án"
+          description="Quản lý nội dung, album và thứ tự các bất động sản hiển thị trên website."
+          title="Quản lý bất động sản"
         />
         <ErrorNotice message={error} />
         <section className="admin-panel">
           <div className="admin-section-heading">
             <div>
-              <h2>Featured Projects</h2>
-              <p>Tối đa 8 dự án. Chọn Featured trong form, sau đó kéo để sắp xếp.</p>
+              <h2>Featured Properties</h2>
+              <p>Tối đa 8 bất động sản. Chọn Featured trong form, sau đó kéo để sắp xếp.</p>
             </div>
             <span>{featured.length}/8</span>
           </div>
@@ -460,17 +460,17 @@ export default function AdminResource({ section }: { section: string }) {
             renderItem={(item, index) => (
               <div className="admin-list-content">
                 <strong>{index + 1}. {item.title}</strong>
-                <span>{item.category}</span>
+                <span>{item.city} · £{item.price.toLocaleString("en-GB")}</span>
               </div>
             )}
           />
         </section>
         <section className="admin-panel">
-          <div className="admin-section-heading"><h2>Tất cả dự án</h2></div>
+          <div className="admin-section-heading"><h2>Tất cả bất động sản</h2></div>
           <SortableList
             className="admin-card-list"
             items={items}
-            onChange={(next) => void reorder("projects", next, (updated) => setData(updated))}
+            onChange={(next) => void reorder("properties", next, (updated) => setData(updated))}
             renderItem={(item) => (
               <div className="admin-card-row">
                 <div className="admin-thumbnail">
@@ -480,15 +480,15 @@ export default function AdminResource({ section }: { section: string }) {
                   ) : null}
                 </div>
                 <div className="admin-card-copy">
-                  <small>{item.category} / {item.year} / {item.location}</small>
+                  <small>{item.city} · {item.listingType} · {item.bedrooms} bed</small>
                   <strong>{item.title}</strong>
-                  <span>{item.featured ? "Đang Featured" : "Không Featured"}</span>
+                  <span>{item.featured ? "Đang Featured" : "Không Featured"} · £{item.price.toLocaleString("en-GB")}</span>
                 </div>
                 <div className="admin-row-actions">
                   <button onClick={() => setEditing(item.id)} type="button">Sửa</button>
                   <button
                     className="admin-danger-text"
-                    onClick={() => void deleteResource("projects", item.id)}
+                    onClick={() => void deleteResource("properties", item.id)}
                     type="button"
                   >
                     Xóa
@@ -501,14 +501,14 @@ export default function AdminResource({ section }: { section: string }) {
         {editing ? (
           <EditorModal
             onClose={() => setEditing(null)}
-            title={editing === "new" ? "Thêm dự án" : "Sửa dự án"}
+            title={editing === "new" ? "Thêm bất động sản" : "Sửa bất động sản"}
           >
-            <ProjectForm
+            <PropertyForm
               categories={categories}
               initial={selected}
               onCancel={() => setEditing(null)}
               onSave={(value) =>
-                saveResource("projects", editing === "new" ? undefined : editing, value)
+                saveResource("properties", editing === "new" ? undefined : editing, value)
               }
             />
           </EditorModal>
