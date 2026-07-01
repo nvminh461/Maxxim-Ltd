@@ -31,6 +31,14 @@ export default function Header({ activePath = "/" }: HeaderProps) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const diff = currentScrollY - lastScrollY.current;
+
+      // Skip checking if in iOS boundary elastic rubber-band bounce areas
+      if (currentScrollY < 0 || currentScrollY + clientHeight > scrollHeight) {
+        return;
+      }
 
       if (currentScrollY > 20 && !hasScrolled) {
         setHasScrolled(true);
@@ -48,14 +56,18 @@ export default function Header({ activePath = "/" }: HeaderProps) {
 
       if (currentScrollY < 50) {
         setVisible(true);
+        lastScrollY.current = currentScrollY;
       } else {
-        if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
-          setVisible(false);
-        } else if (currentScrollY < lastScrollY.current) {
-          setVisible(true);
+        // Only toggle visibility if scroll delta exceeds threshold (e.g. 15px)
+        if (Math.abs(diff) > 15) {
+          if (diff > 0 && currentScrollY > 80) {
+            setVisible(false);
+          } else if (diff < 0) {
+            setVisible(true);
+          }
+          lastScrollY.current = currentScrollY;
         }
       }
-      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -81,7 +93,7 @@ export default function Header({ activePath = "/" }: HeaderProps) {
           opacity: visible ? 1 : 0,
         }}
         transition={
-          hasScrolled
+          hasScrolled || activePath !== "/"
             ? { duration: 0.3, ease: "easeInOut" }
             : { duration: 2.8, ease: [0.16, 1, 0.3, 1] }
         }

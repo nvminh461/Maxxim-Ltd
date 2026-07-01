@@ -303,7 +303,7 @@ export default function AdminResource({ section }: { section: string }) {
             <div className="admin-card-row">
               <div className="admin-thumbnail admin-thumbnail-wide">
                 {item.type === "video" ? (
-                  <video muted src={item.src} />
+                  <video muted playsInline src={item.src} />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img alt={item.alt} src={item.src} />

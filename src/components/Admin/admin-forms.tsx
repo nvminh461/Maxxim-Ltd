@@ -134,7 +134,7 @@ export function BannerForm({
         <div className="admin-preview admin-preview-banner">
           {value.src ? (
             value.type === "video" ? (
-              <video controls src={value.src} />
+              <video controls playsInline src={value.src} />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img alt={value.alt} src={value.src} />
