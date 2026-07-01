@@ -5,7 +5,7 @@ import "./globals.css";
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["100", "300", "400", "500", "700"],
 });
 
 const cormorantGaramond = Cormorant_Garamond({
