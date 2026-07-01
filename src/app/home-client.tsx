@@ -511,6 +511,51 @@ function AirbnbCalculator() {
   );
 }
 
+function HeroVideo({
+  src,
+  isActive,
+  onEnded,
+  videoRef,
+}: {
+  src: string;
+  isActive: boolean;
+  onEnded: () => void;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
+}) {
+  const localRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = localRef.current;
+    if (!video) return;
+
+    if (isActive) {
+      if (videoRef) {
+        const writableRef = videoRef as { current: HTMLVideoElement | null };
+        writableRef.current = video;
+      }
+      video.currentTime = 0;
+      video.play().catch((err) => {
+        console.warn("Autoplay block or playback error:", err);
+      });
+    } else {
+      video.pause();
+    }
+  }, [isActive, videoRef]);
+
+  return (
+    <video
+      ref={localRef}
+      className={styles.heroMedia}
+      muted
+      playsInline
+      onEnded={onEnded}
+      preload="auto"
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  );
+}
+
 export default function HomeClient({ cms }: { cms: HomeCmsData }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [galleryPreview, setGalleryPreview] = useState<number | null>(null);
@@ -704,17 +749,12 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
               key={`${slide.type}-${slide.src}`}
             >
               {slide.type === "video" ? (
-                <video
-                  autoPlay
-                  className={styles.heroMedia}
-                  muted
+                <HeroVideo
+                  src={slide.src}
+                  isActive={index === activeSlide}
                   onEnded={goToNextSlide}
-                  playsInline
-                  preload="auto"
-                  ref={index === 0 ? videoRef : undefined}
-                >
-                  <source src={slide.src} type="video/mp4" />
-                </video>
+                  videoRef={videoRef}
+                />
               ) : (
                 <Image
                   alt={slide.alt}
