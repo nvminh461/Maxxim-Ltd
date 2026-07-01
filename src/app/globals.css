@@ -1,6 +1,6 @@
 :root {
-  --background: #060708;
-  --foreground: #f2eee7;
+  --background: #f9f7f5;
+  --foreground: #171411;
 }
 
 html {
@@ -42,27 +42,7 @@ textarea {
   font-family: inherit;
 }
 
-/* Lenis smooth scroll */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,

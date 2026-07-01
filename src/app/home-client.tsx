@@ -689,7 +689,6 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
   return (
     <div className={styles.page}>
       <Header activePath="/" />
-
       <main>
         <section className={styles.hero} id="home">
           <div className={styles.heroShade} />
@@ -780,7 +779,6 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                 <div className={styles.pillarBg}>
                   <Image alt={pillar.title} fill sizes="33vw" src={pillar.image} />
                 </div>
-                <div className={styles.pillarOverlay} />
                 <div className={styles.pillarContent}>
                   <span className={styles.pillarNum}>{pillar.num}</span>
                   <h3 className={styles.pillarTitle}>{pillar.title}</h3>
@@ -790,6 +788,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
               </ScrollRevealItem>
             ))}
           </ScrollRevealContainer>
+
         </section>
 
         {/* Services */}
@@ -813,7 +812,6 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
                 <div className={styles.pillarBg}>
                   <Image alt={service.title} fill sizes="33vw" src={servicePillarImages[index]} />
                 </div>
-                <div className={styles.pillarOverlay} />
                 <div className={styles.pillarContent}>
                   <span className={styles.pillarNum}>{service.num}</span>
                   <h3 className={styles.pillarTitle}>{service.title}</h3>

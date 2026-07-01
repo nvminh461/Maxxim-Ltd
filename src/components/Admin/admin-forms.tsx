@@ -33,7 +33,7 @@ export function EditorModal({
 
   return (
     <div aria-modal="true" className="admin-modal-backdrop" role="dialog">
-      <div className="admin-modal" data-lenis-prevent>
+      <div className="admin-modal">
         <div className="admin-modal-header">
           <h2>{title}</h2>
           <button onClick={onClose} type="button">

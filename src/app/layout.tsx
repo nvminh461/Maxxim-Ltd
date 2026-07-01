@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
-import SmoothScroll from "@/components/SmoothScroll/smooth-scroll";
+import { Cormorant_Garamond, Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "700"],
 });
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -26,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${cormorantGaramond.variable}`}>
+    <html lang="en" className={`${roboto.variable} ${cormorantGaramond.variable}`}>
       <body>
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
       </body>
     </html>
   );

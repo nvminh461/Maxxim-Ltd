@@ -1,13 +1,13 @@
 .page {
-  --surface: #060708;
-  --surface-raised: #101113;
-  --surface-soft: #171718;
-  --line: rgba(255, 255, 255, 0.1);
-  --gold: #f3bc87;
-  --stone: #d8cabc;
-  --text: #f2eee7;
-  --muted: rgba(242, 238, 231, 0.72);
-  --ink: #050505;
+  --surface: #f9f7f5;
+  --surface-raised: #f2ece4;
+  --surface-soft: #eae2d5;
+  --line: rgba(23, 20, 17, 0.1);
+  --gold: #bd8b57;
+  --stone: #8b7a6b;
+  --text: #171411;
+  --muted: rgba(23, 20, 17, 0.65);
+  --ink: #ffffff;
   --side-pad: clamp(20px, 4vw, 56px);
   --section-pad: clamp(80px, 10vw, 160px);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -15,7 +15,7 @@
   min-height: 100vh;
   background: var(--surface);
   color: var(--text);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-roboto), sans-serif;
 }
 
 /* ───────────────────────── Hero ───────────────────────── */
@@ -118,7 +118,7 @@
 .projectCardOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(6, 7, 8, 0) 50%, rgba(6, 7, 8, 0.78) 100%);
+  background: linear-gradient(180deg, rgba(249, 247, 245, 0) 50%, rgba(249, 247, 245, 0.78) 100%);
   opacity: 0;
   transition: opacity 400ms var(--ease-expo);
 }

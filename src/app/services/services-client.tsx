@@ -37,7 +37,8 @@ export default function ServicesClient() {
             paddingLeft: "var(--side-pad)",
             paddingRight: "var(--side-pad)",
             maxWidth: "1320px",
-            margin: "0 auto"
+            margin: "0 auto",
+            background: "transparent"
           }}
         >
           <ScrollReveal>
@@ -48,7 +49,7 @@ export default function ServicesClient() {
             >
               Full UK Property Lifecycle
             </h1>
-            <p className={styles.heroSub}>
+            <p className={styles.heroSub} style={{ color: "var(--muted)" }}>
               Consultation, renovation, and lettings — one trusted partner for overseas
               buyers and their families studying in the UK.
             </p>
@@ -139,7 +140,6 @@ export default function ServicesClient() {
                 <div className={styles.pillarBg}>
                   <Image alt={step.stage} fill sizes="33vw" src={serviceImages[index]} />
                 </div>
-                <div className={styles.pillarOverlay} />
                 <div className={styles.pillarContent}>
                   <span className={styles.pillarNum}>{step.service}</span>
                   <h3 className={styles.pillarTitle}>{step.stage}</h3>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import styles from "./Header.module.css";
 
 type HeaderProps = {
@@ -10,15 +11,7 @@ type HeaderProps = {
 };
 
 export default function Header({ activePath = "/" }: HeaderProps) {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 48);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     if (menuOpen) {
@@ -41,8 +34,14 @@ export default function Header({ activePath = "/" }: HeaderProps) {
 
   return (
     <>
-      <header
-        className={[styles.header, scrolled ? styles.headerScrolled : ""]
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 2.8, ease: [0.16, 1, 0.3, 1] }}
+        className={[
+          styles.header,
+          activePath === "/" ? styles.headerHome : "",
+        ]
           .filter(Boolean)
           .join(" ")}
       >
@@ -57,7 +56,6 @@ export default function Header({ activePath = "/" }: HeaderProps) {
           />
           <span>Maxxim Ltd.</span>
         </Link>
-
         <nav className={styles.nav} aria-label="Primary navigation">
           {navLinks.map((link) => {
             const isActive =
@@ -65,10 +63,27 @@ export default function Header({ activePath = "/" }: HeaderProps) {
               (activePath === "/" && link.href === "/");
             const className = isActive ? styles.navActive : "";
 
+            const linkContent = (
+              <span className={styles.linkTextWrapper}>
+                {link.label}
+                {isActive && (
+                  <motion.span
+                    layoutId="activeNavUnderline"
+                    className={styles.activeUnderline}
+                    transition={{
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 22,
+                    }}
+                  />
+                )}
+              </span>
+            );
+
             if (link.isAnchor && activePath !== "/") {
               return (
                 <Link className={className} href={link.href} key={link.href}>
-                  {link.label}
+                  {linkContent}
                 </Link>
               );
             }
@@ -76,23 +91,21 @@ export default function Header({ activePath = "/" }: HeaderProps) {
             if (link.isAnchor) {
               return (
                 <a className={className} href={link.href} key={link.href}>
-                  {link.label}
+                  {linkContent}
                 </a>
               );
             }
 
             return (
               <Link className={className} href={link.href} key={link.href}>
-                {link.label}
+                {linkContent}
               </Link>
             );
           })}
         </nav>
 
         <div className={styles.headerRight}>
-          <Link className={styles.headerCta} href="/#contact">
-            Request consultation
-          </Link>
+
 
           <button
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -106,7 +119,7 @@ export default function Header({ activePath = "/" }: HeaderProps) {
             <span className={styles.menuBar} />
           </button>
         </div>
-      </header>
+      </motion.header>
 
       <div
         className={[styles.mobileMenu, menuOpen ? styles.mobileMenuOpen : ""]
@@ -156,13 +169,7 @@ export default function Header({ activePath = "/" }: HeaderProps) {
             );
           })}
 
-          <Link
-            className={styles.mobileCta}
-            href="/#contact"
-            onClick={() => setMenuOpen(false)}
-          >
-            Request consultation
-          </Link>
+
         </nav>
       </div>
     </>
