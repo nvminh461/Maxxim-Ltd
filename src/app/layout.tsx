@@ -29,6 +29,7 @@ export default function RootLayout({
     <html lang="en" className={`${roboto.variable} ${cormorantGaramond.variable}`}>
       <body>
         {children}
+
       </body>
     </html>
   );

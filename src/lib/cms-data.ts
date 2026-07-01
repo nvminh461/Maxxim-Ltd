@@ -257,6 +257,21 @@ export async function getHomeCmsData(): Promise<HomeCmsData> {
   }
 }
 
+export async function getSiteSettings(): Promise<SiteSettingsValue> {
+  if (!hasDatabaseConfig()) {
+    return emptySettings;
+  }
+
+  try {
+    await connectToDatabase();
+    const doc = await SiteSettings.findOne({ key: "global" }).lean();
+    return serializeSettings(doc as unknown as SettingsDoc | null);
+  } catch (error) {
+    console.error("Không thể tải cài đặt trang web:", error);
+    return emptySettings;
+  }
+}
+
 export async function getAllProperties(filters?: PropertyFilters): Promise<PropertyValue[]> {
   if (!hasDatabaseConfig()) {
     return [];

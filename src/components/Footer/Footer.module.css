@@ -1,0 +1,122 @@
+.footer {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.8fr;
+  gap: clamp(36px, 5vw, 72px);
+  border-top: 1px solid var(--line);
+  padding: var(--section-pad) var(--side-pad);
+}
+
+.footer address,
+.footer li {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-style: normal;
+  line-height: 1.8;
+}
+
+.footerSlogan {
+  max-width: 360px;
+  margin-top: 26px;
+  color: var(--gold);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.footerDescription {
+  max-width: 340px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.footer h2 {
+  margin-bottom: 22px;
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.footer ul {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.footer a {
+  transition: color 250ms var(--ease-expo);
+}
+
+.footer a:hover {
+  color: var(--gold);
+}
+
+.footerCredit {
+  grid-column: 1 / -1;
+  justify-self: center;
+  color: rgba(23, 20, 17, 0.5);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.footerCredit a {
+  color: var(--gold);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.socials a {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 250ms var(--ease-expo),
+    transform 250ms var(--ease-expo);
+}
+
+.socials a:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.55rem, 2.28vw, 2.12rem);
+  font-weight: 600;
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.logoMark {
+  width: clamp(30px, 3.4vw, 42px);
+  height: clamp(30px, 3.4vw, 42px);
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+@media (max-width: 960px) {
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}

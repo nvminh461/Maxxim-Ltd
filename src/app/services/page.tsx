@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import ServicesClient from "@/app/services/services-client";
+import { getSiteSettings } from "@/lib/cms-data";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Services | Maxxim Ltd.",
@@ -7,6 +10,7 @@ export const metadata: Metadata = {
     "UK property consultation, renovation, and lettings for overseas buyers and student families.",
 };
 
-export default function ServicesPage() {
-  return <ServicesClient />;
+export default async function ServicesPage() {
+  const settings = await getSiteSettings();
+  return <ServicesClient settings={settings} />;
 }

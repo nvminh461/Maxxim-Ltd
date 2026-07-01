@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import type { SiteSettingsValue } from "@/lib/cms-types";
 import { customerJourney, servicesContent } from "@/lib/services-content";
 import styles from "../page.module.css";
 import { motion } from "framer-motion";
@@ -22,7 +24,7 @@ const serviceImages = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAx-liMlFDg9CxSrlk8bBaSEKQnivcTyyFvvdmR2rLaZPdbApqZznstyGT-q4B3M7Xkcjo38NXQtCV-I5bI72hJoTxYnhvaHX0tiuiSMCjxR0t3RV0ahMnasslTkuvYcDacLdF8JBqfuPTSSH0LzBha4ePBlgRWzc5FHUkikKL740vjd5gJTJ0U5SS6VQ7RGPNSszazzi0t3sbvPiyrjLyGRwjp7boTifJR7bxAhu_wGu-Uirkax1hJQP0NffmxzisRr5WHARCDgrQm"  // studio
 ];
 
-export default function ServicesClient() {
+export default function ServicesClient({ settings }: { settings: SiteSettingsValue }) {
   return (
     <div className={styles.page}>
       <Header activePath="/services" />
@@ -156,6 +158,7 @@ export default function ServicesClient() {
           </ScrollReveal>
         </section>
       </main>
+      <Footer settings={settings} />
     </div>
   );
 }

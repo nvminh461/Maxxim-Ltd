@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header/Header";
-import { getPropertyBySlugFromCms } from "@/lib/cms-data";
+import Footer from "@/components/Footer/Footer";
+import { getPropertyBySlugFromCms, getSiteSettings } from "@/lib/cms-data";
 import type { PropertyValue } from "@/lib/cms-types";
 import { formatPrice, listingTypeLabel, propertyTypeLabel } from "@/lib/format";
 import PropertyAlbum from "./property-album";
@@ -31,7 +32,10 @@ export async function generateMetadata({ params }: PropertyPageProps): Promise<M
 
 export default async function PropertyDetailPage({ params }: PropertyPageProps) {
   const { slug } = await params;
-  const property = await getPropertyBySlugFromCms(slug);
+  const [property, settings] = await Promise.all([
+    getPropertyBySlugFromCms(slug),
+    getSiteSettings(),
+  ]);
 
   if (!property) {
     notFound();
@@ -44,6 +48,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
         <PropertyHero property={property} />
         <PropertyAlbum images={property.media.slice(1)} title={property.title} />
       </main>
+      <Footer settings={settings} />
     </div>
   );
 }

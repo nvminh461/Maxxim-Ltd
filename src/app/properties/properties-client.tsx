@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Header from "@/components/Header/Header";
-import type { ListingType, PropertyType, PropertyValue } from "@/lib/cms-types";
+import Footer from "@/components/Footer/Footer";
+import type { ListingType, PropertyType, PropertyValue, SiteSettingsValue } from "@/lib/cms-types";
 import { formatPrice, listingTypeLabel, propertyTypeLabel } from "@/lib/format";
 import styles from "./properties.module.css";
 import { motion } from "framer-motion";
@@ -40,8 +41,10 @@ const emptyFilters: Filters = {
 
 export default function PropertiesClient({
   properties,
+  settings,
 }: {
   properties: PropertyValue[];
+  settings: SiteSettingsValue;
 }) {
   const [filters, setFilters] = useState<Filters>(emptyFilters);
   const [visibleCount, setVisibleCount] = useState(batchSize);
@@ -271,6 +274,7 @@ export default function PropertiesClient({
           </div>
         </section>
       </main>
+      <Footer settings={settings} />
     </div>
   );
 }

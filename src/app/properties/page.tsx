@@ -1,9 +1,12 @@
 import PropertiesClient from "@/app/properties/properties-client";
-import { getAllProperties } from "@/lib/cms-data";
+import { getAllProperties, getSiteSettings } from "@/lib/cms-data";
 
 export const dynamic = "force-dynamic";
 
 export default async function PropertiesPage() {
-  const properties = await getAllProperties();
-  return <PropertiesClient properties={properties} />;
+  const [properties, settings] = await Promise.all([
+    getAllProperties(),
+    getSiteSettings(),
+  ]);
+  return <PropertiesClient properties={properties} settings={settings} />;
 }

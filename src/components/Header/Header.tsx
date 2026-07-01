@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import styles from "./Header.module.css";
 
@@ -12,6 +12,10 @@ type HeaderProps = {
 
 export default function Header({ activePath = "/" }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     if (menuOpen) {
@@ -24,10 +28,46 @@ export default function Header({ activePath = "/" }: HeaderProps) {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 20 && !hasScrolled) {
+        setHasScrolled(true);
+      }
+
+      if (currentScrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+
+      if (menuOpen) {
+        return;
+      }
+
+      if (currentScrollY < 50) {
+        setVisible(true);
+      } else {
+        if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+          setVisible(false);
+        } else if (currentScrollY < lastScrollY.current) {
+          setVisible(true);
+        }
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [menuOpen, hasScrolled]);
+
   const navLinks = [
     { href: "/", label: "Home", isAnchor: false },
-    { href: "/properties", label: "Properties", isAnchor: false },
     { href: "/services", label: "Services", isAnchor: false },
+    { href: "/properties", label: "Properties", isAnchor: false },
     { href: "/#about", label: "About", isAnchor: true },
     { href: "/#contact", label: "Contact", isAnchor: true },
   ];
@@ -36,11 +76,19 @@ export default function Header({ activePath = "/" }: HeaderProps) {
     <>
       <motion.header
         initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 2.8, ease: [0.16, 1, 0.3, 1] }}
+        animate={{
+          y: visible ? 0 : "-100%",
+          opacity: visible ? 1 : 0,
+        }}
+        transition={
+          hasScrolled
+            ? { duration: 0.3, ease: "easeInOut" }
+            : { duration: 2.8, ease: [0.16, 1, 0.3, 1] }
+        }
         className={[
           styles.header,
-          activePath === "/" ? styles.headerHome : "",
+          activePath === "/" && !scrolled ? styles.headerHome : "",
+          scrolled ? styles.headerScrolled : "",
         ]
           .filter(Boolean)
           .join(" ")}

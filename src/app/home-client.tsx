@@ -13,6 +13,7 @@ import {
   useMemo,
 } from "react";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 import type { HomeCmsData } from "@/lib/cms-types";
 import { formatPrice, listingTypeLabel } from "@/lib/format";
 import { servicesContent } from "@/lib/services-content";
@@ -1135,69 +1136,7 @@ export default function HomeClient({ cms }: { cms: HomeCmsData }) {
           </ScrollReveal>
         </section>
       </main>
-
-      <footer className={styles.footer}>
-        <div>
-          <a
-            className={styles.logo}
-            href="#home"
-            aria-label={`${cms.settings.companyName} home`}
-          >
-            {cms.settings.logoUrl ? (
-              <Image
-                alt=""
-                className={styles.logoMark}
-                height={40}
-                src={cms.settings.logoUrl}
-                width={40}
-              />
-            ) : null}
-            <span>{cms.settings.companyName}</span>
-          </a>
-          <p className={styles.footerSlogan}>{cms.settings.slogan}</p>
-          <p className={styles.footerDescription}>{cms.settings.description}</p>
-          <div className={styles.socials}>
-            {socialLinks.map((social) => (
-              <a href={social.href} key={social.label} aria-label={social.label}>
-                <Image alt="" height={28} src={social.icon} width={28} />
-              </a>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h2>Contact</h2>
-          <address>
-            {cms.settings.address}
-            <br />
-            {cms.settings.phone}
-            <br />
-            {cms.settings.email}
-          </address>
-        </div>
-        <div>
-          <h2>Quick links</h2>
-          <ul>
-            <li>
-              <a href="#about">About</a>
-            </li>
-            <li>
-              <Link href="/properties">Properties</Link>
-            </li>
-            <li>
-              <Link href="/services">Services</Link>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-        <small className={styles.footerCredit}>
-          {cms.settings.copyright} Design by{" "}
-          <a href="https://minhnv.id.vn/" rel="noopener noreferrer" target="_blank">
-            Hip Nguyen
-          </a>
-        </small>
-      </footer>
+      <Footer settings={cms.settings} />
     </div>
   );
 }
